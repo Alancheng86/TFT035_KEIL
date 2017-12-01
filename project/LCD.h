@@ -55,7 +55,7 @@ void ENTER_READ_mode(void);
 
 u8 READ_IC_A(u8 cmd,u8 cmd1);
 u8 READ_VCOM_OTP_TIMES_HX8369(u8 reg_index);
-
+void SPI_Send(u8 dcx,u16 data);
 
 
 #define LCD_ID_SPI          0X00

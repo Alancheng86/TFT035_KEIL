@@ -109,6 +109,7 @@ u8 READ_ID = 0;
 void showid_vcom_A(void);
 
 u8 VCOM_GET(void);
+void MTP_VCOM(void);
 
 void KEY_adjust(void);
 void showid_vcom(void);
@@ -314,6 +315,7 @@ int main(void)
 //		Soft_reset();    ///////复位后使用客户初始化code，以便拦检OTP漏烧产品。
 //	}
     Flicker_PIXEL();
+    Flicker_sub_pixel() ;
 	KEY_adjust();
 //	Flicker_PIXEL();
 //	showid_vcom()	;								Delay(150);			mm_KEYB1=KEYC6;	 while(mm_KEYB1 != 0)	{	mm_KEYB1=KEYC6;   }
@@ -426,6 +428,19 @@ void check_power(void)
 
 }
 
+void VCOM_set(u8 vcom)
+{
+       
+    
+    SPI_Send(0x70,0x001e);
+	SPI_Send(0x72,0x0080+vcom);
+    
+//			ENTER_LP_mode();
+//			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
+//        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC);    
+//			VIDEO_ON();
+}
+
 void KEY_adjust(void)
 {
 	u16 mm_KEYA7 = 1 ;
@@ -447,11 +462,12 @@ void KEY_adjust(void)
 			{	mm_KEYA7 =  KEYA7;}
 
 			VCOMDC++;
-//			ENTER_LP_mode();
-//			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
-//        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC);
-			SHOW_IC_VALUE_A(270,800, VCOMDC);
-			VIDEO_ON();
+            if(VCOMDC>=0x7F){VCOMDC=0x7F;}
+            if(VCOMDC<=0x00){VCOMDC=0x00;} 
+            VCOM_set(VCOMDC);
+
+			SHOW_IC_VALUE_A(20,80, VCOMDC);
+
 		}
 		if(mm_KEYA8 == 0)
 		{
@@ -459,11 +475,10 @@ void KEY_adjust(void)
 			 while(!mm_KEYA8)
 			  {	mm_KEYA8 =  KEYA8;}
 			VCOMDC--;
-//			ENTER_LP_mode();
-//			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
-//        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC);
-			SHOW_IC_VALUE_A(270,800, VCOMDC);
-			VIDEO_ON();
+              if(VCOMDC>=0x7F){VCOMDC=0x7F;}
+            if(VCOMDC<=0x00){VCOMDC=0x00;} 
+              VCOM_set(VCOMDC);
+			SHOW_IC_VALUE_A(20,80, VCOMDC);
 		}
 		if(mm_KEYC6 == 0)
 		{
@@ -471,8 +486,7 @@ void KEY_adjust(void)
 			 while(!mm_KEYC6)
 			 {		mm_KEYC6 =  KEYC6;}
 			aat = 1;
-//			ENTER_LP_mode();
-//			MTP_ID();
+//             MTP_VCOM();
 			FontR = FontG = FontB = 0;
 
 			Soft_reset();
@@ -1045,9 +1059,9 @@ void KEYGPIO_Init(void)
   GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_IPU;    // 
   GPIO_Init(GPIOA, &GPIO_InitStructure); 
     
-//    GPIO_InitStructure.GPIO_Pin =   GPIO_Pin_8;
-//  GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_IPU;    // 
-//  GPIO_Init(GPIOA, &GPIO_InitStructure); 
+    GPIO_InitStructure.GPIO_Pin =   GPIO_Pin_8;
+  GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_IPU;    // 
+  GPIO_Init(GPIOA, &GPIO_InitStructure); 
 }
 
 void DelayKEY (u32 k)
@@ -1665,6 +1679,43 @@ cycle_OTP(0xAF);
 
 	}
 
+void MTP_VCOM(void)
+{
+    SPI_Send(0x70,0x0006);
+	SPI_Send(0x72,0x2820);
+    Delay(500);////wait 0.5s
+    
+    SPI_Send(0x70,0x0060);
+	SPI_Send(0x72,0x8000);
+    
+    SPI_Send(0x70,0x0060);
+	SPI_Send(0x72,0xC000);
+    
+    /////connect 7.3v to VGH  and 0V to VGL
+    SPI_Send(0x70,0x0060);
+	SPI_Send(0x72,0xC200);
+    
+    SPI_Send(0x70,0x0060);
+	SPI_Send(0x72,0xC280);
+    Delay(1);////wait 10ms   spec say wait 200us
+    
+    SPI_Send(0x70,0x0060);
+	SPI_Send(0x72,0xC200);
+    
+    ///remove 7.3V from VGH and 0V from VGL
+    SPI_Send(0x70,0x0060);
+	SPI_Send(0x72,0x8200);
+    
+    SPI_Send(0x70,0x0060);
+	SPI_Send(0x72,0x0200);
+    
+    SPI_Send(0x70,0x0060);
+	SPI_Send(0x72,0x0040);
+    
+    SPI_Send(0x70,0x0060);
+	SPI_Send(0x72,0x0000);
+}
+    
 void MTP_ID(void)
 {
 	MIPI_SPI_Write(0x05,0x39, 0xB9,0xFF,0x83,0x69);//EXTC Command Set enable register

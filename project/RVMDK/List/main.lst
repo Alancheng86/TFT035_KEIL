@@ -16259,7 +16259,7 @@ Nvoid ENTER_READ_mode(void);
 N
 Nu8 READ_IC_A(u8 cmd,u8 cmd1);
 Nu8 READ_VCOM_OTP_TIMES_HX8369(u8 reg_index);
-N
+Nvoid SPI_Send(u8 dcx,u16 data);
 N
 N
 N#define LCD_ID_SPI          0X00
@@ -16580,6 +16580,7 @@ Nu8 READ_ID = 0;
 Nvoid showid_vcom_A(void);
 N
 Nu8 VCOM_GET(void);
+Nvoid MTP_VCOM(void);
 N
 Nvoid KEY_adjust(void);
 Nvoid showid_vcom(void);
@@ -16786,6 +16787,7 @@ N//	{
 N//		Soft_reset();    ///////复位后使用客户初始化code，以便拦检OTP漏烧产品。
 N//	}
 N    Flicker_PIXEL();
+N    Flicker_sub_pixel() ;
 N	KEY_adjust();
 N//	Flicker_PIXEL();
 N//	showid_vcom()	;								Delay(150);			mm_KEYB1=KEYC6;	 while(mm_KEYB1 != 0)	{	mm_KEYB1=KEYC6;   }
@@ -16835,8 +16837,8 @@ N//	Flicker_PIXEL();								Delay(150);			 mm_KEYB1=KEYC6;	 while(mm_KEYB1 != 0)
 N// 	showid_vcom()	;								Delay(150);			 mm_KEYB1=KEYC6;	 while(mm_KEYB1 != 0)	{	mm_KEYB1=KEYC6;   }
 N  goto LCDTest;
 N
-W "..\main.c" 121 5 variable "READ_ID" was declared but never referenced
-W "..\main.c" 122 6 variable "mm_KEYB1" was declared but never referenced
+W "..\main.c" 122 5 variable "READ_ID" was declared but never referenced
+W "..\main.c" 123 6 variable "mm_KEYB1" was declared but never referenced
 N}
 N
 N
@@ -16901,6 +16903,19 @@ N		////	Delay(5);
 N
 N}
 N
+Nvoid VCOM_set(u8 vcom)
+N{
+N       
+N    
+N    SPI_Send(0x70,0x001e);
+N	SPI_Send(0x72,0x0080+vcom);
+N    
+N//			ENTER_LP_mode();
+N//			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
+N//        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC);    
+N//			VIDEO_ON();
+N}
+N
 Nvoid KEY_adjust(void)
 N{
 N	u16 mm_KEYA7 = 1 ;
@@ -16926,11 +16941,12 @@ N			{	mm_KEYA7 =  KEYA7;}
 X			{	mm_KEYA7 =  ((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800))->IDR&((u16)0x0080);}
 N
 N			VCOMDC++;
-N//			ENTER_LP_mode();
-N//			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
-N//        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC);
-N			SHOW_IC_VALUE_A(270,800, VCOMDC);
-N			VIDEO_ON();
+N            if(VCOMDC>=0x7F){VCOMDC=0x7F;}
+N            if(VCOMDC<=0x00){VCOMDC=0x00;} 
+N            VCOM_set(VCOMDC);
+N
+N			SHOW_IC_VALUE_A(20,80, VCOMDC);
+N
 N		}
 N		if(mm_KEYA8 == 0)
 N		{
@@ -16939,11 +16955,10 @@ N			 while(!mm_KEYA8)
 N			  {	mm_KEYA8 =  KEYA8;}
 X			  {	mm_KEYA8 =  ((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800))->IDR&((u16)0x0100);}
 N			VCOMDC--;
-N//			ENTER_LP_mode();
-N//			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
-N//        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC);
-N			SHOW_IC_VALUE_A(270,800, VCOMDC);
-N			VIDEO_ON();
+N              if(VCOMDC>=0x7F){VCOMDC=0x7F;}
+N            if(VCOMDC<=0x00){VCOMDC=0x00;} 
+N              VCOM_set(VCOMDC);
+N			SHOW_IC_VALUE_A(20,80, VCOMDC);
 N		}
 N		if(mm_KEYC6 == 0)
 N		{
@@ -16952,8 +16967,7 @@ N			 while(!mm_KEYC6)
 N			 {		mm_KEYC6 =  KEYC6;}
 X			 {		mm_KEYC6 =  ((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x1000))->IDR&((u16)0x0040);}
 N			aat = 1;
-N//			ENTER_LP_mode();
-N//			MTP_ID();
+N//             MTP_VCOM();
 N			FontR = FontG = FontB = 0;
 N
 N			Soft_reset();
@@ -17549,9 +17563,11 @@ N  GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_IPU;    //
 N  GPIO_Init(GPIOA, &GPIO_InitStructure); 
 X  GPIO_Init(((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800)), &GPIO_InitStructure); 
 N    
-N//    GPIO_InitStructure.GPIO_Pin =   GPIO_Pin_8;
-N//  GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_IPU;    // 
-N//  GPIO_Init(GPIOA, &GPIO_InitStructure); 
+N    GPIO_InitStructure.GPIO_Pin =   GPIO_Pin_8;
+X    GPIO_InitStructure.GPIO_Pin =   ((u16)0x0100);
+N  GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_IPU;    // 
+N  GPIO_Init(GPIOA, &GPIO_InitStructure); 
+X  GPIO_Init(((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800)), &GPIO_InitStructure); 
 N}
 N
 Nvoid DelayKEY (u32 k)
@@ -17863,7 +17879,7 @@ N	}
 N	
 N
 N   }
-W "..\main.c" 1295 6 variable "temp" was set but never used
+W "..\main.c" 1309 6 variable "temp" was set but never used
 N}
 Nvoid I2C_DATAL_COMPAREX(void)
 N{
@@ -18195,6 +18211,43 @@ N
 N
 N	}
 N
+Nvoid MTP_VCOM(void)
+N{
+N    SPI_Send(0x70,0x0006);
+N	SPI_Send(0x72,0x2820);
+N    Delay(500);////wait 0.5s
+N    
+N    SPI_Send(0x70,0x0060);
+N	SPI_Send(0x72,0x8000);
+N    
+N    SPI_Send(0x70,0x0060);
+N	SPI_Send(0x72,0xC000);
+N    
+N    /////connect 7.3v to VGH  and 0V to VGL
+N    SPI_Send(0x70,0x0060);
+N	SPI_Send(0x72,0xC200);
+N    
+N    SPI_Send(0x70,0x0060);
+N	SPI_Send(0x72,0xC280);
+N    Delay(1);////wait 10ms   spec say wait 200us
+N    
+N    SPI_Send(0x70,0x0060);
+N	SPI_Send(0x72,0xC200);
+N    
+N    ///remove 7.3V from VGH and 0V from VGL
+N    SPI_Send(0x70,0x0060);
+N	SPI_Send(0x72,0x8200);
+N    
+N    SPI_Send(0x70,0x0060);
+N	SPI_Send(0x72,0x0200);
+N    
+N    SPI_Send(0x70,0x0060);
+N	SPI_Send(0x72,0x0040);
+N    
+N    SPI_Send(0x70,0x0060);
+N	SPI_Send(0x72,0x0000);
+N}
+N    
 Nvoid MTP_ID(void)
 N{
 N	MIPI_SPI_Write(0x05,0x39, 0xB9,0xFF,0x83,0x69);//EXTC Command Set enable register
