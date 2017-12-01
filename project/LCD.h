@@ -66,6 +66,7 @@ u8 READ_VCOM_OTP_TIMES_HX8369(u8 reg_index);
 void LCD2353INITTION(void);
 void INITIALOTM8018B(void);
 void INITIALOTM8018B_QC(void);
+void LCD035C0032(void);
 void STM32_SSD1963_Init_QC(void);
 void MIPI_SPI_Write(uint i,...);
 

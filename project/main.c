@@ -79,7 +79,7 @@ u16 aat=0,aat2=1;
 
 
 #define YDP 240	   //对应0XB0使用0x30
-#define XDP 480  
+#define XDP 320  
 
 u16 VCOMDC1=0x0000;
 u8 STEP=24;  //采样数组上限
@@ -199,7 +199,7 @@ int main(void)
 
 	     
 	  	FontR = FontG = FontB = 0;
-		LCD_DisplayStringLine_A(30,160,"TFT9K2353_A");	  /////2014/4/4   /////2014/4/4  M1461A0_C
+		LCD_DisplayStringLine_A(10,160,"TFT035_A");	  /////2014/4/4   /////2014/4/4  M1461A0_C
 //		LCD_DisplayStringLine_A(30,360,"FGA7_20160426");
 		DelayKEY(100);
 //		VCOM_GET();
@@ -313,7 +313,8 @@ int main(void)
 //	{
 //		Soft_reset();    ///////复位后使用客户初始化code，以便拦检OTP漏烧产品。
 //	}
-//	KEY_adjust();
+    Flicker_PIXEL();
+	KEY_adjust();
 //	Flicker_PIXEL();
 //	showid_vcom()	;								Delay(150);			mm_KEYB1=KEYC6;	 while(mm_KEYB1 != 0)	{	mm_KEYB1=KEYC6;   }
 
@@ -446,9 +447,9 @@ void KEY_adjust(void)
 			{	mm_KEYA7 =  KEYA7;}
 
 			VCOMDC++;
-			ENTER_LP_mode();
-			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
-        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC);
+//			ENTER_LP_mode();
+//			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
+//        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC);
 			SHOW_IC_VALUE_A(270,800, VCOMDC);
 			VIDEO_ON();
 		}
@@ -458,9 +459,9 @@ void KEY_adjust(void)
 			 while(!mm_KEYA8)
 			  {	mm_KEYA8 =  KEYA8;}
 			VCOMDC--;
-			ENTER_LP_mode();
-			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
-        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC);
+//			ENTER_LP_mode();
+//			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
+//        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC);
 			SHOW_IC_VALUE_A(270,800, VCOMDC);
 			VIDEO_ON();
 		}
@@ -470,8 +471,8 @@ void KEY_adjust(void)
 			 while(!mm_KEYC6)
 			 {		mm_KEYC6 =  KEYC6;}
 			aat = 1;
-			ENTER_LP_mode();
-			MTP_ID();
+//			ENTER_LP_mode();
+//			MTP_ID();
 			FontR = FontG = FontB = 0;
 
 			Soft_reset();

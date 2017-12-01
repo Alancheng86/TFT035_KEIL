@@ -13,8 +13,45 @@
 
 //#define GPM1461A0_SC7789
 //#define GPI009A0_HX8369_A
-#define TFT9K_480X240
+//#define TFT9K_480X240
+#define TFT035C0032_320X240
 
+
+#ifdef TFT035C0032_320X240
+//////mipi video mode setting
+u16 value_HighSpeed = 393;		  //HS_speed   value	   384
+u16 value_Lane_select = 2;		  //mipi lane select
+
+
+u8 Frame_rate = 60;				//////刷新频率   HZ    2016-9-7 启用
+
+u16  VDP= 240;     
+u16  VBP= 12 ;    //
+u16  VFP= 12 ;    //
+
+u16  HDP= 320;     
+u16  HBP= 40;     //	
+u16  HFP= 89;     //	
+
+u16	 VPW=4;  //通常不需要调整
+u16	 HPW=6;  //通常不需要调整
+
+//u8 Frame_rate = 60;				//////刷新频率   HZ    2016-9-7 启用
+
+//u16  VDP= 240;     
+//u16  VBP= 4 ;    //
+//u16  VFP= 4 ;    //
+
+//u16  HDP= 480;     
+//u16  HBP= 40;     //	
+//u16  HFP= 34;     //	
+
+//u16	 VPW=2;  //通常不需要调整
+//u16	 HPW=10;  //通常不需要调整
+
+#define YDP 240	   //对应0XB0使用0x30
+#define XDP 320   
+#endif
 
 #ifdef TFT9K_480X240
 //////mipi video mode setting
@@ -299,7 +336,8 @@ void STM32_SSD1963_Init(void) //Initializes the SSD1963.
 //	   Delay(5);
 
 //////////////=============================================================================
-    LCD2353INITTION();
+    LCD035C0032();
+//    LCD2353INITTION();
 //    GPIO_SetBits(GPIOA, GPIO_Pin_8);      ////////exit sleep
     
 //////////////在SSD1963的I/O工作正常后可以对SSD2825进行配置。以便后续对IC进行初始化配置
@@ -2485,15 +2523,15 @@ void Soft_reset(void)
 
 ////////////=============================================================================
 ////////////在SSD1963的I/O工作正常后可以对SSD2825进行配置。以便后续对IC进行初始化配置
-	
-	//对HX8369 IC进行初始化
-	SSD1963INITSSD2825(); 
+	LCD035C0032();
+//	//对HX8369 IC进行初始化
+//	SSD1963INITSSD2825(); 
 
-	INITIALOTM8018B_QC();					   /////GPM1461A0  USE
-//	SSD2825_CLAN043LL_SC7789_A();
-//	SSD2825INITIAL_HX8369B();
-///////////此处对SSD2825重新配置为VIDEO模式，一定要在SSD1963时序生成OK后进行配置2825，
-	VIDEO_ON();
+//	INITIALOTM8018B_QC();					   /////GPM1461A0  USE
+////	SSD2825_CLAN043LL_SC7789_A();
+////	SSD2825INITIAL_HX8369B();
+/////////////此处对SSD2825重新配置为VIDEO模式，一定要在SSD1963时序生成OK后进行配置2825，
+//	VIDEO_ON();
 }
 
 
@@ -2585,6 +2623,115 @@ void LCDSPI_InitDAT(int Data)
 	SSD1963Data_8(0x0F);
 }
 
+void SPI_Send(u8 dcx,u16 data)
+{
+    u8 i=0;
+    u32 instru_H=0;
+    
+    instru_H = (dcx<<16) + data;
+    
+    for (i=0;i<24;i++)     // 
+	{ 
+		if( !(instru_H & 0x00800000))
+		{ 
+			SSD1963Command_8(0xBa); 
+			SSD1963Data_8(0x05);    //SDI=0
+			SSD1963Command_8(0xBa); 
+			SSD1963Data_8(0x01);    //sck=0
+			
+			SSD1963Command_8(0xBa);  
+			SSD1963Data_8(0x05);     //sck=1
+		}
+		else
+		{ 
+			SSD1963Command_8(0xBa); 
+			SSD1963Data_8(0x07);    //SDI=1
+			SSD1963Command_8(0xBa); 
+			SSD1963Data_8(0x03);    //sck=0
+			
+			SSD1963Command_8(0xBa);  
+			SSD1963Data_8(0x07);     //sck=1
+		}
+
+		instru_H=instru_H<<1;
+	} 
+	
+	SSD1963Command_8(0xBa); 
+	SSD1963Data_8(0x0F);
+}
+
+void LCD035C0032(void)
+{
+    SPI_Send(0x70,0x0001);
+	SPI_Send(0x72,0x6300);
+	
+	SPI_Send(0x70,0x0002);
+	SPI_Send(0x72,0x0200);    
+	
+	SPI_Send(0x70,0x0003);
+	SPI_Send(0x72,0x6564);
+	
+	SPI_Send(0x70,0x0004);
+	SPI_Send(0x72,0x04c7);
+	
+
+	
+	SPI_Send(0x70,0x0008);
+	SPI_Send(0x72,0x06ff);
+	
+	SPI_Send(0x70,0x000a);
+	SPI_Send(0x72,0x4008);
+	
+	SPI_Send(0x70,0x000b);
+	SPI_Send(0x72,0xd400);
+	
+	SPI_Send(0x70,0x000d);
+	SPI_Send(0x72,0x3229);
+	
+	SPI_Send(0x70,0x000e);
+	SPI_Send(0x72,0x1200);
+
+		
+	SPI_Send(0x70,0x000f);
+	SPI_Send(0x72,0x0000);
+
+
+	SPI_Send(0x70,0x0016);
+	SPI_Send(0x72,0x9f80);
+	
+	SPI_Send(0x70,0x0017);	
+	SPI_Send(0x72,0x2212);
+
+	
+//	SPI_Send(0x70,0x001e);
+//	SPI_Send(0x72,0x00F8);
+
+    SPI_Send(0x70,0x001e);
+	SPI_Send(0x72,0x0078);
+
+	SPI_Send(0x70,0x0030);    
+	SPI_Send(0x72,0x0000);
+	SPI_Send(0x70,0x0031);
+	SPI_Send(0x72,0x0707);
+	SPI_Send(0x70,0x0032);
+	SPI_Send(0x72,0x0206);	
+	SPI_Send(0x70,0x0033);
+	SPI_Send(0x72,0x0001);	
+	SPI_Send(0x70,0x0034);
+	SPI_Send(0x72,0x0105);
+	SPI_Send(0x70,0x0035);
+	SPI_Send(0x72,0x0000);
+	SPI_Send(0x70,0x0036);
+	SPI_Send(0x72,0x0707);	
+	SPI_Send(0x70,0x0037);
+	SPI_Send(0x72,0x0100);
+	
+	SPI_Send(0x70,0x003a);
+	SPI_Send(0x72,0x0502);
+	SPI_Send(0x70,0x003b);
+	SPI_Send(0x72,0x0502);
+}
+    
 void LCD2353INITTION(void)
 {
 //    LCDSPI_InitCMD(0x2d);LCDSPI_InitDAT(0x3F44);//////add   shut

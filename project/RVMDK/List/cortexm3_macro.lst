@@ -432,7 +432,7 @@ ARM Macro Assembler    Page 7
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=.\obj\cortexm3_macro.d -o.\obj\cortexm3_macro.o -IC:\Keil_v5\ARM\R
 V31\INC -IC:\Keil_v5\ARM\CMSIS\Include -IC:\Keil_v5\ARM\Inc\ST\STM32F10x --pred
-efine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 523" --list=.\lis
+efine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 517" --list=.\lis
 t\cortexm3_macro.lst cortexm3_macro.s
 
 

@@ -13386,6 +13386,7 @@ N#define LCD_READ_SPI        0X01
 Nvoid LCD2353INITTION(void);
 Nvoid INITIALOTM8018B(void);
 Nvoid INITIALOTM8018B_QC(void);
+Nvoid LCD035C0032(void);
 Nvoid STM32_SSD1963_Init_QC(void);
 Nvoid MIPI_SPI_Write(uint i,...);
 Xvoid MIPI_SPI_Write(u16 i,...);
@@ -14124,14 +14125,14 @@ N/* Copyright (C) Codemist Ltd., 1988                            */
 N/* Copyright (C) ARM Ltd., 1991-1999. All rights reserved */
 N
 N/*
-N * RCS $Revision$
-N * Checkin $Date$
+N * RCS $Revision: 190986 $
+N * Checkin $Date: 2015-02-04 14:26:49 +0000 (Wed, 04 Feb 2015) $
 N * Revising $Author: agrant $
 N */
 N
 N#ifndef __stdarg_h
 N#define __stdarg_h
-N#define __ARMCLIB_VERSION 5060019
+N#define __ARMCLIB_VERSION 5060002
 N
 N  #ifndef __STDARG_DECLS
 N  #define __STDARG_DECLS
@@ -14274,10 +14275,11 @@ N
 N
 N//#define GPM1461A0_SC7789
 N//#define GPI009A0_HX8369_A
-N#define TFT9K_480X240
+N//#define TFT9K_480X240
+N#define TFT035C0032_320X240
 N
 N
-N#ifdef TFT9K_480X240
+N#ifdef TFT035C0032_320X240
 N//////mipi video mode setting
 Nu16 value_HighSpeed = 393;		  //HS_speed   value	   384
 Nu16 value_Lane_select = 2;		  //mipi lane select
@@ -14289,7 +14291,7 @@ Nu16  VDP= 240;
 Nu16  VBP= 12 ;    //
 Nu16  VFP= 12 ;    //
 N
-Nu16  HDP= 480;     
+Nu16  HDP= 320;     
 Nu16  HBP= 40;     //	
 Nu16  HFP= 89;     //	
 N
@@ -14310,7 +14312,43 @@ N//u16	 VPW=2;  //通常不需要调整
 N//u16	 HPW=10;  //通常不需要调整
 N
 N#define YDP 240	   //对应0XB0使用0x30
-N#define XDP 480   
+N#define XDP 320   
+N#endif
+N
+N#ifdef TFT9K_480X240
+S//////mipi video mode setting
+Su16 value_HighSpeed = 393;		  //HS_speed   value	   384
+Su16 value_Lane_select = 2;		  //mipi lane select
+S
+S
+Su8 Frame_rate = 60;				//////刷新频率   HZ    2016-9-7 启用
+S
+Su16  VDP= 240;     
+Su16  VBP= 12 ;    //
+Su16  VFP= 12 ;    //
+S
+Su16  HDP= 480;     
+Su16  HBP= 40;     //	
+Su16  HFP= 89;     //	
+S
+Su16	 VPW=4;  //通常不需要调整
+Su16	 HPW=6;  //通常不需要调整
+S
+S//u8 Frame_rate = 60;				//////刷新频率   HZ    2016-9-7 启用
+S
+S//u16  VDP= 240;     
+S//u16  VBP= 4 ;    //
+S//u16  VFP= 4 ;    //
+S
+S//u16  HDP= 480;     
+S//u16  HBP= 40;     //	
+S//u16  HFP= 34;     //	
+S
+S//u16	 VPW=2;  //通常不需要调整
+S//u16	 HPW=10;  //通常不需要调整
+S
+S#define YDP 240	   //对应0XB0使用0x30
+S#define XDP 480   
 N#endif
 N
 N
@@ -14567,7 +14605,8 @@ N	   SSD1963Data_8(0x0F);
 N//	   Delay(5);
 N
 N//////////////=============================================================================
-N    LCD2353INITTION();
+N    LCD035C0032();
+N//    LCD2353INITTION();
 N//    GPIO_SetBits(GPIOA, GPIO_Pin_8);      ////////exit sleep
 N    
 N//////////////在SSD1963的I/O工作正常后可以对SSD2825进行配置。以便后续对IC进行初始化配置
@@ -15441,7 +15480,7 @@ X         __va_start(num_list, i);
 N         MIPI_Array[0]=i;
 N        for(MIPI_Counter=1;MIPI_Counter<=i;MIPI_Counter++)
 N        {
-W "..\LCD.c" 1141 39 "u16" would have been promoted to "int" when passed through the ellipsis parameter; use the latter type instead
+W "..\LCD.c" 1179 39 "u16" would have been promoted to "int" when passed through the ellipsis parameter; use the latter type instead
 N            MIPI_Array[MIPI_Counter]=(va_arg(num_list,uint));
 X            MIPI_Array[MIPI_Counter]=(__va_arg(num_list, u16));
 N        }
@@ -15498,7 +15537,7 @@ N	u8 TIMES=0;
 N		
 Nxxxxx:
 N	ENTER_LP_mode(); //enter  LP mode
-W "..\LCD.c" 1195 2 function "MDelay" declared implicitly
+W "..\LCD.c" 1233 2 function "MDelay" declared implicitly
 N	MDelay(10);
 N
 N//	SSD1963GPIOOUTCOM(0xc4);		//enable BTA
@@ -15569,7 +15608,7 @@ N	u8 i=0;
 N		
 Nxxxxx:
 N	ENTER_LP_mode(); //enter  LP mode
-W "..\LCD.c" 1265 2 function "MDelay" declared implicitly
+W "..\LCD.c" 1303 2 function "MDelay" declared implicitly
 N	MDelay(10);
 N
 N//	SSD1963GPIOOUTCOM(0xc4);		//enable BTA
@@ -15631,7 +15670,7 @@ N	ENDXXXX:
 N	
 N	ENTER_hs_mode();
 N	return Value;
-W "..\LCD.c" 1263 1 label "xxxxx"  was declared but never referenced
+W "..\LCD.c" 1301 1 label "xxxxx" was declared but never referenced
 N}
 N
 Nu8 READ_IC_A(u8 cmd,u8 cmd1)
@@ -15646,7 +15685,7 @@ N
 N
 Nxxxxx:
 N	ENTER_READ_mode(); 
-W "..\LCD.c" 1340 2 function "MDelay" declared implicitly
+W "..\LCD.c" 1378 2 function "MDelay" declared implicitly
 N	MDelay(10);
 N
 N	
@@ -15704,7 +15743,7 @@ N
 Nu8 READ_VCOM_OTP_TIMES_HX8369(u8 reg_index)
 N{
 N	ENTER_LP_mode(); //enter  LP mode
-W "..\LCD.c" 1397 2 function "MDelay" declared implicitly
+W "..\LCD.c" 1435 2 function "MDelay" declared implicitly
 N	MDelay(20);
 N	MIPI_SPI_Write(0x05,0x39, 0xB9,0xFF,0x83,0x69);//EXTC Command Set enable register
 N	MDelay(10);
@@ -16796,15 +16835,15 @@ N	   Delay(15);
 N
 N////////////=============================================================================
 N////////////在SSD1963的I/O工作正常后可以对SSD2825进行配置。以便后续对IC进行初始化配置
-N	
-N	//对HX8369 IC进行初始化
-N	SSD1963INITSSD2825(); 
+N	LCD035C0032();
+N//	//对HX8369 IC进行初始化
+N//	SSD1963INITSSD2825(); 
 N
-N	INITIALOTM8018B_QC();					   /////GPM1461A0  USE
-N//	SSD2825_CLAN043LL_SC7789_A();
-N//	SSD2825INITIAL_HX8369B();
-N///////////此处对SSD2825重新配置为VIDEO模式，一定要在SSD1963时序生成OK后进行配置2825，
-N	VIDEO_ON();
+N//	INITIALOTM8018B_QC();					   /////GPM1461A0  USE
+N////	SSD2825_CLAN043LL_SC7789_A();
+N////	SSD2825INITIAL_HX8369B();
+N/////////////此处对SSD2825重新配置为VIDEO模式，一定要在SSD1963时序生成OK后进行配置2825，
+N//	VIDEO_ON();
 N}
 N
 N
@@ -16898,6 +16937,115 @@ N	SSD1963Command_8(0xBa);
 N	SSD1963Data_8(0x0F);
 N}
 N
+Nvoid SPI_Send(u8 dcx,u16 data)
+N{
+N    u8 i=0;
+N    u32 instru_H=0;
+N    
+N    instru_H = (dcx<<16) + data;
+N    
+N    for (i=0;i<24;i++)     // 
+N	{ 
+N		if( !(instru_H & 0x00800000))
+N		{ 
+N			SSD1963Command_8(0xBa); 
+N			SSD1963Data_8(0x05);    //SDI=0
+N			SSD1963Command_8(0xBa); 
+N			SSD1963Data_8(0x01);    //sck=0
+N			
+N			SSD1963Command_8(0xBa);  
+N			SSD1963Data_8(0x05);     //sck=1
+N		}
+N		else
+N		{ 
+N			SSD1963Command_8(0xBa); 
+N			SSD1963Data_8(0x07);    //SDI=1
+N			SSD1963Command_8(0xBa); 
+N			SSD1963Data_8(0x03);    //sck=0
+N			
+N			SSD1963Command_8(0xBa);  
+N			SSD1963Data_8(0x07);     //sck=1
+N		}
+N
+N		instru_H=instru_H<<1;
+N	} 
+N	
+N	SSD1963Command_8(0xBa); 
+N	SSD1963Data_8(0x0F);
+N}
+N
+Nvoid LCD035C0032(void)
+N{
+N    SPI_Send(0x70,0x0001);
+N	SPI_Send(0x72,0x6300);
+N	
+N	SPI_Send(0x70,0x0002);
+N	SPI_Send(0x72,0x0200);    
+N	
+N	SPI_Send(0x70,0x0003);
+N	SPI_Send(0x72,0x6564);
+N	
+N	SPI_Send(0x70,0x0004);
+N	SPI_Send(0x72,0x04c7);
+N	
+N
+N	
+N	SPI_Send(0x70,0x0008);
+N	SPI_Send(0x72,0x06ff);
+N	
+N	SPI_Send(0x70,0x000a);
+N	SPI_Send(0x72,0x4008);
+N	
+N	SPI_Send(0x70,0x000b);
+N	SPI_Send(0x72,0xd400);
+N	
+N	SPI_Send(0x70,0x000d);
+N	SPI_Send(0x72,0x3229);
+N	
+N	SPI_Send(0x70,0x000e);
+N	SPI_Send(0x72,0x1200);
+N
+N		
+N	SPI_Send(0x70,0x000f);
+N	SPI_Send(0x72,0x0000);
+N
+N
+N	SPI_Send(0x70,0x0016);
+N	SPI_Send(0x72,0x9f80);
+N	
+N	SPI_Send(0x70,0x0017);	
+N	SPI_Send(0x72,0x2212);
+N
+N	
+N//	SPI_Send(0x70,0x001e);
+N//	SPI_Send(0x72,0x00F8);
+N
+N    SPI_Send(0x70,0x001e);
+N	SPI_Send(0x72,0x0078);
+N
+N	SPI_Send(0x70,0x0030);    
+N	SPI_Send(0x72,0x0000);
+N	SPI_Send(0x70,0x0031);
+N	SPI_Send(0x72,0x0707);
+N	SPI_Send(0x70,0x0032);
+N	SPI_Send(0x72,0x0206);	
+N	SPI_Send(0x70,0x0033);
+N	SPI_Send(0x72,0x0001);	
+N	SPI_Send(0x70,0x0034);
+N	SPI_Send(0x72,0x0105);
+N	SPI_Send(0x70,0x0035);
+N	SPI_Send(0x72,0x0000);
+N	SPI_Send(0x70,0x0036);
+N	SPI_Send(0x72,0x0707);	
+N	SPI_Send(0x70,0x0037);
+N	SPI_Send(0x72,0x0100);
+N	
+N	SPI_Send(0x70,0x003a);
+N	SPI_Send(0x72,0x0502);
+N	SPI_Send(0x70,0x003b);
+N	SPI_Send(0x72,0x0502);
+N}
+N    
 Nvoid LCD2353INITTION(void)
 N{
 N//    LCDSPI_InitCMD(0x2d);LCDSPI_InitDAT(0x3F44);//////add   shut
@@ -17011,9 +17159,9 @@ N		SSD1963Data_8tt(point);
 N	}
 N	else
 N	{	;	}
-W "..\LCD.c" 2681 5 variable "rr"  was declared but never referenced
-W "..\LCD.c" 2681 8 variable "gg"  was declared but never referenced
-W "..\LCD.c" 2681 11 variable "bb"  was declared but never referenced
+W "..\LCD.c" 2828 5 variable "rr" was declared but never referenced
+W "..\LCD.c" 2828 8 variable "gg" was declared but never referenced
+W "..\LCD.c" 2828 11 variable "bb" was declared but never referenced
 N}
 N
 N
@@ -17047,7 +17195,7 @@ N{
 N	u16 m,n;
 N  
 N  LCD_SetDisplayWindow(0, XDP-1, 0, YDP-1);
-X  LCD_SetDisplayWindow(0, 480-1, 0, 240-1);
+X  LCD_SetDisplayWindow(0, 320-1, 0, 240-1);
 N  LCD_WriteRAM_Prepare();
 N
 N	LCD_RS(1);
@@ -17059,7 +17207,7 @@ N	for(m = 0; m <(YDP); m++)
 X	for(m = 0; m <(240); m++)
 N	{
 N		for(n = 0; n <(XDP/2); n++)
-X		for(n = 0; n <(480/2); n++)
+X		for(n = 0; n <(320/2); n++)
 N		{
 N	         SSD1963Data_8tt(0X80);	 SSD1963Data_8tt(0X00);	  SSD1963Data_8tt(0X80);	
 N			 SSD1963Data_8tt(0X00);	 SSD1963Data_8tt(0X80);	  SSD1963Data_8tt(0X00);
@@ -17077,7 +17225,7 @@ N{
 N	u16 m,n;
 N  
 N  LCD_SetDisplayWindow(0, XDP-1, 0, YDP-1);
-X  LCD_SetDisplayWindow(0, 480-1, 0, 240-1);
+X  LCD_SetDisplayWindow(0, 320-1, 0, 240-1);
 N  LCD_WriteRAM_Prepare();
 N 
 N	LCD_RS(1);
@@ -17089,7 +17237,7 @@ N	for(m = 0; m <(YDP); m++)
 X	for(m = 0; m <(240); m++)
 N	{
 N		for(n = 0; n <(XDP/2); n++)
-X		for(n = 0; n <(480/2); n++)
+X		for(n = 0; n <(320/2); n++)
 N		{
 N	         SSD1963Data_8tt(0X80);	 SSD1963Data_8tt(0X80);  SSD1963Data_8tt(0X80);
 N			 SSD1963Data_8tt(0X00);	 SSD1963Data_8tt(0X00);  SSD1963Data_8tt(0X00);
@@ -17107,19 +17255,19 @@ N{
 N	u16 m,n;
 N  
 N  LCD_SetDisplayWindow(0, XDP-1, 0, YDP-1);
-X  LCD_SetDisplayWindow(0, 480-1, 0, 240-1);
+X  LCD_SetDisplayWindow(0, 320-1, 0, 240-1);
 N  LCD_WriteRAM_Prepare();
 N 
 N	for(m = 0; m <(YDP/2); m++)
 X	for(m = 0; m <(240/2); m++)
 N	{
 N		for(n = 0; n <(XDP); n++)
-X		for(n = 0; n <(480); n++)
+X		for(n = 0; n <(320); n++)
 N		{
 N	         SSD1963Data_8(0X80);SSD1963Data_8(0X80);SSD1963Data_8(0X80);
 N		}
 N		for(n = 0; n <(XDP); n++)
-X		for(n = 0; n <(480); n++)
+X		for(n = 0; n <(320); n++)
 N		{
 N	         
 N			 SSD1963Data_8(0X00);SSD1963Data_8(0X00);SSD1963Data_8(0X00);
@@ -17135,7 +17283,7 @@ N
 N	
 N  
 N	LCD_SetDisplayWindow(0,(XDP-1),0,(YDP-1));
-X	LCD_SetDisplayWindow(0,(480-1),0,(240-1));
+X	LCD_SetDisplayWindow(0,(320-1),0,(240-1));
 N	LCD_WriteRAM_Prepare();
 N
 N	LCD_RS(1);
@@ -17148,7 +17296,7 @@ X	for(m = 0; m <(240); m++)
 N	{
 N		
 N  	  for(n = 0; n <XDP/4; n++)
-X  	  for(n = 0; n <480/4; n++)
+X  	  for(n = 0; n <320/4; n++)
 N  	     {
 N//	         SSD1963Data_8(corr);SSD1963Data_8(0);SSD1963Data_8(0);
 N			 SSD1963Data_8tt(corr);		SSD1963Data_8tt(0);			SSD1963Data_8tt(0);
@@ -17157,7 +17305,7 @@ N		 corr = (m*255)/YDP;
 X		 corr = (m*255)/240;
 N
 N		 for(n = 0; n <XDP/4; n++)
-X		 for(n = 0; n <480/4; n++)
+X		 for(n = 0; n <320/4; n++)
 N  	     {
 N//	         SSD1963Data_8(0);SSD1963Data_8(corg);SSD1963Data_8(0);
 N			 SSD1963Data_8tt(0);		SSD1963Data_8tt(corg);			SSD1963Data_8tt(0);
@@ -17166,7 +17314,7 @@ N		 corg = (m*255)/YDP;
 X		 corg = (m*255)/240;
 N
 N		 for(n = 0; n <XDP/4; n++)
-X		 for(n = 0; n <480/4; n++)
+X		 for(n = 0; n <320/4; n++)
 N  	     {
 N//	         SSD1963Data_8(0);SSD1963Data_8(0);SSD1963Data_8(corb);
 N			 SSD1963Data_8tt(0);		SSD1963Data_8tt(0);			SSD1963Data_8tt(corb);
@@ -17175,7 +17323,7 @@ N		 corb = (m*255)/YDP;
 X		 corb = (m*255)/240;
 N
 N		 for(n = 0; n <XDP/4; n++)
-X		 for(n = 0; n <480/4; n++)
+X		 for(n = 0; n <320/4; n++)
 N  	     {
 N//	         SSD1963Data_8(corr);SSD1963Data_8(corg);SSD1963Data_8(corb);
 N			 SSD1963Data_8tt(corr);		SSD1963Data_8tt(corg);			SSD1963Data_8tt(corb);
@@ -17191,7 +17339,7 @@ N{
 N	u16 m,n;
 N
 N	LCD_SetDisplayWindow(0,(XDP-1),0,(YDP-1));
-X	LCD_SetDisplayWindow(0,(480-1),0,(240-1));
+X	LCD_SetDisplayWindow(0,(320-1),0,(240-1));
 N	LCD_WriteRAM_Prepare();
 N
 N	for(m = 0; m <(YDP); m++)
@@ -17199,7 +17347,7 @@ X	for(m = 0; m <(240); m++)
 N	{
 N		
 N  	  for(n = 0; n <XDP; n++)
-X  	  for(n = 0; n <480; n++)
+X  	  for(n = 0; n <320; n++)
 N  	     {
 N	         
 N			 if((270<m<530)&&(160<n<320))
@@ -17220,7 +17368,7 @@ Nvoid All_Color(u8 corr,u8 corg,u8 corb)
 N{
 N  vu32 index =0 ;
 N  LCD_SetDisplayWindow(0,(XDP-1),0,(YDP-1));
-X  LCD_SetDisplayWindow(0,(480-1),0,(240-1));
+X  LCD_SetDisplayWindow(0,(320-1),0,(240-1));
 N  LCD_WriteRAM_Prepare();
 N 
 N  LCD_RS(1);
@@ -17229,7 +17377,7 @@ N            SSD1963_CS(0);//asm("NOP");asm("NOP");
 X            ((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800))->ODR=(((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800))->ODR&~(1<<2))|(0 ? (1<<2):0);
 N
 N  for(index = 0; index < (YDP*XDP); index++)
-X  for(index = 0; index < (240*480); index++)
+X  for(index = 0; index < (240*320); index++)
 N  {
 N	 SSD1963Data_8tt(corr);SSD1963Data_8tt(corg);SSD1963Data_8tt(corb);
 N  }
@@ -17380,7 +17528,7 @@ N	FontFlag=1;
 N	fontH = 2; 			  /////// height *3
 N	fontW = 2;			  ///////  width *3
 N    while((*p!='\0')&&(FontFlag<(XDP-1)))
-X    while((*p!='\0')&&(FontFlag<(480-1)))
+X    while((*p!='\0')&&(FontFlag<(320-1)))
 N    {       
 N      tep=*p;
 N      tep-=32;
@@ -17506,7 +17654,7 @@ N      LCD_PutChar1(addx,addy,fp,YY);    //////////
 N	  addx+=16*YY;   //////////
 N	  number++;
 N	  if(addx+16*YY>XDP)
-X	  if(addx+16*YY>480)
+X	  if(addx+16*YY>320)
 N	  {
 N	  addy+=24*YY;   ////////////
 N	  addx=aa;

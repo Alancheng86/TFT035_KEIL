@@ -13373,8 +13373,8 @@ N/* Copyright (C) Codemist Ltd., 1988-1993                       */
 N/* Copyright 1991-1998 ARM Limited. All rights reserved.        */
 N
 N/*
-N * RCS $Revision$
-N * Checkin $Date$
+N * RCS $Revision: 192842 $
+N * Checkin $Date: 2015-04-28 10:58:32 +0100 (Tue, 28 Apr 2015) $
 N * Revising $Author: sdouglas $
 N */
 N
@@ -13387,7 +13387,7 @@ N */
 N
 N#ifndef __stdio_h
 N#define __stdio_h
-N#define __ARMCLIB_VERSION 5060019
+N#define __ARMCLIB_VERSION 5060002
 N
 N/*
 N * Depending on compiler version __int64 or __INT64_TYPE__ should be defined.
@@ -14498,8 +14498,8 @@ N/* stdlib.h: ANSI draft (X3J11 May 88) library header, section 4.10 */
 N/* Copyright (C) Codemist Ltd., 1988-1993.                          */
 N/* Copyright 1991-1998,2014 ARM Limited. All rights reserved.       */
 N/*
-N * RCS $Revision$
-N * Checkin $Date$
+N * RCS $Revision: 190986 $
+N * Checkin $Date: 2015-02-04 14:26:49 +0000 (Wed, 04 Feb 2015) $
 N * Revising $Author: agrant $
 N */
 N 
@@ -14510,7 +14510,7 @@ N */
 N
 N#ifndef __stdlib_h
 N#define __stdlib_h
-N#define __ARMCLIB_VERSION 5060019
+N#define __ARMCLIB_VERSION 5060002
 N
 N#if defined(__clang__) || (defined(__ARMCC_VERSION) && !defined(__STRICT_ANSI__))
 X#if 0L || (1L && !0L)
@@ -16270,6 +16270,7 @@ N#define LCD_READ_SPI        0X01
 Nvoid LCD2353INITTION(void);
 Nvoid INITIALOTM8018B(void);
 Nvoid INITIALOTM8018B_QC(void);
+Nvoid LCD035C0032(void);
 Nvoid STM32_SSD1963_Init_QC(void);
 Nvoid MIPI_SPI_Write(uint i,...);
 Xvoid MIPI_SPI_Write(u16 i,...);
@@ -16549,7 +16550,7 @@ Nu16 aat=0,aat2=1;
 N
 N
 N#define YDP 240	   //对应0XB0使用0x30
-N#define XDP 480  
+N#define XDP 320  
 N
 Nu16 VCOMDC1=0x0000;
 Nu8 STEP=24;  //采样数组上限
@@ -16670,7 +16671,7 @@ N
 N
 N	     
 N	  	FontR = FontG = FontB = 0;
-N		LCD_DisplayStringLine_A(30,160,"TFT9K2353_A");	  /////2014/4/4   /////2014/4/4  M1461A0_C
+N		LCD_DisplayStringLine_A(10,160,"TFT035_A");	  /////2014/4/4   /////2014/4/4  M1461A0_C
 N//		LCD_DisplayStringLine_A(30,360,"FGA7_20160426");
 N		DelayKEY(100);
 N//		VCOM_GET();
@@ -16784,7 +16785,8 @@ N//	else
 N//	{
 N//		Soft_reset();    ///////复位后使用客户初始化code，以便拦检OTP漏烧产品。
 N//	}
-N//	KEY_adjust();
+N    Flicker_PIXEL();
+N	KEY_adjust();
 N//	Flicker_PIXEL();
 N//	showid_vcom()	;								Delay(150);			mm_KEYB1=KEYC6;	 while(mm_KEYB1 != 0)	{	mm_KEYB1=KEYC6;   }
 N
@@ -16803,7 +16805,7 @@ N  	All_Color(0,255,0)   ;					  		DelayKEY(100);
 N	All_Color(0,0,255)   ;					  		DelayKEY(100);
 N	All_Color(255,255,255)   ;				  	DelayKEY(100);
 N	LCD_WriteArea(1,XDP-2,1,YDP-2,0,0,0);		DelayKEY(100);
-X	LCD_WriteArea(1,480-2,1,240-2,0,0,0);		DelayKEY(100);
+X	LCD_WriteArea(1,320-2,1,240-2,0,0,0);		DelayKEY(100);
 N	All_Color(0,0,0)   ;				  		DelayKEY(100);
 N    All_Color(60,60,60)   ;				  		DelayKEY(100);
 N	All_Color(127,127,127)   ;				  		DelayKEY(100);
@@ -16833,8 +16835,8 @@ N//	Flicker_PIXEL();								Delay(150);			 mm_KEYB1=KEYC6;	 while(mm_KEYB1 != 0)
 N// 	showid_vcom()	;								Delay(150);			 mm_KEYB1=KEYC6;	 while(mm_KEYB1 != 0)	{	mm_KEYB1=KEYC6;   }
 N  goto LCDTest;
 N
-W "..\main.c" 121 5 variable "READ_ID"  was declared but never referenced
-W "..\main.c" 122 6 variable "mm_KEYB1"  was declared but never referenced
+W "..\main.c" 121 5 variable "READ_ID" was declared but never referenced
+W "..\main.c" 122 6 variable "mm_KEYB1" was declared but never referenced
 N}
 N
 N
@@ -16924,9 +16926,9 @@ N			{	mm_KEYA7 =  KEYA7;}
 X			{	mm_KEYA7 =  ((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800))->IDR&((u16)0x0080);}
 N
 N			VCOMDC++;
-N			ENTER_LP_mode();
-N			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
-N        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC);
+N//			ENTER_LP_mode();
+N//			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
+N//        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC);
 N			SHOW_IC_VALUE_A(270,800, VCOMDC);
 N			VIDEO_ON();
 N		}
@@ -16937,9 +16939,9 @@ N			 while(!mm_KEYA8)
 N			  {	mm_KEYA8 =  KEYA8;}
 X			  {	mm_KEYA8 =  ((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800))->IDR&((u16)0x0100);}
 N			VCOMDC--;
-N			ENTER_LP_mode();
-N			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
-N        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC);
+N//			ENTER_LP_mode();
+N//			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
+N//        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC);
 N			SHOW_IC_VALUE_A(270,800, VCOMDC);
 N			VIDEO_ON();
 N		}
@@ -16950,8 +16952,8 @@ N			 while(!mm_KEYC6)
 N			 {		mm_KEYC6 =  KEYC6;}
 X			 {		mm_KEYC6 =  ((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x1000))->IDR&((u16)0x0040);}
 N			aat = 1;
-N			ENTER_LP_mode();
-N			MTP_ID();
+N//			ENTER_LP_mode();
+N//			MTP_ID();
 N			FontR = FontG = FontB = 0;
 N
 N			Soft_reset();
@@ -17861,7 +17863,7 @@ N	}
 N	
 N
 N   }
-W "..\main.c" 1294 6 variable "temp"  was set but never used
+W "..\main.c" 1295 6 variable "temp" was set but never used
 N}
 Nvoid I2C_DATAL_COMPAREX(void)
 N{
