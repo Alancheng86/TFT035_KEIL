@@ -16685,7 +16685,7 @@ N		SDShowTimes = 0;
 N
 N		while (SDShowFlag) //开始BMP文件显示
 N		{	  
-N		 Disp_BMP() ;
+N		  Disp_BMP() ;
 N		  Delay(1);
 N		  SDShowFlag = 0;	
 N		}				   
@@ -16967,7 +16967,7 @@ N			 while(!mm_KEYC6)
 N			 {		mm_KEYC6 =  KEYC6;}
 X			 {		mm_KEYC6 =  ((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x1000))->IDR&((u16)0x0040);}
 N			aat = 1;
-N//             MTP_VCOM();
+N             MTP_VCOM();
 N			FontR = FontG = FontB = 0;
 N
 N			Soft_reset();

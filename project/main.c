@@ -213,7 +213,7 @@ int main(void)
 
 		while (SDShowFlag) //开始BMP文件显示
 		{	  
-		 Disp_BMP() ;
+		  Disp_BMP() ;
 		  Delay(1);
 		  SDShowFlag = 0;	
 		}				   
@@ -486,7 +486,7 @@ void KEY_adjust(void)
 			 while(!mm_KEYC6)
 			 {		mm_KEYC6 =  KEYC6;}
 			aat = 1;
-//             MTP_VCOM();
+             MTP_VCOM();
 			FontR = FontG = FontB = 0;
 
 			Soft_reset();

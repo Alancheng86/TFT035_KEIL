@@ -961,10 +961,10 @@
 ;;;452       while(OTP_FLAG)
 ;;;453       {
 ;;;454    		mm_KEYA7 = 	KEYA7;
-000004  f8df80e4          LDR      r8,|L12.236|
+000004  f8df81a4          LDR      r8,|L12.428|
 ;;;455    		mm_KEYA8 =  KEYA8;
 ;;;456    		mm_KEYC6 = 	KEYC6;
-000008  f8dfa0e4          LDR      r10,|L12.240|
+000008  f8dfa1a4          LDR      r10,|L12.432|
 ;;;457    		
 ;;;458    		if(mm_KEYA7 == 0)
 ;;;459    		{
@@ -973,7 +973,7 @@
 ;;;462    			{	mm_KEYA7 =  KEYA7;}
 ;;;463    
 ;;;464    			VCOMDC++;
-00000c  f8df90e4          LDR      r9,|L12.244|
+00000c  f8df91a4          LDR      r9,|L12.436|
 000010  2401              MOVS     r4,#1                 ;449
 ;;;465                if(VCOMDC>=0x7F){VCOMDC=0x7F;}
 000012  f04f0b7f          MOV      r11,#0x7f
@@ -1050,61 +1050,125 @@
                   |L12.178|
 ;;;482    		}
 ;;;483    		if(mm_KEYC6 == 0)
-0000b2  b99f              CBNZ     r7,|L12.220|
-                  |L12.180|
+0000b2  2f00              CMP      r7,#0
+0000b4  d172              BNE      |L12.412|
+                  |L12.182|
 ;;;484    		{
 ;;;485    	
 ;;;486    			 while(!mm_KEYC6)
 ;;;487    			 {		mm_KEYC6 =  KEYC6;}
-0000b4  f8da0008          LDR      r0,[r10,#8]
-0000b8  f0100f40          TST      r0,#0x40
-0000bc  d0fa              BEQ      |L12.180|
+0000b6  f8da0008          LDR      r0,[r10,#8]
+0000ba  f0100f40          TST      r0,#0x40
+0000be  d0fa              BEQ      |L12.182|
 ;;;488    			aat = 1;
-0000be  2001              MOVS     r0,#1
-0000c0  f8a90012          STRH     r0,[r9,#0x12]
-;;;489    //             MTP_VCOM();
+0000c0  2001              MOVS     r0,#1
+0000c2  f8a90012          STRH     r0,[r9,#0x12]
+0000c6  2106              MOVS     r1,#6
+0000c8  2070              MOVS     r0,#0x70
+0000ca  f7fffffe          BL       SPI_Send
+0000ce  f6420120          MOV      r1,#0x2820
+0000d2  2072              MOVS     r0,#0x72
+0000d4  f7fffffe          BL       SPI_Send
+0000d8  f44f70fa          MOV      r0,#0x1f4
+0000dc  f7fffffe          BL       Delay
+0000e0  2160              MOVS     r1,#0x60
+0000e2  2070              MOVS     r0,#0x70
+0000e4  f7fffffe          BL       SPI_Send
+0000e8  f44f4100          MOV      r1,#0x8000
+0000ec  2072              MOVS     r0,#0x72
+0000ee  f7fffffe          BL       SPI_Send
+0000f2  2160              MOVS     r1,#0x60
+0000f4  2070              MOVS     r0,#0x70
+0000f6  f7fffffe          BL       SPI_Send
+0000fa  f44f4140          MOV      r1,#0xc000
+0000fe  2072              MOVS     r0,#0x72
+000100  f7fffffe          BL       SPI_Send
+000104  2160              MOVS     r1,#0x60
+000106  2070              MOVS     r0,#0x70
+000108  f7fffffe          BL       SPI_Send
+00010c  f44f4142          MOV      r1,#0xc200
+000110  2072              MOVS     r0,#0x72
+000112  f7fffffe          BL       SPI_Send
+000116  2160              MOVS     r1,#0x60
+000118  2070              MOVS     r0,#0x70
+00011a  f7fffffe          BL       SPI_Send
+00011e  f24c2180          MOV      r1,#0xc280
+000122  2072              MOVS     r0,#0x72
+000124  f7fffffe          BL       SPI_Send
+000128  2001              MOVS     r0,#1
+00012a  f7fffffe          BL       Delay
+00012e  2160              MOVS     r1,#0x60
+000130  2070              MOVS     r0,#0x70
+000132  f7fffffe          BL       SPI_Send
+000136  f44f4142          MOV      r1,#0xc200
+00013a  2072              MOVS     r0,#0x72
+00013c  f7fffffe          BL       SPI_Send
+000140  2160              MOVS     r1,#0x60
+000142  2070              MOVS     r0,#0x70
+000144  f7fffffe          BL       SPI_Send
+000148  f44f4102          MOV      r1,#0x8200
+00014c  2072              MOVS     r0,#0x72
+00014e  f7fffffe          BL       SPI_Send
+000152  2160              MOVS     r1,#0x60
+000154  2070              MOVS     r0,#0x70
+000156  f7fffffe          BL       SPI_Send
+00015a  f44f7100          MOV      r1,#0x200
+00015e  2072              MOVS     r0,#0x72
+000160  f7fffffe          BL       SPI_Send
+000164  2160              MOVS     r1,#0x60
+000166  2070              MOVS     r0,#0x70
+000168  f7fffffe          BL       SPI_Send
+00016c  2140              MOVS     r1,#0x40
+00016e  2072              MOVS     r0,#0x72
+000170  f7fffffe          BL       SPI_Send
+000174  2160              MOVS     r1,#0x60
+000176  2070              MOVS     r0,#0x70
+000178  f7fffffe          BL       SPI_Send
+00017c  2100              MOVS     r1,#0
+00017e  2072              MOVS     r0,#0x72
+000180  f7fffffe          BL       SPI_Send
+;;;489                 MTP_VCOM();
 ;;;490    			FontR = FontG = FontB = 0;
-0000c4  480c              LDR      r0,|L12.248|
-0000c6  2500              MOVS     r5,#0
-0000c8  7005              STRB     r5,[r0,#0]
-0000ca  480c              LDR      r0,|L12.252|
-0000cc  7005              STRB     r5,[r0,#0]
-0000ce  480c              LDR      r0,|L12.256|
-0000d0  7005              STRB     r5,[r0,#0]
+000184  480c              LDR      r0,|L12.440|
+000186  2500              MOVS     r5,#0
+000188  7005              STRB     r5,[r0,#0]
+00018a  480c              LDR      r0,|L12.444|
+00018c  7005              STRB     r5,[r0,#0]
+00018e  480c              LDR      r0,|L12.448|
+000190  7005              STRB     r5,[r0,#0]
 ;;;491    
 ;;;492    			Soft_reset();
-0000d2  f7fffffe          BL       Soft_reset
+000192  f7fffffe          BL       Soft_reset
 ;;;493    			OTP_FLAG = 0;
-0000d6  2400              MOVS     r4,#0
+000196  2400              MOVS     r4,#0
 ;;;494    			aat = 0;
-0000d8  f8a95012          STRH     r5,[r9,#0x12]
-                  |L12.220|
+000198  f8a95012          STRH     r5,[r9,#0x12]
+                  |L12.412|
 ;;;495    		}
 ;;;496    		Delay(25);	
-0000dc  2019              MOVS     r0,#0x19
-0000de  f7fffffe          BL       Delay
-0000e2  2c00              CMP      r4,#0                 ;452
-0000e4  d197              BNE      |L12.22|
+00019c  2019              MOVS     r0,#0x19
+00019e  f7fffffe          BL       Delay
+0001a2  2c00              CMP      r4,#0                 ;452
+0001a4  f47faf37          BNE      |L12.22|
 ;;;497    		
 ;;;498    		
 ;;;499    	}
 ;;;500    }
-0000e6  e8bd9ff0          POP      {r4-r12,pc}
+0001a8  e8bd9ff0          POP      {r4-r12,pc}
 ;;;501    
                           ENDP
 
-0000ea  0000              DCW      0x0000
-                  |L12.236|
+                  |L12.428|
                           DCD      0x40010808
-                  |L12.240|
+                  |L12.432|
                           DCD      0x40011000
-                  |L12.244|
+                  |L12.436|
                           DCD      ||.data||
-                  |L12.248|
+                  |L12.440|
                           DCD      FontB
-                  |L12.252|
+                  |L12.444|
                           DCD      FontG
-                  |L12.256|
+                  |L12.448|
                           DCD      FontR
 
                           AREA ||i.MDelay||, CODE, READONLY, ALIGN=2
@@ -3692,7 +3756,7 @@
 000158  78a0              LDRB     r0,[r4,#2]  ; SDShowFlag
 00015a  b128              CBZ      r0,|L36.360|
 ;;;215    		{	  
-;;;216    		 Disp_BMP() ;
+;;;216    		  Disp_BMP() ;
 00015c  f7fffffe          BL       Disp_BMP
 ;;;217    		  Delay(1);
 000160  2001              MOVS     r0,#1
