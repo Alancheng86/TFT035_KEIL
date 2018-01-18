@@ -16974,7 +16974,7 @@ N			Soft_reset();
 N			OTP_FLAG = 0;
 N			aat = 0;
 N		}
-N		Delay(25);	
+N		Delay(1);	
 N		
 N		
 N	}
@@ -17568,6 +17568,9 @@ X    GPIO_InitStructure.GPIO_Pin =   ((u16)0x0100);
 N  GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_IPU;    // 
 N  GPIO_Init(GPIOA, &GPIO_InitStructure); 
 X  GPIO_Init(((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800)), &GPIO_InitStructure); 
+N    
+N    
+N    
 N}
 N
 Nvoid DelayKEY (u32 k)
@@ -17879,7 +17882,7 @@ N	}
 N	
 N
 N   }
-W "..\main.c" 1309 6 variable "temp" was set but never used
+W "..\main.c" 1312 6 variable "temp" was set but never used
 N}
 Nvoid I2C_DATAL_COMPAREX(void)
 N{
@@ -18213,9 +18216,13 @@ N	}
 N
 Nvoid MTP_VCOM(void)
 N{
+N    GPIO_SetBits(GPIOA, GPIO_Pin_15);  /////open  7.3V to VGH/VGL
+X    GPIO_SetBits(((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800)), ((u16)0x8000));  
+N//    Delay(50);////wait 0.5s  for  power  stable
+N    
 N    SPI_Send(0x70,0x0006);
 N	SPI_Send(0x72,0x2820);
-N    Delay(500);////wait 0.5s
+N    Delay(50);////wait 0.5s
 N    
 N    SPI_Send(0x70,0x0060);
 N	SPI_Send(0x72,0x8000);
@@ -18235,6 +18242,10 @@ N    SPI_Send(0x70,0x0060);
 N	SPI_Send(0x72,0xC200);
 N    
 N    ///remove 7.3V from VGH and 0V from VGL
+N    GPIO_ResetBits(GPIOA, GPIO_Pin_15);  /////remove  7.3V to VGH/VGL
+X    GPIO_ResetBits(((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800)), ((u16)0x8000));  
+N//    Delay(500);////wait 0.5s  for  power  stable
+N    
 N    SPI_Send(0x70,0x0060);
 N	SPI_Send(0x72,0x8200);
 N    

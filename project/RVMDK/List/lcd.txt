@@ -1479,9 +1479,9 @@
 000040  4630              MOV      r0,r6
 000042  f7fffffe          BL       GPIO_Init
 ;;;3209       
-;;;3210       /*[把PA4678配置成输出模式] */
-;;;3211     GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_8;
-000046  0121              LSLS     r1,r4,#4
+;;;3210       /*[把PA15配置成输出模式] */
+;;;3211     GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_15;
+000046  02e1              LSLS     r1,r4,#11
 000048  f8ad1000          STRH     r1,[sp,#0]
 ;;;3212     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 00004c  f88d4003          STRB     r4,[sp,#3]
@@ -1492,8 +1492,8 @@
 000056  4630              MOV      r0,r6
 000058  f7fffffe          BL       GPIO_Init
 ;;;3215     
-;;;3216     GPIO_ResetBits(GPIOA, GPIO_Pin_8);  /////shut down
-00005c  0121              LSLS     r1,r4,#4
+;;;3216     GPIO_ResetBits(GPIOA, GPIO_Pin_15);  /////shut down
+00005c  02e1              LSLS     r1,r4,#11
 00005e  4630              MOV      r0,r6
 000060  f7fffffe          BL       GPIO_ResetBits
 ;;;3217   //  GPIO_SetBits(GPIOA, GPIO_Pin_8);      ////////exit sleep

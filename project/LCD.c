@@ -3207,13 +3207,13 @@ void LCD_CtrlLinesConfig(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//GPIO最高速度50MHz
   GPIO_Init(GPIOA, &GPIO_InitStructure);  
     
-    /*[把PA4678配置成输出模式] */
-  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_8;
+    /*[把PA15配置成输出模式] */
+  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_15;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//GPIO最高速度50MHz
   GPIO_Init(GPIOA, &GPIO_InitStructure);  
   
-  GPIO_ResetBits(GPIOA, GPIO_Pin_8);  /////shut down
+  GPIO_ResetBits(GPIOA, GPIO_Pin_15);  /////shut down
 //  GPIO_SetBits(GPIOA, GPIO_Pin_8);      ////////exit sleep
 }
 

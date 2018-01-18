@@ -65,71 +65,71 @@
                           AREA ||i.DelayKEY||, CODE, READONLY, ALIGN=2
 
                   DelayKEY PROC
-;;;1066   
-;;;1067   void DelayKEY (u32 k)
+;;;1069   
+;;;1070   void DelayKEY (u32 k)
 000000  b5f0              PUSH     {r4-r7,lr}
-;;;1068   { 
+;;;1071   { 
 000002  b083              SUB      sp,sp,#0xc
 000004  0006              MOVS     r6,r0
-;;;1069       volatile u16 m=1;
+;;;1072       volatile u16 m=1;
 000006  f04f0001          MOV      r0,#1
 00000a  f8ad0000          STRH     r0,[sp,#0]
-;;;1070   	volatile u32 j;
-;;;1071   
-;;;1072         for (j=0; j<k; j++)
+;;;1073   	volatile u32 j;
+;;;1074   
+;;;1075         for (j=0; j<k; j++)
 00000e  f04f0000          MOV      r0,#0
-000012  9001              STR      r0,[sp,#4]            ;1068
-;;;1073            {  
-;;;1074   		 	m=KEYC6;	
-;;;1075   			Delay(2);
-;;;1076               while(m==0)
-;;;1077                 {
-;;;1078   			  	m=KEYC6; 
-;;;1079   			  	Delay(2);
-;;;1080   
-;;;1081   			  }            
-;;;1082            }	
+000012  9001              STR      r0,[sp,#4]            ;1071
+;;;1076            {  
+;;;1077   		 	m=KEYC6;	
+;;;1078   			Delay(2);
+;;;1079               while(m==0)
+;;;1080                 {
+;;;1081   			  	m=KEYC6; 
+;;;1082   			  	Delay(2);
 ;;;1083   
-;;;1084   }
+;;;1084   			  }            
+;;;1085            }	
+;;;1086   
+;;;1087   }
 000014  bf04              ITT      EQ
 000016  b003              ADDEQ    sp,sp,#0xc
 000018  bdf0              POPEQ    {r4-r7,pc}
 00001a  4f14              LDR      r7,|L3.108|
 00001c  4c14              LDR      r4,|L3.112|
-00001e  2514              MOVS     r5,#0x14              ;1074
+00001e  2514              MOVS     r5,#0x14              ;1077
                   |L3.32|
-000020  68b8              LDR      r0,[r7,#8]            ;1074
-000022  f0000040          AND      r0,r0,#0x40           ;1074
-000026  f8ad0000          STRH     r0,[sp,#0]            ;1074
-00002a  2002              MOVS     r0,#2                 ;1075
+000020  68b8              LDR      r0,[r7,#8]            ;1077
+000022  f0000040          AND      r0,r0,#0x40           ;1077
+000026  f8ad0000          STRH     r0,[sp,#0]            ;1077
+00002a  2002              MOVS     r0,#2                 ;1078
 00002c  f7fffffe          BL       Delay
-000030  f8bd0000          LDRH     r0,[sp,#0]            ;1076
+000030  f8bd0000          LDRH     r0,[sp,#0]            ;1079
 000034  b990              CBNZ     r0,|L3.92|
                   |L3.54|
-000036  68b8              LDR      r0,[r7,#8]            ;1078
-000038  f0000040          AND      r0,r0,#0x40           ;1078
-00003c  f8ad0000          STRH     r0,[sp,#0]            ;1078
-000040  61a5              STR      r5,[r4,#0x18]         ;1078  ; TimingDelay
-000042  2001              MOVS     r0,#1                 ;1078
+000036  68b8              LDR      r0,[r7,#8]            ;1081
+000038  f0000040          AND      r0,r0,#0x40           ;1081
+00003c  f8ad0000          STRH     r0,[sp,#0]            ;1081
+000040  61a5              STR      r5,[r4,#0x18]         ;1081  ; TimingDelay
+000042  2001              MOVS     r0,#1                 ;1081
 000044  f7fffffe          BL       SysTick_ITConfig
                   |L3.72|
-000048  69a1              LDR      r1,[r4,#0x18]         ;1078  ; TimingDelay
-00004a  2900              CMP      r1,#0                 ;1078
+000048  69a1              LDR      r1,[r4,#0x18]         ;1081  ; TimingDelay
+00004a  2900              CMP      r1,#0                 ;1081
 00004c  d1fc              BNE      |L3.72|
-00004e  2000              MOVS     r0,#0                 ;1078
+00004e  2000              MOVS     r0,#0                 ;1081
 000050  f7fffffe          BL       SysTick_ITConfig
-000054  f8bd0000          LDRH     r0,[sp,#0]            ;1076
-000058  2800              CMP      r0,#0                 ;1076
+000054  f8bd0000          LDRH     r0,[sp,#0]            ;1079
+000058  2800              CMP      r0,#0                 ;1079
 00005a  d0ec              BEQ      |L3.54|
                   |L3.92|
-00005c  9801              LDR      r0,[sp,#4]            ;1072
-00005e  1c40              ADDS     r0,r0,#1              ;1072
-000060  9001              STR      r0,[sp,#4]            ;1072
-000062  42b0              CMP      r0,r6                 ;1072
+00005c  9801              LDR      r0,[sp,#4]            ;1075
+00005e  1c40              ADDS     r0,r0,#1              ;1075
+000060  9001              STR      r0,[sp,#4]            ;1075
+000062  42b0              CMP      r0,r6                 ;1075
 000064  d3dc              BCC      |L3.32|
 000066  b003              ADD      sp,sp,#0xc
 000068  bdf0              POP      {r4-r7,pc}
-;;;1085   
+;;;1088   
                           ENDP
 
 00006a  0000              DCW      0x0000
@@ -141,44 +141,44 @@
                           AREA ||i.I2C_DATAL_COMPARE||, CODE, READONLY, ALIGN=2
 
                   I2C_DATAL_COMPARE PROC
-;;;1389   }
-;;;1390   void I2C_DATAL_COMPARE(void)
+;;;1392   }
+;;;1393   void I2C_DATAL_COMPARE(void)
 000000  f8dfc030          LDR      r12,|L4.52|
-;;;1391   {
+;;;1394   {
 000004  b430              PUSH     {r4,r5}
-;;;1392   		int yy=1,zz=0;
+;;;1395   		int yy=1,zz=0;
 000006  2101              MOVS     r1,#1
-;;;1393   	while(yy<count1 && zz<count1)
+;;;1396   	while(yy<count1 && zz<count1)
 000008  f8bc200e          LDRH     r2,[r12,#0xe]
-;;;1394   	{
-;;;1395   		if(	DATA_SUM1[zz]>DATA_SUM1[yy])
+;;;1397   	{
+;;;1398   		if(	DATA_SUM1[zz]>DATA_SUM1[yy])
 00000c  4b0a              LDR      r3,|L4.56|
-00000e  2000              MOVS     r0,#0                 ;1392
+00000e  2000              MOVS     r0,#0                 ;1395
                   |L4.16|
-000010  4291              CMP      r1,r2                 ;1393
-000012  bfb2              ITEE     LT                    ;1393
-000014  4290              CMPLT    r0,r2                 ;1393
-;;;1396   		{
-;;;1397   			count2=yy;zz=zz+1;	
-;;;1398   		}
-;;;1399   		else
-;;;1400   		{
-;;;1401   			count2=zz;yy=yy+1;
-;;;1402   		}
-;;;1403   	}	
-;;;1404   }
+000010  4291              CMP      r1,r2                 ;1396
+000012  bfb2              ITEE     LT                    ;1396
+000014  4290              CMPLT    r0,r2                 ;1396
+;;;1399   		{
+;;;1400   			count2=yy;zz=zz+1;	
+;;;1401   		}
+;;;1402   		else
+;;;1403   		{
+;;;1404   			count2=zz;yy=yy+1;
+;;;1405   		}
+;;;1406   	}	
+;;;1407   }
 000016  bc30              POPGE    {r4,r5}
 000018  4770              BXGE     lr
-00001a  f8334010          LDRH     r4,[r3,r0,LSL #1]     ;1395
-00001e  f8335011          LDRH     r5,[r3,r1,LSL #1]     ;1395
-000022  42ac              CMP      r4,r5                 ;1395
-000024  bf87              ITTEE    HI                    ;1397
-000026  f8ac1010          STRHHI   r1,[r12,#0x10]        ;1397
-00002a  1c40              ADDHI    r0,r0,#1              ;1397
-00002c  f8ac0010          STRHLS   r0,[r12,#0x10]        ;1401
-000030  1c49              ADDLS    r1,r1,#1              ;1401
+00001a  f8334010          LDRH     r4,[r3,r0,LSL #1]     ;1398
+00001e  f8335011          LDRH     r5,[r3,r1,LSL #1]     ;1398
+000022  42ac              CMP      r4,r5                 ;1398
+000024  bf87              ITTEE    HI                    ;1400
+000026  f8ac1010          STRHHI   r1,[r12,#0x10]        ;1400
+00002a  1c40              ADDHI    r0,r0,#1              ;1400
+00002c  f8ac0010          STRHLS   r0,[r12,#0x10]        ;1404
+000030  1c49              ADDLS    r1,r1,#1              ;1404
 000032  e7ed              B        |L4.16|
-;;;1405   
+;;;1408   
                           ENDP
 
                   |L4.52|
@@ -189,18 +189,18 @@
                           AREA ||i.I2C_DATAL_COMPAREX||, CODE, READONLY, ALIGN=2
 
                   I2C_DATAL_COMPAREX PROC
-;;;1351   }
-;;;1352   void I2C_DATAL_COMPAREX(void)
+;;;1354   }
+;;;1355   void I2C_DATAL_COMPAREX(void)
 000000  b530              PUSH     {r4,r5,lr}
-;;;1353   {
+;;;1356   {
 000002  b083              SUB      sp,sp,#0xc
-;;;1354   
-;;;1355   //	TSL2583_init();			////must initial TSL2583,,,for AUTO OTP use..
-;;;1356   //	while(1)
-;;;1357   //	{
-;;;1358   	GET_FLICKER();
+;;;1357   
+;;;1358   //	TSL2583_init();			////must initial TSL2583,,,for AUTO OTP use..
+;;;1359   //	while(1)
+;;;1360   //	{
+;;;1361   	GET_FLICKER();
 000004  f7fffffe          BL       GET_FLICKER
-;;;1359   	I2C_MEMSURE1(STEP , VCOMDC);   //最大找寻 20次，调整的阶数值保存于SURE数组中
+;;;1362   	I2C_MEMSURE1(STEP , VCOMDC);   //最大找寻 20次，调整的阶数值保存于SURE数组中
 000008  4c18              LDR      r4,|L5.108|
 00000a  7921              LDRB     r1,[r4,#4]  ; VCOMDC
 00000c  7960              LDRB     r0,[r4,#5]  ; STEP
@@ -224,59 +224,59 @@
 000034  1c49              ADDLS    r1,r1,#1
 000036  e7f0              B        |L5.26|
                   |L5.56|
-;;;1360   	I2C_DATAL_COMPARE();      //  
-;;;1361       count1=0;
+;;;1363   	I2C_DATAL_COMPARE();      //  
+;;;1364       count1=0;
 000038  2000              MOVS     r0,#0
 00003a  81e0              STRH     r0,[r4,#0xe]
-;;;1362   
-;;;1363   	
-;;;1364   /*在最小值附近停下来。。。后续开启OTP功能即可。。*/
-;;;1365   //		VCOMDC1 = SURE[count2];				 //挑选出最好的VCOM的值，下CODE，看效果。
-;;;1366   //		SHOW_value(3,50,count2);
-;;;1367   //		SHOW_value(3,50,VCOMDC1);
-;;;1368   
-;;;1369   
-;;;1370   
-;;;1371   //		VCOMDC1 = SURE[count2 ] + 7;
-;;;1372   //		VCOMDC1 = SURE[count2];					///////////////2013-12-05
-;;;1373   		VCOMDC1 = SURE[count2];					///////////////2013-12-15
+;;;1365   
+;;;1366   	
+;;;1367   /*在最小值附近停下来。。。后续开启OTP功能即可。。*/
+;;;1368   //		VCOMDC1 = SURE[count2];				 //挑选出最好的VCOM的值，下CODE，看效果。
+;;;1369   //		SHOW_value(3,50,count2);
+;;;1370   //		SHOW_value(3,50,VCOMDC1);
+;;;1371   
+;;;1372   
+;;;1373   
+;;;1374   //		VCOMDC1 = SURE[count2 ] + 7;
+;;;1375   //		VCOMDC1 = SURE[count2];					///////////////2013-12-05
+;;;1376   		VCOMDC1 = SURE[count2];					///////////////2013-12-15
 00003c  480d              LDR      r0,|L5.116|
 00003e  8a21              LDRH     r1,[r4,#0x10]  ; count2
-;;;1374   //	  VCOMDC1 = SURE[count2]+0;  //2014.1.27 count2为最优vcom所在的序号，根据序号在SURE数组找到对应阶数
-;;;1375   //		HX8369_cmd_4(0xb6,VCOMDC1,VCOMDC1,0X00);	   ////write the perfect    vcom value
-;;;1376   
-;;;1377   //			ENTER_LP_mode();
-;;;1378   			MIPI_SPI_Write(0x05,0x39,0xB9,0xff,0x83,0x69); 
+;;;1377   //	  VCOMDC1 = SURE[count2]+0;  //2014.1.27 count2为最优vcom所在的序号，根据序号在SURE数组找到对应阶数
+;;;1378   //		HX8369_cmd_4(0xb6,VCOMDC1,VCOMDC1,0X00);	   ////write the perfect    vcom value
+;;;1379   
+;;;1380   //			ENTER_LP_mode();
+;;;1381   			MIPI_SPI_Write(0x05,0x39,0xB9,0xff,0x83,0x69); 
 000040  23ff              MOVS     r3,#0xff
 000042  22b9              MOVS     r2,#0xb9
-000044  f8300011          LDRH     r0,[r0,r1,LSL #1]     ;1373
-000048  82e0              STRH     r0,[r4,#0x16]         ;1373
+000044  f8300011          LDRH     r0,[r0,r1,LSL #1]     ;1376
+000048  82e0              STRH     r0,[r4,#0x16]         ;1376
 00004a  2169              MOVS     r1,#0x69
 00004c  2083              MOVS     r0,#0x83
 00004e  e9cd0100          STRD     r0,r1,[sp,#0]
 000052  2139              MOVS     r1,#0x39
 000054  2005              MOVS     r0,#5
 000056  f7fffffe          BL       MIPI_SPI_Write
-;;;1379   //				MIPI_SPI_Write(0x04,0x39,0xB6,VCOMDC1,0x28);
-;;;1380   				MIPI_SPI_Write(0x04,0x39,0xB6,VCOMDC1,VCOMDC1);
+;;;1382   //				MIPI_SPI_Write(0x04,0x39,0xB6,VCOMDC1,0x28);
+;;;1383   				MIPI_SPI_Write(0x04,0x39,0xB6,VCOMDC1,VCOMDC1);
 00005a  8ae3              LDRH     r3,[r4,#0x16]  ; VCOMDC1
 00005c  22b6              MOVS     r2,#0xb6
 00005e  2139              MOVS     r1,#0x39
 000060  2004              MOVS     r0,#4
 000062  9300              STR      r3,[sp,#0]
 000064  f7fffffe          BL       MIPI_SPI_Write
-;;;1381   //				
-;;;1382   //			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
-;;;1383   //        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC1);
-;;;1384   //			VIDEO_ON();
-;;;1385   //	}
-;;;1386   //		VCOMDC1 = DATA_SUM1[count2];		////挑选出最小的FLICKER值，显示出来。
-;;;1387   //		SHOW_value(3,125,VCOMDC1);
-;;;1388   
-;;;1389   }
+;;;1384   //				
+;;;1385   //			MIPI_SPI_Write(0x03,0x39,0x00,0x00);
+;;;1386   //        	MIPI_SPI_Write(0x03,0x39,0xD9,VCOMDC1);
+;;;1387   //			VIDEO_ON();
+;;;1388   //	}
+;;;1389   //		VCOMDC1 = DATA_SUM1[count2];		////挑选出最小的FLICKER值，显示出来。
+;;;1390   //		SHOW_value(3,125,VCOMDC1);
+;;;1391   
+;;;1392   }
 000068  b003              ADD      sp,sp,#0xc
 00006a  bd30              POP      {r4,r5,pc}
-;;;1390   void I2C_DATAL_COMPARE(void)
+;;;1393   void I2C_DATAL_COMPARE(void)
                           ENDP
 
                   |L5.108|
@@ -289,92 +289,92 @@
                           AREA ||i.I2C_MEMSURE||, CODE, READONLY, ALIGN=2
 
                   I2C_MEMSURE PROC
-;;;1305   }
-;;;1306   void I2C_MEMSURE(void)
+;;;1308   }
+;;;1309   void I2C_MEMSURE(void)
 000000  252a              MOVS     r5,#0x2a
-;;;1307   { 
-;;;1308   		u16 mm_KEYA7 = 1;
-;;;1309   	int temp;	  //temp 为加的阶数
-;;;1310       u16 a=0x2A,b;
-;;;1311   		SENSOR_Check(0x52);			/////S3		
+;;;1310   { 
+;;;1311   		u16 mm_KEYA7 = 1;
+;;;1312   	int temp;	  //temp 为加的阶数
+;;;1313       u16 a=0x2A,b;
+;;;1314   		SENSOR_Check(0x52);			/////S3		
 000002  2052              MOVS     r0,#0x52
 000004  f7fffffe          BL       SENSOR_Check
-;;;1312   	SENSOR_Check(0x72);			/////S2
+;;;1315   	SENSOR_Check(0x72);			/////S2
 000008  2072              MOVS     r0,#0x72
 00000a  f7fffffe          BL       SENSOR_Check
-;;;1313      while(1)
-;;;1314      {
-;;;1315           	Delay(4);	
-;;;1316      	  	mm_KEYA7 =  KEYA7;
+;;;1316      while(1)
+;;;1317      {
+;;;1318           	Delay(4);	
+;;;1319      	  	mm_KEYA7 =  KEYA7;
 00000e  4c14              LDR      r4,|L6.96|
                   |L6.16|
-000010  2004              MOVS     r0,#4                 ;1315
+000010  2004              MOVS     r0,#4                 ;1318
 000012  f7fffffe          BL       Delay
 000016  6820              LDR      r0,[r4,#0]
 000018  f0100f80          TST      r0,#0x80
-;;;1317      if(mm_KEYA7 == 0)
+;;;1320      if(mm_KEYA7 == 0)
 00001c  d1f8              BNE      |L6.16|
                   |L6.30|
-;;;1318   		{
-;;;1319   	
-;;;1320   			 while(!mm_KEYA7)
-;;;1321   			 {		mm_KEYA7 =  KEYA7;}
+;;;1321   		{
+;;;1322   	
+;;;1323   			 while(!mm_KEYA7)
+;;;1324   			 {		mm_KEYA7 =  KEYA7;}
 00001e  6820              LDR      r0,[r4,#0]
 000020  f0100f80          TST      r0,#0x80
 000024  d0fb              BEQ      |L6.30|
-;;;1322   
-;;;1323   
-;;;1324      
-;;;1325   //	HX8369_cmd_4(0xb6,SURE[sss],SURE[sss],0X00);		  ////set vcom
-;;;1326   	       MIPI_SPI_Write(0x03,0x39,0x00,0x00);
+;;;1325   
+;;;1326   
+;;;1327      
+;;;1328   //	HX8369_cmd_4(0xb6,SURE[sss],SURE[sss],0X00);		  ////set vcom
+;;;1329   	       MIPI_SPI_Write(0x03,0x39,0x00,0x00);
 000026  2300              MOVS     r3,#0
 000028  461a              MOV      r2,r3
 00002a  2139              MOVS     r1,#0x39
 00002c  2003              MOVS     r0,#3
 00002e  f7fffffe          BL       MIPI_SPI_Write
-;;;1327           	MIPI_SPI_Write(0x03,0x39,0xD9,a);
+;;;1330           	MIPI_SPI_Write(0x03,0x39,0xD9,a);
 000032  462b              MOV      r3,r5
 000034  22d9              MOVS     r2,#0xd9
 000036  2139              MOVS     r1,#0x39
 000038  2003              MOVS     r0,#3
 00003a  f7fffffe          BL       MIPI_SPI_Write
-;;;1328   		  Delay(5);
+;;;1331   		  Delay(5);
 00003e  2005              MOVS     r0,#5
 000040  f7fffffe          BL       Delay
-;;;1329   //	 	 READ_IC_A(0XD9,0x00);
-;;;1330   
-;;;1331    //   LCD_DisplayStringLine(100,600,"VCOM");
-;;;1332    SHOW_IC_VALUE_A(300,600,a);
+;;;1332   //	 	 READ_IC_A(0XD9,0x00);
+;;;1333   
+;;;1334    //   LCD_DisplayStringLine(100,600,"VCOM");
+;;;1335    SHOW_IC_VALUE_A(300,600,a);
 000044  f44f7116          MOV      r1,#0x258
 000048  b2ea              UXTB     r2,r5
 00004a  1048              ASRS     r0,r1,#1
 00004c  f7fffffe          BL       SHOW_IC_VALUE_A
-;;;1333    	
-;;;1334   //	SENSOR_Check(0x92);			/////S1
-;;;1335   
-;;;1336   	Delay(5);
+;;;1336    	
+;;;1337   //	SENSOR_Check(0x92);			/////S1
+;;;1338   
+;;;1339   	Delay(5);
 000050  2005              MOVS     r0,#5
 000052  f7fffffe          BL       Delay
-;;;1337           b=	GET_FLICKER();	 ///get flicker value
+;;;1340           b=	GET_FLICKER();	 ///get flicker value
 000056  f7fffffe          BL       GET_FLICKER
-;;;1338   //	  SHOW_IC_VALUE_A(300,600,b);
-;;;1339   	if(b <= 180)
-;;;1340   	{temp=1;  }
-;;;1341   	else if((b>180)&&(b< 180*2))
-;;;1342   	{temp=2; }
-;;;1343   	else
-;;;1344   	{ temp=3;}
-;;;1345   	a=a+1;
+;;;1341   //	  SHOW_IC_VALUE_A(300,600,b);
+;;;1342   	if(b <= 180)
+;;;1343   	{temp=1;  }
+;;;1344   	else if((b>180)&&(b< 180*2))
+;;;1345   	{temp=2; }
+;;;1346   	else
+;;;1347   	{ temp=3;}
+;;;1348   	a=a+1;
 00005a  1c68              ADDS     r0,r5,#1
 00005c  b285              UXTH     r5,r0
 00005e  e7d7              B        |L6.16|
-;;;1346   			
-;;;1347   	}
-;;;1348   	
-;;;1349   
-;;;1350      }
-;;;1351   }
-;;;1352   void I2C_DATAL_COMPAREX(void)
+;;;1349   			
+;;;1350   	}
+;;;1351   	
+;;;1352   
+;;;1353      }
+;;;1354   }
+;;;1355   void I2C_DATAL_COMPAREX(void)
                           ENDP
 
                   |L6.96|
@@ -383,196 +383,196 @@
                           AREA ||i.I2C_MEMSURE1||, CODE, READONLY, ALIGN=2
 
                   I2C_MEMSURE1 PROC
-;;;1235   
-;;;1236   void I2C_MEMSURE1(int kk  , int vcomdcdata)
+;;;1238   
+;;;1239   void I2C_MEMSURE1(int kk  , int vcomdcdata)
 000000  e92d4ff0          PUSH     {r4-r11,lr}
-;;;1237   { int i=0,tep1=0,tep2=0,flag=0; //2014.1.27  HFZ
+;;;1240   { int i=0,tep1=0,tep2=0,flag=0; //2014.1.27  HFZ
 000004  f04f0500          MOV      r5,#0
 000008  b083              SUB      sp,sp,#0xc
 00000a  4689              MOV      r9,r1
 00000c  f1b00800          SUBS     r8,r0,#0
 000010  462c              MOV      r4,r5
-;;;1238   	int sss=0,yyy=0,aaa=0,temp;	  //temp 为加的阶数
+;;;1241   	int sss=0,yyy=0,aaa=0,temp;	  //temp 为加的阶数
 000012  462e              MOV      r6,r5
 000014  46aa              MOV      r10,r5
 000016  462f              MOV      r7,r5
-;;;1239   	for (yyy=0;yyy<kk;yyy++)	 //Ω?
-;;;1240   	{SURE[sss]=vcomdcdata+aaa;
-;;;1241   
-;;;1242   //	HX8369_cmd_4(0xb6,SURE[sss],SURE[sss],0X00);		  ////set vcom
-;;;1243   	MIPI_SPI_Write(0x05,0x39,0xB9,0xff,0x83,0x69); 
-;;;1244   //				MIPI_SPI_Write(0x04,0x39,0xB6,SURE[sss],0x28);
-;;;1245   		MIPI_SPI_Write(0x04,0x39,0xB6,SURE[sss],SURE[sss]);
-;;;1246   		
-;;;1247   //		MIPI_SPI_Write(0x03,0x39,0x00,0x00);
-;;;1248   //        	MIPI_SPI_Write(0x03,0x39,0xD9,SURE[sss]);
-;;;1249   //	 SHOW_IC_VALUE_A(300,600,SURE[sss]);
-;;;1250   		
-;;;1251   	SENSOR_Check(0x52);			/////S3		
-;;;1252   	SENSOR_Check(0x72);			/////S2
-;;;1253   
-;;;1254   	
-;;;1255   //	SENSOR_Check(0x92);			/////S1
+;;;1242   	for (yyy=0;yyy<kk;yyy++)	 //Ω?
+;;;1243   	{SURE[sss]=vcomdcdata+aaa;
+;;;1244   
+;;;1245   //	HX8369_cmd_4(0xb6,SURE[sss],SURE[sss],0X00);		  ////set vcom
+;;;1246   	MIPI_SPI_Write(0x05,0x39,0xB9,0xff,0x83,0x69); 
+;;;1247   //				MIPI_SPI_Write(0x04,0x39,0xB6,SURE[sss],0x28);
+;;;1248   		MIPI_SPI_Write(0x04,0x39,0xB6,SURE[sss],SURE[sss]);
+;;;1249   		
+;;;1250   //		MIPI_SPI_Write(0x03,0x39,0x00,0x00);
+;;;1251   //        	MIPI_SPI_Write(0x03,0x39,0xD9,SURE[sss]);
+;;;1252   //	 SHOW_IC_VALUE_A(300,600,SURE[sss]);
+;;;1253   		
+;;;1254   	SENSOR_Check(0x52);			/////S3		
+;;;1255   	SENSOR_Check(0x72);			/////S2
 ;;;1256   
-;;;1257   	Delay(5);
-;;;1258   	DATA_SUM1[count1] =	GET_FLICKER();	 ///get flicker value
-;;;1259   ///////////////*------新增一部分光感ID检验功能，一旦光感失效，即停止在此处。-----*/
-;;;1260     //------2014.1.27--HFZ-START-------
-;;;1261   		if (flag==0)                             //判断是否找到了最低点
-;;;1262   			{
-;;;1263   				tep2=tep1=DATA_SUM1[count1];
-;;;1264   				flag=1;
-;;;1265   			}
-;;;1266   		else
-;;;1267   			{ 
-;;;1268   				tep1=DATA_SUM1[count1];
-;;;1269   					if(tep1<tep2)
-;;;1270   					{
-;;;1271   							tep2=tep1;
-;;;1272   							 flag=1;  //此处flag再次赋值是为了在一旦再次出现更小值的情况，清除flag计数 令后续可以找到真正的最小值
-;;;1273   					}
-;;;1274   					else   // if (tep1>tep2)       //如果找到了最低点，则继续寻找两次(flag=1~3)
-;;;1275   					  	flag++;
-;;;1276   					
-;;;1277   					if ((flag==3) & (tep2<300))    //判断是否是真的最低点，再确认是否小于预定值，如果是则停止寻找以节约时间。
-;;;1278   					{
-;;;1279   						for(i=(count1+1);i<STEP;i++)
-;;;1280   							DATA_SUM1[i]=500;                     //填充剩下的数组，否则后续处理会出错
-;;;1281   					
-;;;1282   							yyy=kk;     //改变判断条件，使本函数提前结束
-;;;1283   					}
-;;;1284   			}
-;;;1285   		  //
-;;;1286   	 //------2014.1.27----HFZ--END------	
-;;;1287   				
-;;;1288   //	temp=1;			
-;;;1289   	if(DATA_SUM1[count1] <180)
-;;;1290   	{temp=1;  }
-;;;1291   	else if((DATA_SUM1[count1]>=180)&&(DATA_SUM1[count1] < 200*2))
-;;;1292   	{temp=2; }
-;;;1293   	else if((DATA_SUM1[count1]>=400)&&(DATA_SUM1[count1] < 400*2))
-;;;1294   	{ temp=4;}
-;;;1295   	else
-;;;1296   	{ temp=8;}
-;;;1297   //	SHOW_value(3,125,DATA_SUM1[coufnt1]);
-;;;1298   	count1=count1+1;
-;;;1299   //	SHOW_value(3,90,sss);
-;;;1300   //	SHOW_value(3,50,vcomdcdata+aaa); //DelayKEY(1);
-;;;1301   
-;;;1302   	aaa=aaa+temp;
-;;;1303   	sss=sss+1;
-;;;1304   	}
-;;;1305   }
+;;;1257   	
+;;;1258   //	SENSOR_Check(0x92);			/////S1
+;;;1259   
+;;;1260   	Delay(5);
+;;;1261   	DATA_SUM1[count1] =	GET_FLICKER();	 ///get flicker value
+;;;1262   ///////////////*------新增一部分光感ID检验功能，一旦光感失效，即停止在此处。-----*/
+;;;1263     //------2014.1.27--HFZ-START-------
+;;;1264   		if (flag==0)                             //判断是否找到了最低点
+;;;1265   			{
+;;;1266   				tep2=tep1=DATA_SUM1[count1];
+;;;1267   				flag=1;
+;;;1268   			}
+;;;1269   		else
+;;;1270   			{ 
+;;;1271   				tep1=DATA_SUM1[count1];
+;;;1272   					if(tep1<tep2)
+;;;1273   					{
+;;;1274   							tep2=tep1;
+;;;1275   							 flag=1;  //此处flag再次赋值是为了在一旦再次出现更小值的情况，清除flag计数 令后续可以找到真正的最小值
+;;;1276   					}
+;;;1277   					else   // if (tep1>tep2)       //如果找到了最低点，则继续寻找两次(flag=1~3)
+;;;1278   					  	flag++;
+;;;1279   					
+;;;1280   					if ((flag==3) & (tep2<300))    //判断是否是真的最低点，再确认是否小于预定值，如果是则停止寻找以节约时间。
+;;;1281   					{
+;;;1282   						for(i=(count1+1);i<STEP;i++)
+;;;1283   							DATA_SUM1[i]=500;                     //填充剩下的数组，否则后续处理会出错
+;;;1284   					
+;;;1285   							yyy=kk;     //改变判断条件，使本函数提前结束
+;;;1286   					}
+;;;1287   			}
+;;;1288   		  //
+;;;1289   	 //------2014.1.27----HFZ--END------	
+;;;1290   				
+;;;1291   //	temp=1;			
+;;;1292   	if(DATA_SUM1[count1] <180)
+;;;1293   	{temp=1;  }
+;;;1294   	else if((DATA_SUM1[count1]>=180)&&(DATA_SUM1[count1] < 200*2))
+;;;1295   	{temp=2; }
+;;;1296   	else if((DATA_SUM1[count1]>=400)&&(DATA_SUM1[count1] < 400*2))
+;;;1297   	{ temp=4;}
+;;;1298   	else
+;;;1299   	{ temp=8;}
+;;;1300   //	SHOW_value(3,125,DATA_SUM1[coufnt1]);
+;;;1301   	count1=count1+1;
+;;;1302   //	SHOW_value(3,90,sss);
+;;;1303   //	SHOW_value(3,50,vcomdcdata+aaa); //DelayKEY(1);
+;;;1304   
+;;;1305   	aaa=aaa+temp;
+;;;1306   	sss=sss+1;
+;;;1307   	}
+;;;1308   }
 000018  bfdc              ITT      LE
 00001a  b003              ADDLE    sp,sp,#0xc
 00001c  e8bd8ff0          POPLE    {r4-r11,pc}
                   |L7.32|
-000020  eb090007          ADD      r0,r9,r7              ;1240
+000020  eb090007          ADD      r0,r9,r7              ;1243
 000024  f8dfb0f4          LDR      r11,|L7.284|
-000028  2169              MOVS     r1,#0x69              ;1243
-00002a  23ff              MOVS     r3,#0xff              ;1243
-00002c  f82b0016          STRH     r0,[r11,r6,LSL #1]    ;1240
-000030  2083              MOVS     r0,#0x83              ;1243
-000032  e9cd0100          STRD     r0,r1,[sp,#0]         ;1243
-000036  22b9              MOVS     r2,#0xb9              ;1243
-000038  2139              MOVS     r1,#0x39              ;1243
-00003a  2005              MOVS     r0,#5                 ;1243
+000028  2169              MOVS     r1,#0x69              ;1246
+00002a  23ff              MOVS     r3,#0xff              ;1246
+00002c  f82b0016          STRH     r0,[r11,r6,LSL #1]    ;1243
+000030  2083              MOVS     r0,#0x83              ;1246
+000032  e9cd0100          STRD     r0,r1,[sp,#0]         ;1246
+000036  22b9              MOVS     r2,#0xb9              ;1246
+000038  2139              MOVS     r1,#0x39              ;1246
+00003a  2005              MOVS     r0,#5                 ;1246
 00003c  f7fffffe          BL       MIPI_SPI_Write
-000040  f83b3016          LDRH     r3,[r11,r6,LSL #1]    ;1245
-000044  22b6              MOVS     r2,#0xb6              ;1245
-000046  2139              MOVS     r1,#0x39              ;1245
-000048  2004              MOVS     r0,#4                 ;1245
-00004a  9300              STR      r3,[sp,#0]            ;1245
+000040  f83b3016          LDRH     r3,[r11,r6,LSL #1]    ;1248
+000044  22b6              MOVS     r2,#0xb6              ;1248
+000046  2139              MOVS     r1,#0x39              ;1248
+000048  2004              MOVS     r0,#4                 ;1248
+00004a  9300              STR      r3,[sp,#0]            ;1248
 00004c  f7fffffe          BL       MIPI_SPI_Write
-000050  2052              MOVS     r0,#0x52              ;1251
+000050  2052              MOVS     r0,#0x52              ;1254
 000052  f7fffffe          BL       sensor_check
 000056  b150              CBZ      r0,|L7.110|
 000058  4a31              LDR      r2,|L7.288|
-00005a  2150              MOVS     r1,#0x50              ;1251
-00005c  2064              MOVS     r0,#0x64              ;1251
+00005a  2150              MOVS     r1,#0x50              ;1254
+00005c  2064              MOVS     r0,#0x64              ;1254
 00005e  f7fffffe          BL       LCD_DisplayStringLine
 000062  4a30              LDR      r2,|L7.292|
-000064  2132              MOVS     r1,#0x32              ;1251
-000066  2014              MOVS     r0,#0x14              ;1251
+000064  2132              MOVS     r1,#0x32              ;1254
+000066  2014              MOVS     r0,#0x14              ;1254
 000068  f7fffffe          BL       LCD_DisplayStringLine
                   |L7.108|
 00006c  e7fe              B        |L7.108|
                   |L7.110|
-00006e  2072              MOVS     r0,#0x72              ;1252
+00006e  2072              MOVS     r0,#0x72              ;1255
 000070  f7fffffe          BL       sensor_check
 000074  b150              CBZ      r0,|L7.140|
 000076  4a2c              LDR      r2,|L7.296|
-000078  2150              MOVS     r1,#0x50              ;1252
-00007a  208c              MOVS     r0,#0x8c              ;1252
+000078  2150              MOVS     r1,#0x50              ;1255
+00007a  208c              MOVS     r0,#0x8c              ;1255
 00007c  f7fffffe          BL       LCD_DisplayStringLine
 000080  4a28              LDR      r2,|L7.292|
-000082  2132              MOVS     r1,#0x32              ;1252
-000084  2014              MOVS     r0,#0x14              ;1252
+000082  2132              MOVS     r1,#0x32              ;1255
+000084  2014              MOVS     r0,#0x14              ;1255
 000086  f7fffffe          BL       LCD_DisplayStringLine
                   |L7.138|
 00008a  e7fe              B        |L7.138|
                   |L7.140|
-00008c  2005              MOVS     r0,#5                 ;1257
+00008c  2005              MOVS     r0,#5                 ;1260
 00008e  f7fffffe          BL       Delay
 000092  f7fffffe          BL       GET_FLICKER
 000096  f8dfc098          LDR      r12,|L7.304|
-00009a  4601              MOV      r1,r0                 ;1258
+00009a  4601              MOV      r1,r0                 ;1261
 00009c  f8dfb08c          LDR      r11,|L7.300|
-0000a0  f8bc000e          LDRH     r0,[r12,#0xe]         ;1258  ; count1
-0000a4  f82b1010          STRH     r1,[r11,r0,LSL #1]    ;1258
+0000a0  f8bc000e          LDRH     r0,[r12,#0xe]         ;1261  ; count1
+0000a4  f82b1010          STRH     r1,[r11,r0,LSL #1]    ;1261
 0000a8  b10c              CBZ      r4,|L7.174|
-0000aa  42a9              CMP      r1,r5                 ;1269
+0000aa  42a9              CMP      r1,r5                 ;1272
 0000ac  da02              BGE      |L7.180|
                   |L7.174|
-0000ae  460d              MOV      r5,r1                 ;1271
-0000b0  2401              MOVS     r4,#1                 ;1272
+0000ae  460d              MOV      r5,r1                 ;1274
+0000b0  2401              MOVS     r4,#1                 ;1275
 0000b2  e013              B        |L7.220|
                   |L7.180|
-0000b4  1c64              ADDS     r4,r4,#1              ;1272
-0000b6  2c03              CMP      r4,#3                 ;1277
+0000b4  1c64              ADDS     r4,r4,#1              ;1275
+0000b6  2c03              CMP      r4,#3                 ;1280
 0000b8  d110              BNE      |L7.220|
-0000ba  f5b57f96          CMP      r5,#0x12c             ;1277
+0000ba  f5b57f96          CMP      r5,#0x12c             ;1280
 0000be  da0d              BGE      |L7.220|
-0000c0  f89c3005          LDRB     r3,[r12,#5]           ;1279  ; STEP
-0000c4  1c42              ADDS     r2,r0,#1              ;1279
-0000c6  429a              CMP      r2,r3                 ;1279
-0000c8  bfb8              IT       LT                    ;1280
-0000ca  f44f71fa          MOVLT    r1,#0x1f4             ;1280
+0000c0  f89c3005          LDRB     r3,[r12,#5]           ;1282  ; STEP
+0000c4  1c42              ADDS     r2,r0,#1              ;1282
+0000c6  429a              CMP      r2,r3                 ;1282
+0000c8  bfb8              IT       LT                    ;1283
+0000ca  f44f71fa          MOVLT    r1,#0x1f4             ;1283
 0000ce  da04              BGE      |L7.218|
                   |L7.208|
-0000d0  f82b1012          STRH     r1,[r11,r2,LSL #1]    ;1280
-0000d4  1c52              ADDS     r2,r2,#1              ;1280
-0000d6  429a              CMP      r2,r3                 ;1279
+0000d0  f82b1012          STRH     r1,[r11,r2,LSL #1]    ;1283
+0000d4  1c52              ADDS     r2,r2,#1              ;1283
+0000d6  429a              CMP      r2,r3                 ;1282
 0000d8  dbfa              BLT      |L7.208|
                   |L7.218|
-0000da  46c2              MOV      r10,r8                ;1282
+0000da  46c2              MOV      r10,r8                ;1285
                   |L7.220|
-0000dc  f83b1010          LDRH     r1,[r11,r0,LSL #1]    ;1289
-0000e0  29b4              CMP      r1,#0xb4              ;1289
-0000e2  bf38              IT       CC                    ;1290
-0000e4  2201              MOVCC    r2,#1                 ;1290
+0000dc  f83b1010          LDRH     r1,[r11,r0,LSL #1]    ;1292
+0000e0  29b4              CMP      r1,#0xb4              ;1292
+0000e2  bf38              IT       CC                    ;1293
+0000e4  2201              MOVCC    r2,#1                 ;1293
 0000e6  d30c              BCC      |L7.258|
-0000e8  f1a102b4          SUB      r2,r1,#0xb4           ;1291
-0000ec  2adc              CMP      r2,#0xdc              ;1291
-0000ee  bf38              IT       CC                    ;1292
-0000f0  2202              MOVCC    r2,#2                 ;1292
+0000e8  f1a102b4          SUB      r2,r1,#0xb4           ;1294
+0000ec  2adc              CMP      r2,#0xdc              ;1294
+0000ee  bf38              IT       CC                    ;1295
+0000f0  2202              MOVCC    r2,#2                 ;1295
 0000f2  d306              BCC      |L7.258|
-0000f4  f5a171c8          SUB      r1,r1,#0x190          ;1291
-0000f8  f5b17fc8          CMP      r1,#0x190             ;1293
-0000fc  bf34              ITE      CC                    ;1294
-0000fe  2204              MOVCC    r2,#4                 ;1294
-000100  2208              MOVCS    r2,#8                 ;1296
+0000f4  f5a171c8          SUB      r1,r1,#0x190          ;1294
+0000f8  f5b17fc8          CMP      r1,#0x190             ;1296
+0000fc  bf34              ITE      CC                    ;1297
+0000fe  2204              MOVCC    r2,#4                 ;1297
+000100  2208              MOVCS    r2,#8                 ;1299
                   |L7.258|
-000102  1c40              ADDS     r0,r0,#1              ;1296
-000104  1c76              ADDS     r6,r6,#1              ;1302
-000106  f10a0a01          ADD      r10,r10,#1            ;1302
-00010a  f8ac000e          STRH     r0,[r12,#0xe]         ;1298
-00010e  4417              ADD      r7,r7,r2              ;1302
-000110  45c2              CMP      r10,r8                ;1239
+000102  1c40              ADDS     r0,r0,#1              ;1299
+000104  1c76              ADDS     r6,r6,#1              ;1305
+000106  f10a0a01          ADD      r10,r10,#1            ;1305
+00010a  f8ac000e          STRH     r0,[r12,#0xe]         ;1301
+00010e  4417              ADD      r7,r7,r2              ;1305
+000110  45c2              CMP      r10,r8                ;1242
 000112  db85              BLT      |L7.32|
 000114  b003              ADD      sp,sp,#0xc
 000116  e8bd8ff0          POP      {r4-r11,pc}
-;;;1306   void I2C_MEMSURE(void)
+;;;1309   void I2C_MEMSURE(void)
                           ENDP
 
 00011a  0000              DCW      0x0000
@@ -934,9 +934,12 @@
 00003c  4669              MOV      r1,sp
 00003e  4628              MOV      r0,r5
 000040  f7fffffe          BL       GPIO_Init
-;;;1065   }
+;;;1065       
+;;;1066       
+;;;1067       
+;;;1068   }
 000044  bd38              POP      {r3-r5,pc}
-;;;1066   
+;;;1069   
                           ENDP
 
 000046  0000              DCW      0x0000
@@ -961,10 +964,10 @@
 ;;;452       while(OTP_FLAG)
 ;;;453       {
 ;;;454    		mm_KEYA7 = 	KEYA7;
-000004  f8df81a4          LDR      r8,|L12.428|
+000004  f8df81b4          LDR      r8,|L12.444|
 ;;;455    		mm_KEYA8 =  KEYA8;
 ;;;456    		mm_KEYC6 = 	KEYC6;
-000008  f8dfa1a4          LDR      r10,|L12.432|
+000008  f8dfa1b4          LDR      r10,|L12.448|
 ;;;457    		
 ;;;458    		if(mm_KEYA7 == 0)
 ;;;459    		{
@@ -973,7 +976,7 @@
 ;;;462    			{	mm_KEYA7 =  KEYA7;}
 ;;;463    
 ;;;464    			VCOMDC++;
-00000c  f8df91a4          LDR      r9,|L12.436|
+00000c  f8df91b4          LDR      r9,|L12.452|
 000010  2401              MOVS     r4,#1                 ;449
 ;;;465                if(VCOMDC>=0x7F){VCOMDC=0x7F;}
 000012  f04f0b7f          MOV      r11,#0x7f
@@ -1051,7 +1054,7 @@
 ;;;482    		}
 ;;;483    		if(mm_KEYC6 == 0)
 0000b2  2f00              CMP      r7,#0
-0000b4  d172              BNE      |L12.412|
+0000b4  d17a              BNE      |L12.428|
                   |L12.182|
 ;;;484    		{
 ;;;485    	
@@ -1062,113 +1065,122 @@
 0000be  d0fa              BEQ      |L12.182|
 ;;;488    			aat = 1;
 0000c0  2001              MOVS     r0,#1
-0000c2  f8a90012          STRH     r0,[r9,#0x12]
-0000c6  2106              MOVS     r1,#6
-0000c8  2070              MOVS     r0,#0x70
-0000ca  f7fffffe          BL       SPI_Send
-0000ce  f6420120          MOV      r1,#0x2820
-0000d2  2072              MOVS     r0,#0x72
+0000c2  4c41              LDR      r4,|L12.456|
+0000c4  f8a90012          STRH     r0,[r9,#0x12]
+0000c8  03c1              LSLS     r1,r0,#15
+0000ca  4620              MOV      r0,r4
+0000cc  f7fffffe          BL       GPIO_SetBits
+0000d0  2106              MOVS     r1,#6
+0000d2  2070              MOVS     r0,#0x70
 0000d4  f7fffffe          BL       SPI_Send
-0000d8  f44f70fa          MOV      r0,#0x1f4
-0000dc  f7fffffe          BL       Delay
-0000e0  2160              MOVS     r1,#0x60
-0000e2  2070              MOVS     r0,#0x70
-0000e4  f7fffffe          BL       SPI_Send
-0000e8  f44f4100          MOV      r1,#0x8000
-0000ec  2072              MOVS     r0,#0x72
-0000ee  f7fffffe          BL       SPI_Send
-0000f2  2160              MOVS     r1,#0x60
-0000f4  2070              MOVS     r0,#0x70
+0000d8  f6420120          MOV      r1,#0x2820
+0000dc  2072              MOVS     r0,#0x72
+0000de  f7fffffe          BL       SPI_Send
+0000e2  2032              MOVS     r0,#0x32
+0000e4  f7fffffe          BL       Delay
+0000e8  2160              MOVS     r1,#0x60
+0000ea  2070              MOVS     r0,#0x70
+0000ec  f7fffffe          BL       SPI_Send
+0000f0  f44f4100          MOV      r1,#0x8000
+0000f4  2072              MOVS     r0,#0x72
 0000f6  f7fffffe          BL       SPI_Send
-0000fa  f44f4140          MOV      r1,#0xc000
-0000fe  2072              MOVS     r0,#0x72
-000100  f7fffffe          BL       SPI_Send
-000104  2160              MOVS     r1,#0x60
-000106  2070              MOVS     r0,#0x70
+0000fa  2160              MOVS     r1,#0x60
+0000fc  2070              MOVS     r0,#0x70
+0000fe  f7fffffe          BL       SPI_Send
+000102  f44f4140          MOV      r1,#0xc000
+000106  2072              MOVS     r0,#0x72
 000108  f7fffffe          BL       SPI_Send
-00010c  f44f4142          MOV      r1,#0xc200
-000110  2072              MOVS     r0,#0x72
-000112  f7fffffe          BL       SPI_Send
-000116  2160              MOVS     r1,#0x60
-000118  2070              MOVS     r0,#0x70
+00010c  2160              MOVS     r1,#0x60
+00010e  2070              MOVS     r0,#0x70
+000110  f7fffffe          BL       SPI_Send
+000114  f44f4142          MOV      r1,#0xc200
+000118  2072              MOVS     r0,#0x72
 00011a  f7fffffe          BL       SPI_Send
-00011e  f24c2180          MOV      r1,#0xc280
-000122  2072              MOVS     r0,#0x72
-000124  f7fffffe          BL       SPI_Send
-000128  2001              MOVS     r0,#1
-00012a  f7fffffe          BL       Delay
-00012e  2160              MOVS     r1,#0x60
-000130  2070              MOVS     r0,#0x70
-000132  f7fffffe          BL       SPI_Send
-000136  f44f4142          MOV      r1,#0xc200
-00013a  2072              MOVS     r0,#0x72
-00013c  f7fffffe          BL       SPI_Send
-000140  2160              MOVS     r1,#0x60
-000142  2070              MOVS     r0,#0x70
+00011e  2160              MOVS     r1,#0x60
+000120  2070              MOVS     r0,#0x70
+000122  f7fffffe          BL       SPI_Send
+000126  f24c2180          MOV      r1,#0xc280
+00012a  2072              MOVS     r0,#0x72
+00012c  f7fffffe          BL       SPI_Send
+000130  2001              MOVS     r0,#1
+000132  f7fffffe          BL       Delay
+000136  2160              MOVS     r1,#0x60
+000138  2070              MOVS     r0,#0x70
+00013a  f7fffffe          BL       SPI_Send
+00013e  f44f4142          MOV      r1,#0xc200
+000142  2072              MOVS     r0,#0x72
 000144  f7fffffe          BL       SPI_Send
-000148  f44f4102          MOV      r1,#0x8200
-00014c  2072              MOVS     r0,#0x72
-00014e  f7fffffe          BL       SPI_Send
+000148  f44f4100          MOV      r1,#0x8000
+00014c  4620              MOV      r0,r4
+00014e  f7fffffe          BL       GPIO_ResetBits
 000152  2160              MOVS     r1,#0x60
 000154  2070              MOVS     r0,#0x70
 000156  f7fffffe          BL       SPI_Send
-00015a  f44f7100          MOV      r1,#0x200
+00015a  f44f4102          MOV      r1,#0x8200
 00015e  2072              MOVS     r0,#0x72
 000160  f7fffffe          BL       SPI_Send
 000164  2160              MOVS     r1,#0x60
 000166  2070              MOVS     r0,#0x70
 000168  f7fffffe          BL       SPI_Send
-00016c  2140              MOVS     r1,#0x40
+00016c  1561              ASRS     r1,r4,#21
 00016e  2072              MOVS     r0,#0x72
 000170  f7fffffe          BL       SPI_Send
 000174  2160              MOVS     r1,#0x60
 000176  2070              MOVS     r0,#0x70
 000178  f7fffffe          BL       SPI_Send
-00017c  2100              MOVS     r1,#0
+00017c  2140              MOVS     r1,#0x40
 00017e  2072              MOVS     r0,#0x72
 000180  f7fffffe          BL       SPI_Send
+000184  2160              MOVS     r1,#0x60
+000186  2070              MOVS     r0,#0x70
+000188  f7fffffe          BL       SPI_Send
+00018c  2100              MOVS     r1,#0
+00018e  2072              MOVS     r0,#0x72
+000190  f7fffffe          BL       SPI_Send
 ;;;489                 MTP_VCOM();
 ;;;490    			FontR = FontG = FontB = 0;
-000184  480c              LDR      r0,|L12.440|
-000186  2500              MOVS     r5,#0
-000188  7005              STRB     r5,[r0,#0]
-00018a  480c              LDR      r0,|L12.444|
-00018c  7005              STRB     r5,[r0,#0]
-00018e  480c              LDR      r0,|L12.448|
-000190  7005              STRB     r5,[r0,#0]
+000194  480d              LDR      r0,|L12.460|
+000196  2500              MOVS     r5,#0
+000198  7005              STRB     r5,[r0,#0]
+00019a  480d              LDR      r0,|L12.464|
+00019c  7005              STRB     r5,[r0,#0]
+00019e  480d              LDR      r0,|L12.468|
+0001a0  7005              STRB     r5,[r0,#0]
 ;;;491    
 ;;;492    			Soft_reset();
-000192  f7fffffe          BL       Soft_reset
+0001a2  f7fffffe          BL       Soft_reset
 ;;;493    			OTP_FLAG = 0;
-000196  2400              MOVS     r4,#0
+0001a6  2400              MOVS     r4,#0
 ;;;494    			aat = 0;
-000198  f8a95012          STRH     r5,[r9,#0x12]
-                  |L12.412|
+0001a8  f8a95012          STRH     r5,[r9,#0x12]
+                  |L12.428|
 ;;;495    		}
-;;;496    		Delay(25);	
-00019c  2019              MOVS     r0,#0x19
-00019e  f7fffffe          BL       Delay
-0001a2  2c00              CMP      r4,#0                 ;452
-0001a4  f47faf37          BNE      |L12.22|
+;;;496    		Delay(1);	
+0001ac  2001              MOVS     r0,#1
+0001ae  f7fffffe          BL       Delay
+0001b2  2c00              CMP      r4,#0                 ;452
+0001b4  f47faf2f          BNE      |L12.22|
 ;;;497    		
 ;;;498    		
 ;;;499    	}
 ;;;500    }
-0001a8  e8bd9ff0          POP      {r4-r12,pc}
+0001b8  e8bd9ff0          POP      {r4-r12,pc}
 ;;;501    
                           ENDP
 
-                  |L12.428|
-                          DCD      0x40010808
-                  |L12.432|
-                          DCD      0x40011000
-                  |L12.436|
-                          DCD      ||.data||
-                  |L12.440|
-                          DCD      FontB
                   |L12.444|
-                          DCD      FontG
+                          DCD      0x40010808
                   |L12.448|
+                          DCD      0x40011000
+                  |L12.452|
+                          DCD      ||.data||
+                  |L12.456|
+                          DCD      0x40010800
+                  |L12.460|
+                          DCD      FontB
+                  |L12.464|
+                          DCD      FontG
+                  |L12.468|
                           DCD      FontR
 
                           AREA ||i.MDelay||, CODE, READONLY, ALIGN=2
@@ -1206,353 +1218,353 @@
                           AREA ||i.MTP||, CODE, READONLY, ALIGN=1
 
                   MTP PROC
-;;;1405   
-;;;1406   void MTP(void)
+;;;1408   
+;;;1409   void MTP(void)
 000000  b510              PUSH     {r4,lr}
-;;;1407   {
-;;;1408   	///display off
-;;;1409   			SSD1963GPIOOUTCOM(0xBC);		                
+;;;1410   {
+;;;1411   	///display off
+;;;1412   			SSD1963GPIOOUTCOM(0xBC);		                
 000002  20bc              MOVS     r0,#0xbc
 000004  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1410   	SSD1963GPIOOUTDATA_16(0x0001);					
+;;;1413   	SSD1963GPIOOUTDATA_16(0x0001);					
 000008  2001              MOVS     r0,#1
 00000a  f7fffffe          BL       SSD1963GPIOOUTDATA_16
-;;;1411   			SSD1963GPIOOUTCOM(0xbf);
+;;;1414   			SSD1963GPIOOUTCOM(0xbf);
 00000e  20bf              MOVS     r0,#0xbf
 000010  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1412   	SSD1963GPIOOUTDATA_18(0x28);	  //
+;;;1415   	SSD1963GPIOOUTDATA_18(0x28);	  //
 000014  2028              MOVS     r0,#0x28
 000016  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1413   	Delay(5);			 //delay 40ms
+;;;1416   	Delay(5);			 //delay 40ms
 00001a  2005              MOVS     r0,#5
 00001c  f7fffffe          BL       Delay
-;;;1414   
-;;;1415   			SSD1963GPIOOUTCOM(0xBC);		                
+;;;1417   
+;;;1418   			SSD1963GPIOOUTCOM(0xBC);		                
 000020  20bc              MOVS     r0,#0xbc
 000022  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1416   	SSD1963GPIOOUTDATA_16(0x0002);					
+;;;1419   	SSD1963GPIOOUTDATA_16(0x0002);					
 000026  2002              MOVS     r0,#2
 000028  f7fffffe          BL       SSD1963GPIOOUTDATA_16
-;;;1417   			SSD1963GPIOOUTCOM(0xbf);
+;;;1420   			SSD1963GPIOOUTCOM(0xbf);
 00002c  20bf              MOVS     r0,#0xbf
 00002e  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1418   	SSD1963GPIOOUTDATA_18(0xb7);	  //
+;;;1421   	SSD1963GPIOOUTDATA_18(0xb7);	  //
 000032  20b7              MOVS     r0,#0xb7
 000034  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1419   	SSD1963GPIOOUTDATA_18(0x5a);
+;;;1422   	SSD1963GPIOOUTDATA_18(0x5a);
 000038  205a              MOVS     r0,#0x5a
 00003a  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1420   	MDelay(20);			   ////delay 1ms
+;;;1423   	MDelay(20);			   ////delay 1ms
 00003e  2014              MOVS     r0,#0x14
 000040  f7fffffe          BL       MDelay
-;;;1421   
-;;;1422   	//////////set otp_index[8:0]
-;;;1423   			SSD1963GPIOOUTCOM(0xBC);		                
+;;;1424   
+;;;1425   	//////////set otp_index[8:0]
+;;;1426   			SSD1963GPIOOUTCOM(0xBC);		                
 000044  20bc              MOVS     r0,#0xbc
 000046  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1424   	SSD1963GPIOOUTDATA_16(0x0006);					
+;;;1427   	SSD1963GPIOOUTDATA_16(0x0006);					
 00004a  2006              MOVS     r0,#6
 00004c  f7fffffe          BL       SSD1963GPIOOUTDATA_16
-;;;1425   			SSD1963GPIOOUTCOM(0xbf);
+;;;1428   			SSD1963GPIOOUTCOM(0xbf);
 000050  20bf              MOVS     r0,#0xbf
 000052  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1426   	SSD1963GPIOOUTDATA_18(0xb7);	  //
+;;;1429   	SSD1963GPIOOUTDATA_18(0xb7);	  //
 000056  20b7              MOVS     r0,#0xb7
 000058  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1427   	SSD1963GPIOOUTDATA_18(0x5a);
+;;;1430   	SSD1963GPIOOUTDATA_18(0x5a);
 00005c  205a              MOVS     r0,#0x5a
 00005e  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1428   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1431   	SSD1963GPIOOUTDATA_18(0x00);
 000062  2000              MOVS     r0,#0
 000064  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1429   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1432   	SSD1963GPIOOUTDATA_18(0x00);
 000068  2000              MOVS     r0,#0
 00006a  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1430   	SSD1963GPIOOUTDATA_18(0x0d);		   /////烧录otp的0x0d的VCOM_F1
+;;;1433   	SSD1963GPIOOUTDATA_18(0x0d);		   /////烧录otp的0x0d的VCOM_F1
 00006e  200d              MOVS     r0,#0xd
 000070  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1431   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1434   	SSD1963GPIOOUTDATA_18(0x00);
 000074  2000              MOVS     r0,#0
 000076  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1432   	MDelay(10);	
+;;;1435   	MDelay(10);	
 00007a  200a              MOVS     r0,#0xa
 00007c  f7fffffe          BL       MDelay
-;;;1433   	
-;;;1434   	///////////////set otp_mask[7:0]
-;;;1435   			SSD1963GPIOOUTCOM(0xBC);		               
+;;;1436   	
+;;;1437   	///////////////set otp_mask[7:0]
+;;;1438   			SSD1963GPIOOUTCOM(0xBC);		               
 000080  20bc              MOVS     r0,#0xbc
 000082  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1436   	SSD1963GPIOOUTDATA_16(0x0006);						 
+;;;1439   	SSD1963GPIOOUTDATA_16(0x0006);						 
 000086  2006              MOVS     r0,#6
 000088  f7fffffe          BL       SSD1963GPIOOUTDATA_16
-;;;1437   			SSD1963GPIOOUTCOM(0xbf);
+;;;1440   			SSD1963GPIOOUTCOM(0xbf);
 00008c  20bf              MOVS     r0,#0xbf
 00008e  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1438   	SSD1963GPIOOUTDATA_18(0xb7);	  //
+;;;1441   	SSD1963GPIOOUTDATA_18(0xb7);	  //
 000092  20b7              MOVS     r0,#0xb7
 000094  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1439   	SSD1963GPIOOUTDATA_18(0x5a);
+;;;1442   	SSD1963GPIOOUTDATA_18(0x5a);
 000098  205a              MOVS     r0,#0x5a
 00009a  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1440   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1443   	SSD1963GPIOOUTDATA_18(0x00);
 00009e  2000              MOVS     r0,#0
 0000a0  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1441   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1444   	SSD1963GPIOOUTDATA_18(0x00);
 0000a4  2000              MOVS     r0,#0
 0000a6  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1442   	SSD1963GPIOOUTDATA_18(0x0d);		   /////烧录otp的0x0d的VCOM_F1
+;;;1445   	SSD1963GPIOOUTDATA_18(0x0d);		   /////烧录otp的0x0d的VCOM_F1
 0000aa  200d              MOVS     r0,#0xd
 0000ac  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1443   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1446   	SSD1963GPIOOUTDATA_18(0x00);
 0000b0  2000              MOVS     r0,#0
 0000b2  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1444   	MDelay(10);		
+;;;1447   	MDelay(10);		
 0000b6  200a              MOVS     r0,#0xa
 0000b8  f7fffffe          BL       MDelay
-;;;1445   
-;;;1446   	/////////////set otp address
-;;;1447   			SSD1963GPIOOUTCOM(0xBC);		              
+;;;1448   
+;;;1449   	/////////////set otp address
+;;;1450   			SSD1963GPIOOUTCOM(0xBC);		              
 0000bc  20bc              MOVS     r0,#0xbc
 0000be  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1448   	SSD1963GPIOOUTDATA_16(0x0006);						 
+;;;1451   	SSD1963GPIOOUTDATA_16(0x0006);						 
 0000c2  2006              MOVS     r0,#6
 0000c4  f7fffffe          BL       SSD1963GPIOOUTDATA_16
-;;;1449   			SSD1963GPIOOUTCOM(0xbf);
+;;;1452   			SSD1963GPIOOUTCOM(0xbf);
 0000c8  20bf              MOVS     r0,#0xbf
 0000ca  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1450   	SSD1963GPIOOUTDATA_18(0xb7);	  //
+;;;1453   	SSD1963GPIOOUTDATA_18(0xb7);	  //
 0000ce  20b7              MOVS     r0,#0xb7
 0000d0  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1451   	SSD1963GPIOOUTDATA_18(0x5a);
+;;;1454   	SSD1963GPIOOUTDATA_18(0x5a);
 0000d4  205a              MOVS     r0,#0x5a
 0000d6  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1452   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1455   	SSD1963GPIOOUTDATA_18(0x00);
 0000da  2000              MOVS     r0,#0
 0000dc  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1453   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1456   	SSD1963GPIOOUTDATA_18(0x00);
 0000e0  2000              MOVS     r0,#0
 0000e2  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1454   	SSD1963GPIOOUTDATA_18(0x0d);		   /////烧录otp的0x0d的VCOM_F1
+;;;1457   	SSD1963GPIOOUTDATA_18(0x0d);		   /////烧录otp的0x0d的VCOM_F1
 0000e6  200d              MOVS     r0,#0xd
 0000e8  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1455   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1458   	SSD1963GPIOOUTDATA_18(0x00);
 0000ec  2000              MOVS     r0,#0
 0000ee  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1456   	MDelay(10);
+;;;1459   	MDelay(10);
 0000f2  200a              MOVS     r0,#0xa
 0000f4  f7fffffe          BL       MDelay
-;;;1457   
-;;;1458   	/////////////set otp_prog = 1;
-;;;1459   			SSD1963GPIOOUTCOM(0xBC);		             
+;;;1460   
+;;;1461   	/////////////set otp_prog = 1;
+;;;1462   			SSD1963GPIOOUTCOM(0xBC);		             
 0000f8  20bc              MOVS     r0,#0xbc
 0000fa  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1460   	SSD1963GPIOOUTDATA_16(0x0006);						 
+;;;1463   	SSD1963GPIOOUTDATA_16(0x0006);						 
 0000fe  2006              MOVS     r0,#6
 000100  f7fffffe          BL       SSD1963GPIOOUTDATA_16
-;;;1461   			SSD1963GPIOOUTCOM(0xbf);
+;;;1464   			SSD1963GPIOOUTCOM(0xbf);
 000104  20bf              MOVS     r0,#0xbf
 000106  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1462   	SSD1963GPIOOUTDATA_18(0xb7);	  //
+;;;1465   	SSD1963GPIOOUTDATA_18(0xb7);	  //
 00010a  20b7              MOVS     r0,#0xb7
 00010c  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1463   	SSD1963GPIOOUTDATA_18(0x5a);
+;;;1466   	SSD1963GPIOOUTDATA_18(0x5a);
 000110  205a              MOVS     r0,#0x5a
 000112  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1464   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1467   	SSD1963GPIOOUTDATA_18(0x00);
 000116  2000              MOVS     r0,#0
 000118  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1465   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1468   	SSD1963GPIOOUTDATA_18(0x00);
 00011c  2000              MOVS     r0,#0
 00011e  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1466   	SSD1963GPIOOUTDATA_18(0x0d);		   /////烧录otp的0x0d的VCOM_F1
+;;;1469   	SSD1963GPIOOUTDATA_18(0x0d);		   /////烧录otp的0x0d的VCOM_F1
 000122  200d              MOVS     r0,#0xd
 000124  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1467   	SSD1963GPIOOUTDATA_18(0x01);
+;;;1470   	SSD1963GPIOOUTDATA_18(0x01);
 000128  2001              MOVS     r0,#1
 00012a  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1468   	MDelay(45);		 		///DELAY 11ms
+;;;1471   	MDelay(45);		 		///DELAY 11ms
 00012e  202d              MOVS     r0,#0x2d
 000130  f7fffffe          BL       MDelay
-;;;1469   
-;;;1470   	/////////////set otp_index[8:0]
-;;;1471   			SSD1963GPIOOUTCOM(0xBC);		              
+;;;1472   
+;;;1473   	/////////////set otp_index[8:0]
+;;;1474   			SSD1963GPIOOUTCOM(0xBC);		              
 000134  20bc              MOVS     r0,#0xbc
 000136  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1472   	SSD1963GPIOOUTDATA_16(0x0006);						 
+;;;1475   	SSD1963GPIOOUTDATA_16(0x0006);						 
 00013a  2006              MOVS     r0,#6
 00013c  f7fffffe          BL       SSD1963GPIOOUTDATA_16
-;;;1473   			SSD1963GPIOOUTCOM(0xbf);
+;;;1476   			SSD1963GPIOOUTCOM(0xbf);
 000140  20bf              MOVS     r0,#0xbf
 000142  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1474   	SSD1963GPIOOUTDATA_18(0xb7);	  //
+;;;1477   	SSD1963GPIOOUTDATA_18(0xb7);	  //
 000146  20b7              MOVS     r0,#0xb7
 000148  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1475   	SSD1963GPIOOUTDATA_18(0x5a);
+;;;1478   	SSD1963GPIOOUTDATA_18(0x5a);
 00014c  205a              MOVS     r0,#0x5a
 00014e  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1476   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1479   	SSD1963GPIOOUTDATA_18(0x00);
 000152  2000              MOVS     r0,#0
 000154  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1477   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1480   	SSD1963GPIOOUTDATA_18(0x00);
 000158  2000              MOVS     r0,#0
 00015a  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1478   	SSD1963GPIOOUTDATA_18(0x0e);				/////烧录otp的0x0E的VCOM_B1
+;;;1481   	SSD1963GPIOOUTDATA_18(0x0e);				/////烧录otp的0x0E的VCOM_B1
 00015e  200e              MOVS     r0,#0xe
 000160  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1479   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1482   	SSD1963GPIOOUTDATA_18(0x00);
 000164  2000              MOVS     r0,#0
 000166  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1480   	MDelay(10);
+;;;1483   	MDelay(10);
 00016a  200a              MOVS     r0,#0xa
 00016c  f7fffffe          BL       MDelay
-;;;1481   
-;;;1482   	/////////////set otp_mask[7:0]
-;;;1483   			SSD1963GPIOOUTCOM(0xBC);		                
+;;;1484   
+;;;1485   	/////////////set otp_mask[7:0]
+;;;1486   			SSD1963GPIOOUTCOM(0xBC);		                
 000170  20bc              MOVS     r0,#0xbc
 000172  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1484   	SSD1963GPIOOUTDATA_16(0x0006);						
+;;;1487   	SSD1963GPIOOUTDATA_16(0x0006);						
 000176  2006              MOVS     r0,#6
 000178  f7fffffe          BL       SSD1963GPIOOUTDATA_16
-;;;1485   			SSD1963GPIOOUTCOM(0xbf);
+;;;1488   			SSD1963GPIOOUTCOM(0xbf);
 00017c  20bf              MOVS     r0,#0xbf
 00017e  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1486   	SSD1963GPIOOUTDATA_18(0xb7);	  //
+;;;1489   	SSD1963GPIOOUTDATA_18(0xb7);	  //
 000182  20b7              MOVS     r0,#0xb7
 000184  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1487   	SSD1963GPIOOUTDATA_18(0x5a);
+;;;1490   	SSD1963GPIOOUTDATA_18(0x5a);
 000188  205a              MOVS     r0,#0x5a
 00018a  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1488   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1491   	SSD1963GPIOOUTDATA_18(0x00);
 00018e  2000              MOVS     r0,#0
 000190  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1489   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1492   	SSD1963GPIOOUTDATA_18(0x00);
 000194  2000              MOVS     r0,#0
 000196  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1490   	SSD1963GPIOOUTDATA_18(0x0e);				/////烧录otp的0x0E的VCOM_B1
+;;;1493   	SSD1963GPIOOUTDATA_18(0x0e);				/////烧录otp的0x0E的VCOM_B1
 00019a  200e              MOVS     r0,#0xe
 00019c  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1491   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1494   	SSD1963GPIOOUTDATA_18(0x00);
 0001a0  2000              MOVS     r0,#0
 0001a2  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1492   	MDelay(10);
+;;;1495   	MDelay(10);
 0001a6  200a              MOVS     r0,#0xa
 0001a8  f7fffffe          BL       MDelay
-;;;1493   
-;;;1494   	/////////////set otp address
-;;;1495   			SSD1963GPIOOUTCOM(0xBC);		                 
+;;;1496   
+;;;1497   	/////////////set otp address
+;;;1498   			SSD1963GPIOOUTCOM(0xBC);		                 
 0001ac  20bc              MOVS     r0,#0xbc
 0001ae  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1496   	SSD1963GPIOOUTDATA_16(0x0006);					
+;;;1499   	SSD1963GPIOOUTDATA_16(0x0006);					
 0001b2  2006              MOVS     r0,#6
 0001b4  f7fffffe          BL       SSD1963GPIOOUTDATA_16
-;;;1497   			SSD1963GPIOOUTCOM(0xbf);
+;;;1500   			SSD1963GPIOOUTCOM(0xbf);
 0001b8  20bf              MOVS     r0,#0xbf
 0001ba  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1498   	SSD1963GPIOOUTDATA_18(0xb7);	  //
+;;;1501   	SSD1963GPIOOUTDATA_18(0xb7);	  //
 0001be  20b7              MOVS     r0,#0xb7
 0001c0  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1499   	SSD1963GPIOOUTDATA_18(0x5a);
+;;;1502   	SSD1963GPIOOUTDATA_18(0x5a);
 0001c4  205a              MOVS     r0,#0x5a
 0001c6  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1500   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1503   	SSD1963GPIOOUTDATA_18(0x00);
 0001ca  2000              MOVS     r0,#0
 0001cc  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1501   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1504   	SSD1963GPIOOUTDATA_18(0x00);
 0001d0  2000              MOVS     r0,#0
 0001d2  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1502   	SSD1963GPIOOUTDATA_18(0x0e);				/////烧录otp的0x0E的VCOM_B1
+;;;1505   	SSD1963GPIOOUTDATA_18(0x0e);				/////烧录otp的0x0E的VCOM_B1
 0001d6  200e              MOVS     r0,#0xe
 0001d8  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1503   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1506   	SSD1963GPIOOUTDATA_18(0x00);
 0001dc  2000              MOVS     r0,#0
 0001de  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1504   	MDelay(10);
+;;;1507   	MDelay(10);
 0001e2  200a              MOVS     r0,#0xa
 0001e4  f7fffffe          BL       MDelay
-;;;1505   
-;;;1506   	/////////////set otp_prog = 1;
-;;;1507   			SSD1963GPIOOUTCOM(0xBC);		                 
+;;;1508   
+;;;1509   	/////////////set otp_prog = 1;
+;;;1510   			SSD1963GPIOOUTCOM(0xBC);		                 
 0001e8  20bc              MOVS     r0,#0xbc
 0001ea  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1508   	SSD1963GPIOOUTDATA_16(0x0006);						  
+;;;1511   	SSD1963GPIOOUTDATA_16(0x0006);						  
 0001ee  2006              MOVS     r0,#6
 0001f0  f7fffffe          BL       SSD1963GPIOOUTDATA_16
-;;;1509   			SSD1963GPIOOUTCOM(0xbf);
+;;;1512   			SSD1963GPIOOUTCOM(0xbf);
 0001f4  20bf              MOVS     r0,#0xbf
 0001f6  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1510   	SSD1963GPIOOUTDATA_18(0xb7);	  //
+;;;1513   	SSD1963GPIOOUTDATA_18(0xb7);	  //
 0001fa  20b7              MOVS     r0,#0xb7
 0001fc  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1511   	SSD1963GPIOOUTDATA_18(0x5a);
+;;;1514   	SSD1963GPIOOUTDATA_18(0x5a);
 000200  205a              MOVS     r0,#0x5a
 000202  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1512   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1515   	SSD1963GPIOOUTDATA_18(0x00);
 000206  2000              MOVS     r0,#0
 000208  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1513   	SSD1963GPIOOUTDATA_18(0x00);
+;;;1516   	SSD1963GPIOOUTDATA_18(0x00);
 00020c  2000              MOVS     r0,#0
 00020e  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1514   	SSD1963GPIOOUTDATA_18(0x0e);				/////烧录otp的0x0E的VCOM_B1
+;;;1517   	SSD1963GPIOOUTDATA_18(0x0e);				/////烧录otp的0x0E的VCOM_B1
 000212  200e              MOVS     r0,#0xe
 000214  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1515   	SSD1963GPIOOUTDATA_18(0x01);
+;;;1518   	SSD1963GPIOOUTDATA_18(0x01);
 000218  2001              MOVS     r0,#1
 00021a  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1516   	MDelay(45);		 		///DELAY 11ms
+;;;1519   	MDelay(45);		 		///DELAY 11ms
 00021e  202d              MOVS     r0,#0x2d
 000220  f7fffffe          BL       MDelay
-;;;1517   
-;;;1518      	//////MTP   OVER ,,,OTP  Disable
-;;;1519   			SSD1963GPIOOUTCOM(0xBC);		                 
+;;;1520   
+;;;1521      	//////MTP   OVER ,,,OTP  Disable
+;;;1522   			SSD1963GPIOOUTCOM(0xBC);		                 
 000224  20bc              MOVS     r0,#0xbc
 000226  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1520   	SSD1963GPIOOUTDATA_16(0x0002);						  
+;;;1523   	SSD1963GPIOOUTDATA_16(0x0002);						  
 00022a  2002              MOVS     r0,#2
 00022c  f7fffffe          BL       SSD1963GPIOOUTDATA_16
-;;;1521   			SSD1963GPIOOUTCOM(0xbf);
+;;;1524   			SSD1963GPIOOUTCOM(0xbf);
 000230  20bf              MOVS     r0,#0xbf
 000232  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1522   	SSD1963GPIOOUTDATA_18(0xb7);	  //
+;;;1525   	SSD1963GPIOOUTDATA_18(0xb7);	  //
 000236  20b7              MOVS     r0,#0xb7
 000238  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1523   	SSD1963GPIOOUTDATA_18(0xff);
+;;;1526   	SSD1963GPIOOUTDATA_18(0xff);
 00023c  20ff              MOVS     r0,#0xff
 00023e  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1524   	MDelay(10);
+;;;1527   	MDelay(10);
 000242  200a              MOVS     r0,#0xa
 000244  f7fffffe          BL       MDelay
-;;;1525   
-;;;1526   	///display on
-;;;1527   			SSD1963GPIOOUTCOM(0xBC);		                
+;;;1528   
+;;;1529   	///display on
+;;;1530   			SSD1963GPIOOUTCOM(0xBC);		                
 000248  20bc              MOVS     r0,#0xbc
 00024a  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1528   	SSD1963GPIOOUTDATA_16(0x0001);					
+;;;1531   	SSD1963GPIOOUTDATA_16(0x0001);					
 00024e  2001              MOVS     r0,#1
 000250  f7fffffe          BL       SSD1963GPIOOUTDATA_16
-;;;1529   			SSD1963GPIOOUTCOM(0xbf);
+;;;1532   			SSD1963GPIOOUTCOM(0xbf);
 000254  20bf              MOVS     r0,#0xbf
 000256  f7fffffe          BL       SSD1963GPIOOUTCOM
-;;;1530   	SSD1963GPIOOUTDATA_18(0x29);	  //
+;;;1533   	SSD1963GPIOOUTDATA_18(0x29);	  //
 00025a  2029              MOVS     r0,#0x29
 00025c  f7fffffe          BL       SSD1963GPIOOUTDATA_18
-;;;1531   	Delay(5);			 //delay 40ms
+;;;1534   	Delay(5);			 //delay 40ms
 000260  e8bd4010          POP      {r4,lr}
 000264  2005              MOVS     r0,#5
 000266  f7ffbffe          B.W      Delay
-;;;1532   }
-;;;1533   
+;;;1535   }
+;;;1536   
                           ENDP
 
 
                           AREA ||i.MTP_ID||, CODE, READONLY, ALIGN=2
 
                   MTP_ID PROC
-;;;1718       
-;;;1719   void MTP_ID(void)
+;;;1727       
+;;;1728   void MTP_ID(void)
 000000  b570              PUSH     {r4-r6,lr}
-;;;1720   {
+;;;1729   {
 000002  b084              SUB      sp,sp,#0x10
-;;;1721   	MIPI_SPI_Write(0x05,0x39, 0xB9,0xFF,0x83,0x69);//EXTC Command Set enable register
+;;;1730   	MIPI_SPI_Write(0x05,0x39, 0xB9,0xFF,0x83,0x69);//EXTC Command Set enable register
 000004  2169              MOVS     r1,#0x69
 000006  2083              MOVS     r0,#0x83
 000008  e9cd0100          STRD     r0,r1,[sp,#0]
@@ -1561,16 +1573,16 @@
 000010  2139              MOVS     r1,#0x39
 000012  2005              MOVS     r0,#5
 000014  f7fffffe          BL       MIPI_SPI_Write
-;;;1722   
-;;;1723   //	MIPI_SPI_Write(0x05,0x39, 0xBF,0xE0,0x00,0x00);
-;;;1724   	
-;;;1725   //	OPEN_OTP_Voltage;//Open 7.5V
-;;;1726   	Delay(50);//Wait 500ms for PVSS stable	8369 no delay time
+;;;1731   
+;;;1732   //	MIPI_SPI_Write(0x05,0x39, 0xBF,0xE0,0x00,0x00);
+;;;1733   	
+;;;1734   //	OPEN_OTP_Voltage;//Open 7.5V
+;;;1735   	Delay(50);//Wait 500ms for PVSS stable	8369 no delay time
 000018  2032              MOVS     r0,#0x32
 00001a  f7fffffe          BL       Delay
-;;;1727   	
-;;;1728   //	MIPI_SPI_Write(0x05,0x39, 0xB6,VCOMDC,0x28);//This command is used to set VCOM Voltage include VCOM Low and VCOM High Voltage.
-;;;1729   	MIPI_SPI_Write(0x04,0x39, 0xB6,VCOMDC1,VCOMDC1);
+;;;1736   	
+;;;1737   //	MIPI_SPI_Write(0x05,0x39, 0xB6,VCOMDC,0x28);//This command is used to set VCOM Voltage include VCOM Low and VCOM High Voltage.
+;;;1738   	MIPI_SPI_Write(0x04,0x39, 0xB6,VCOMDC1,VCOMDC1);
 00001e  4833              LDR      r0,|L15.236|
 000020  22b6              MOVS     r2,#0xb6
 000022  2139              MOVS     r1,#0x39
@@ -1578,8 +1590,8 @@
 000026  2004              MOVS     r0,#4
 000028  9300              STR      r3,[sp,#0]
 00002a  f7fffffe          BL       MIPI_SPI_Write
-;;;1730   	
-;;;1731   	MIPI_SPI_Write(0x05,0x39, 0xE9,0xAA,0x55);// This command is used to set OTP key to enter or leave OTP program mode.
+;;;1739   	
+;;;1740   	MIPI_SPI_Write(0x05,0x39, 0xE9,0xAA,0x55);// This command is used to set OTP key to enter or leave OTP program mode.
 00002e  2055              MOVS     r0,#0x55
 000030  9000              STR      r0,[sp,#0]
 000032  23aa              MOVS     r3,#0xaa
@@ -1587,11 +1599,11 @@
 000036  2139              MOVS     r1,#0x39
 000038  2005              MOVS     r0,#5
 00003a  f7fffffe          BL       MIPI_SPI_Write
-;;;1732   	Delay(50);//Wait 500ms for PVSS stable 8369 no delay time
+;;;1741   	Delay(50);//Wait 500ms for PVSS stable 8369 no delay time
 00003e  2032              MOVS     r0,#0x32
 000040  f7fffffe          BL       Delay
-;;;1733   
-;;;1734   	MIPI_SPI_Write(0x06,0x39, 0xBB,0x00,0x00,0x1C,0x00);
+;;;1742   
+;;;1743   	MIPI_SPI_Write(0x06,0x39, 0xBB,0x00,0x00,0x1C,0x00);
 000044  2400              MOVS     r4,#0
 000046  251c              MOVS     r5,#0x1c
 000048  e9cd4500          STRD     r4,r5,[sp,#0]
@@ -1601,8 +1613,8 @@
 000052  2006              MOVS     r0,#6
 000054  9402              STR      r4,[sp,#8]
 000056  f7fffffe          BL       MIPI_SPI_Write
-;;;1735   
-;;;1736   	MIPI_SPI_Write(0x06,0x39, 0xBB,0x00,0x00,0x1C,0x01);
+;;;1744   
+;;;1745   	MIPI_SPI_Write(0x06,0x39, 0xBB,0x00,0x00,0x1C,0x01);
 00005a  2601              MOVS     r6,#1
 00005c  2300              MOVS     r3,#0
 00005e  22bb              MOVS     r2,#0xbb
@@ -1611,23 +1623,23 @@
 000064  9602              STR      r6,[sp,#8]
 000066  e9cd4500          STRD     r4,r5,[sp,#0]
 00006a  f7fffffe          BL       MIPI_SPI_Write
-;;;1737   	Delay(5);
+;;;1746   	Delay(5);
 00006e  2005              MOVS     r0,#5
 000070  f7fffffe          BL       Delay
 000074  e9cd4500          STRD     r4,r5,[sp,#0]
-;;;1738   
-;;;1739   	MIPI_SPI_Write(0x06,0x39, 0xBB,0x00,0x00,0x1C,0x00);
+;;;1747   
+;;;1748   	MIPI_SPI_Write(0x06,0x39, 0xBB,0x00,0x00,0x1C,0x00);
 000078  2300              MOVS     r3,#0
 00007a  22bb              MOVS     r2,#0xbb
 00007c  2139              MOVS     r1,#0x39
 00007e  2006              MOVS     r0,#6
 000080  9402              STR      r4,[sp,#8]
 000082  f7fffffe          BL       MIPI_SPI_Write
-;;;1740   	Delay(5);
+;;;1749   	Delay(5);
 000086  2005              MOVS     r0,#5
 000088  f7fffffe          BL       Delay
-;;;1741   
-;;;1742   	MIPI_SPI_Write(0x06,0x39, 0xBB,0x00,0x00,0x1D,0x00);
+;;;1750   
+;;;1751   	MIPI_SPI_Write(0x06,0x39, 0xBB,0x00,0x00,0x1D,0x00);
 00008c  251d              MOVS     r5,#0x1d
 00008e  e9cd4500          STRD     r4,r5,[sp,#0]
 000092  2300              MOVS     r3,#0
@@ -1636,11 +1648,11 @@
 000098  2006              MOVS     r0,#6
 00009a  9402              STR      r4,[sp,#8]
 00009c  f7fffffe          BL       MIPI_SPI_Write
-;;;1743   	Delay(5);
+;;;1752   	Delay(5);
 0000a0  2005              MOVS     r0,#5
 0000a2  f7fffffe          BL       Delay
-;;;1744   
-;;;1745   	MIPI_SPI_Write(0x06,0x39, 0xBB,0x00,0x00,0x1D,0x01);
+;;;1753   
+;;;1754   	MIPI_SPI_Write(0x06,0x39, 0xBB,0x00,0x00,0x1D,0x01);
 0000a6  2300              MOVS     r3,#0
 0000a8  22bb              MOVS     r2,#0xbb
 0000aa  2139              MOVS     r1,#0x39
@@ -1648,165 +1660,181 @@
 0000ae  9602              STR      r6,[sp,#8]
 0000b0  e9cd4500          STRD     r4,r5,[sp,#0]
 0000b4  f7fffffe          BL       MIPI_SPI_Write
-;;;1746   	Delay(5);
+;;;1755   	Delay(5);
 0000b8  2005              MOVS     r0,#5
 0000ba  f7fffffe          BL       Delay
 0000be  e9cd4500          STRD     r4,r5,[sp,#0]
-;;;1747   
-;;;1748   	MIPI_SPI_Write(0x06,0x39, 0xBB,0x00,0x00,0x1D,0x00);
+;;;1756   
+;;;1757   	MIPI_SPI_Write(0x06,0x39, 0xBB,0x00,0x00,0x1D,0x00);
 0000c2  2300              MOVS     r3,#0
 0000c4  22bb              MOVS     r2,#0xbb
 0000c6  2139              MOVS     r1,#0x39
 0000c8  2006              MOVS     r0,#6
 0000ca  9402              STR      r4,[sp,#8]
 0000cc  f7fffffe          BL       MIPI_SPI_Write
-;;;1749   	Delay(5);
+;;;1758   	Delay(5);
 0000d0  2005              MOVS     r0,#5
 0000d2  f7fffffe          BL       Delay
-;;;1750   
-;;;1751   	initial_OTP();
+;;;1759   
+;;;1760   	initial_OTP();
 0000d6  f7fffffe          BL       initial_OTP
-;;;1752   
-;;;1753   	MIPI_SPI_Write(0x06,0x39, 0xE9,0x00,0x00);//set OTP off
+;;;1761   
+;;;1762   	MIPI_SPI_Write(0x06,0x39, 0xE9,0x00,0x00);//set OTP off
 0000da  2300              MOVS     r3,#0
 0000dc  22e9              MOVS     r2,#0xe9
 0000de  2139              MOVS     r1,#0x39
 0000e0  2006              MOVS     r0,#6
 0000e2  9400              STR      r4,[sp,#0]
 0000e4  f7fffffe          BL       MIPI_SPI_Write
-;;;1754   
-;;;1755   //	CLOSE_OTP_Voltage;//Close 7.5V 
-;;;1756   //	Delay(10);//Wait 10ms	8369 no delay time
-;;;1757   //	
-;;;1758   //	SSD1963Command_8(0xBa); 
-;;;1759   //	SSD1963Data_8(0x0E);   //RESET=0
-;;;1760   //	Delay(12);
-;;;1761   //	SSD1963Command_8(0xBa); 
-;;;1762   //	SSD1963Data_8(0x0F);   //RESET=1 
-;;;1763   //	Delay(12);
-;;;1764   //	
-;;;1765   //	SSD1963INITSSD2825();
-;;;1766   //	OTP_initial();//GPI009A0 (HX8369-A01) initial code
-;;;1767   	
-;;;1768   	
-;;;1769   }
+;;;1763   
+;;;1764   //	CLOSE_OTP_Voltage;//Close 7.5V 
+;;;1765   //	Delay(10);//Wait 10ms	8369 no delay time
+;;;1766   //	
+;;;1767   //	SSD1963Command_8(0xBa); 
+;;;1768   //	SSD1963Data_8(0x0E);   //RESET=0
+;;;1769   //	Delay(12);
+;;;1770   //	SSD1963Command_8(0xBa); 
+;;;1771   //	SSD1963Data_8(0x0F);   //RESET=1 
+;;;1772   //	Delay(12);
+;;;1773   //	
+;;;1774   //	SSD1963INITSSD2825();
+;;;1775   //	OTP_initial();//GPI009A0 (HX8369-A01) initial code
+;;;1776   	
+;;;1777   	
+;;;1778   }
 0000e8  b004              ADD      sp,sp,#0x10
 0000ea  bd70              POP      {r4-r6,pc}
-;;;1770   
+;;;1779   
                           ENDP
 
                   |L15.236|
                           DCD      ||.data||
 
-                          AREA ||i.MTP_VCOM||, CODE, READONLY, ALIGN=1
+                          AREA ||i.MTP_VCOM||, CODE, READONLY, ALIGN=2
 
                   MTP_VCOM PROC
-;;;1681   
-;;;1682   void MTP_VCOM(void)
+;;;1684   
+;;;1685   void MTP_VCOM(void)
 000000  b510              PUSH     {r4,lr}
-;;;1683   {
-;;;1684       SPI_Send(0x70,0x0006);
-000002  2106              MOVS     r1,#6
-000004  2070              MOVS     r0,#0x70
-000006  f7fffffe          BL       SPI_Send
-;;;1685   	SPI_Send(0x72,0x2820);
-00000a  f6420120          MOV      r1,#0x2820
-00000e  2072              MOVS     r0,#0x72
-000010  f7fffffe          BL       SPI_Send
-;;;1686       Delay(500);////wait 0.5s
-000014  f44f70fa          MOV      r0,#0x1f4
-000018  f7fffffe          BL       Delay
-;;;1687       
-;;;1688       SPI_Send(0x70,0x0060);
-00001c  2160              MOVS     r1,#0x60
-00001e  2070              MOVS     r0,#0x70
-000020  f7fffffe          BL       SPI_Send
-;;;1689   	SPI_Send(0x72,0x8000);
-000024  f44f4100          MOV      r1,#0x8000
-000028  2072              MOVS     r0,#0x72
-00002a  f7fffffe          BL       SPI_Send
-;;;1690       
-;;;1691       SPI_Send(0x70,0x0060);
-00002e  2160              MOVS     r1,#0x60
-000030  2070              MOVS     r0,#0x70
-000032  f7fffffe          BL       SPI_Send
-;;;1692   	SPI_Send(0x72,0xC000);
-000036  f44f4140          MOV      r1,#0xc000
-00003a  2072              MOVS     r0,#0x72
-00003c  f7fffffe          BL       SPI_Send
+;;;1686   {
+;;;1687       GPIO_SetBits(GPIOA, GPIO_Pin_15);  /////open  7.3V to VGH/VGL
+000002  4c35              LDR      r4,|L16.216|
+000004  f44f4100          MOV      r1,#0x8000
+000008  4620              MOV      r0,r4
+00000a  f7fffffe          BL       GPIO_SetBits
+;;;1688   //    Delay(50);////wait 0.5s  for  power  stable
+;;;1689       
+;;;1690       SPI_Send(0x70,0x0006);
+00000e  2106              MOVS     r1,#6
+000010  2070              MOVS     r0,#0x70
+000012  f7fffffe          BL       SPI_Send
+;;;1691   	SPI_Send(0x72,0x2820);
+000016  f6420120          MOV      r1,#0x2820
+00001a  2072              MOVS     r0,#0x72
+00001c  f7fffffe          BL       SPI_Send
+;;;1692       Delay(50);////wait 0.5s
+000020  2032              MOVS     r0,#0x32
+000022  f7fffffe          BL       Delay
 ;;;1693       
-;;;1694       /////connect 7.3v to VGH  and 0V to VGL
-;;;1695       SPI_Send(0x70,0x0060);
-000040  2160              MOVS     r1,#0x60
-000042  2070              MOVS     r0,#0x70
-000044  f7fffffe          BL       SPI_Send
-;;;1696   	SPI_Send(0x72,0xC200);
-000048  f44f4142          MOV      r1,#0xc200
-00004c  2072              MOVS     r0,#0x72
+;;;1694       SPI_Send(0x70,0x0060);
+000026  2160              MOVS     r1,#0x60
+000028  2070              MOVS     r0,#0x70
+00002a  f7fffffe          BL       SPI_Send
+;;;1695   	SPI_Send(0x72,0x8000);
+00002e  f44f4100          MOV      r1,#0x8000
+000032  2072              MOVS     r0,#0x72
+000034  f7fffffe          BL       SPI_Send
+;;;1696       
+;;;1697       SPI_Send(0x70,0x0060);
+000038  2160              MOVS     r1,#0x60
+00003a  2070              MOVS     r0,#0x70
+00003c  f7fffffe          BL       SPI_Send
+;;;1698   	SPI_Send(0x72,0xC000);
+000040  f44f4140          MOV      r1,#0xc000
+000044  2072              MOVS     r0,#0x72
+000046  f7fffffe          BL       SPI_Send
+;;;1699       
+;;;1700       /////connect 7.3v to VGH  and 0V to VGL
+;;;1701       SPI_Send(0x70,0x0060);
+00004a  2160              MOVS     r1,#0x60
+00004c  2070              MOVS     r0,#0x70
 00004e  f7fffffe          BL       SPI_Send
-;;;1697       
-;;;1698       SPI_Send(0x70,0x0060);
-000052  2160              MOVS     r1,#0x60
-000054  2070              MOVS     r0,#0x70
-000056  f7fffffe          BL       SPI_Send
-;;;1699   	SPI_Send(0x72,0xC280);
-00005a  f24c2180          MOV      r1,#0xc280
-00005e  2072              MOVS     r0,#0x72
+;;;1702   	SPI_Send(0x72,0xC200);
+000052  f44f4142          MOV      r1,#0xc200
+000056  2072              MOVS     r0,#0x72
+000058  f7fffffe          BL       SPI_Send
+;;;1703       
+;;;1704       SPI_Send(0x70,0x0060);
+00005c  2160              MOVS     r1,#0x60
+00005e  2070              MOVS     r0,#0x70
 000060  f7fffffe          BL       SPI_Send
-;;;1700       Delay(1);////wait 10ms   spec say wait 200us
-000064  2001              MOVS     r0,#1
-000066  f7fffffe          BL       Delay
-;;;1701       
-;;;1702       SPI_Send(0x70,0x0060);
-00006a  2160              MOVS     r1,#0x60
-00006c  2070              MOVS     r0,#0x70
-00006e  f7fffffe          BL       SPI_Send
-;;;1703   	SPI_Send(0x72,0xC200);
-000072  f44f4142          MOV      r1,#0xc200
-000076  2072              MOVS     r0,#0x72
+;;;1705   	SPI_Send(0x72,0xC280);
+000064  f24c2180          MOV      r1,#0xc280
+000068  2072              MOVS     r0,#0x72
+00006a  f7fffffe          BL       SPI_Send
+;;;1706       Delay(1);////wait 10ms   spec say wait 200us
+00006e  2001              MOVS     r0,#1
+000070  f7fffffe          BL       Delay
+;;;1707       
+;;;1708       SPI_Send(0x70,0x0060);
+000074  2160              MOVS     r1,#0x60
+000076  2070              MOVS     r0,#0x70
 000078  f7fffffe          BL       SPI_Send
-;;;1704       
-;;;1705       ///remove 7.3V from VGH and 0V from VGL
-;;;1706       SPI_Send(0x70,0x0060);
-00007c  2160              MOVS     r1,#0x60
-00007e  2070              MOVS     r0,#0x70
-000080  f7fffffe          BL       SPI_Send
-;;;1707   	SPI_Send(0x72,0x8200);
-000084  f44f4102          MOV      r1,#0x8200
-000088  2072              MOVS     r0,#0x72
-00008a  f7fffffe          BL       SPI_Send
-;;;1708       
-;;;1709       SPI_Send(0x70,0x0060);
-00008e  2160              MOVS     r1,#0x60
-000090  2070              MOVS     r0,#0x70
-000092  f7fffffe          BL       SPI_Send
-;;;1710   	SPI_Send(0x72,0x0200);
-000096  f44f7100          MOV      r1,#0x200
-00009a  2072              MOVS     r0,#0x72
-00009c  f7fffffe          BL       SPI_Send
-;;;1711       
-;;;1712       SPI_Send(0x70,0x0060);
-0000a0  2160              MOVS     r1,#0x60
-0000a2  2070              MOVS     r0,#0x70
-0000a4  f7fffffe          BL       SPI_Send
-;;;1713   	SPI_Send(0x72,0x0040);
-0000a8  2140              MOVS     r1,#0x40
-0000aa  2072              MOVS     r0,#0x72
-0000ac  f7fffffe          BL       SPI_Send
+;;;1709   	SPI_Send(0x72,0xC200);
+00007c  f44f4142          MOV      r1,#0xc200
+000080  2072              MOVS     r0,#0x72
+000082  f7fffffe          BL       SPI_Send
+;;;1710       
+;;;1711       ///remove 7.3V from VGH and 0V from VGL
+;;;1712       GPIO_ResetBits(GPIOA, GPIO_Pin_15);  /////remove  7.3V to VGH/VGL
+000086  f44f4100          MOV      r1,#0x8000
+00008a  4620              MOV      r0,r4
+00008c  f7fffffe          BL       GPIO_ResetBits
+;;;1713   //    Delay(500);////wait 0.5s  for  power  stable
 ;;;1714       
 ;;;1715       SPI_Send(0x70,0x0060);
-0000b0  2160              MOVS     r1,#0x60
-0000b2  2070              MOVS     r0,#0x70
-0000b4  f7fffffe          BL       SPI_Send
-;;;1716   	SPI_Send(0x72,0x0000);
-0000b8  2100              MOVS     r1,#0
-0000ba  e8bd4010          POP      {r4,lr}
-0000be  2072              MOVS     r0,#0x72
-0000c0  f7ffbffe          B.W      SPI_Send
-;;;1717   }
-;;;1718       
+000090  2160              MOVS     r1,#0x60
+000092  2070              MOVS     r0,#0x70
+000094  f7fffffe          BL       SPI_Send
+;;;1716   	SPI_Send(0x72,0x8200);
+000098  f44f4102          MOV      r1,#0x8200
+00009c  2072              MOVS     r0,#0x72
+00009e  f7fffffe          BL       SPI_Send
+;;;1717       
+;;;1718       SPI_Send(0x70,0x0060);
+0000a2  2160              MOVS     r1,#0x60
+0000a4  2070              MOVS     r0,#0x70
+0000a6  f7fffffe          BL       SPI_Send
+;;;1719   	SPI_Send(0x72,0x0200);
+0000aa  1561              ASRS     r1,r4,#21
+0000ac  2072              MOVS     r0,#0x72
+0000ae  f7fffffe          BL       SPI_Send
+;;;1720       
+;;;1721       SPI_Send(0x70,0x0060);
+0000b2  2160              MOVS     r1,#0x60
+0000b4  2070              MOVS     r0,#0x70
+0000b6  f7fffffe          BL       SPI_Send
+;;;1722   	SPI_Send(0x72,0x0040);
+0000ba  2140              MOVS     r1,#0x40
+0000bc  2072              MOVS     r0,#0x72
+0000be  f7fffffe          BL       SPI_Send
+;;;1723       
+;;;1724       SPI_Send(0x70,0x0060);
+0000c2  2160              MOVS     r1,#0x60
+0000c4  2070              MOVS     r0,#0x70
+0000c6  f7fffffe          BL       SPI_Send
+;;;1725   	SPI_Send(0x72,0x0000);
+0000ca  2100              MOVS     r1,#0
+0000cc  e8bd4010          POP      {r4,lr}
+0000d0  2072              MOVS     r0,#0x72
+0000d2  f7ffbffe          B.W      SPI_Send
+;;;1726   }
+;;;1727       
                           ENDP
 
+0000d6  0000              DCW      0x0000
+                  |L16.216|
+                          DCD      0x40010800
 
                           AREA ||i.NVIC_Configuration||, CODE, READONLY, ALIGN=1
 
@@ -2241,66 +2269,66 @@
                           AREA ||i.SD_InitAndConfig||, CODE, READONLY, ALIGN=2
 
                   SD_InitAndConfig PROC
-;;;1152   /* Private functions ---------------------------------------------------------*/
-;;;1153   SD_Error SD_InitAndConfig(void)
+;;;1155   /* Private functions ---------------------------------------------------------*/
+;;;1156   SD_Error SD_InitAndConfig(void)
 000000  b510              PUSH     {r4,lr}
-;;;1154   {
-;;;1155     Status = SD_Init();
+;;;1157   {
+;;;1158     Status = SD_Init();
 000002  f7fffffe          BL       SD_Init
 000006  4c10              LDR      r4,|L23.72|
-;;;1156   
-;;;1157     if (Status == SD_OK)
+;;;1159   
+;;;1160     if (Status == SD_OK)
 000008  282a              CMP      r0,#0x2a
-00000a  7020              STRB     r0,[r4,#0]            ;1155
+00000a  7020              STRB     r0,[r4,#0]            ;1158
 00000c  d119              BNE      |L23.66|
-;;;1158     {
-;;;1159       /*----------------- Read CSD/CID MSD registers ------------------*/
-;;;1160       Status = SD_GetCardInfo(&SDCardInfo);
+;;;1161     {
+;;;1162       /*----------------- Read CSD/CID MSD registers ------------------*/
+;;;1163       Status = SD_GetCardInfo(&SDCardInfo);
 00000e  480f              LDR      r0,|L23.76|
 000010  f7fffffe          BL       SD_GetCardInfo
 000014  7020              STRB     r0,[r4,#0]
-;;;1161     }
-;;;1162     
-;;;1163     if (Status == SD_OK)
+;;;1164     }
+;;;1165     
+;;;1166     if (Status == SD_OK)
 000016  282a              CMP      r0,#0x2a
 000018  d113              BNE      |L23.66|
-;;;1164     {
-;;;1165       /*----------------- Select Card --------------------------------*/
-;;;1166       Status = SD_SelectDeselect((u32) (SDCardInfo.RCA << 16));
+;;;1167     {
+;;;1168       /*----------------- Select Card --------------------------------*/
+;;;1169       Status = SD_SelectDeselect((u32) (SDCardInfo.RCA << 16));
 00001a  480c              LDR      r0,|L23.76|
 00001c  f8b0004c          LDRH     r0,[r0,#0x4c]  ; SDCardInfo
 000020  0400              LSLS     r0,r0,#16
 000022  f7fffffe          BL       SD_SelectDeselect
 000026  7020              STRB     r0,[r4,#0]
-;;;1167     }
-;;;1168     
-;;;1169     if (Status == SD_OK)
+;;;1170     }
+;;;1171     
+;;;1172     if (Status == SD_OK)
 000028  282a              CMP      r0,#0x2a
 00002a  d10a              BNE      |L23.66|
-;;;1170     {
-;;;1171       /*----------------- Set BusWidth ------------------------------*/
-;;;1172       Status = SD_EnableWideBusOperation(SDIO_BusWide_4b);
+;;;1173     {
+;;;1174       /*----------------- Set BusWidth ------------------------------*/
+;;;1175       Status = SD_EnableWideBusOperation(SDIO_BusWide_4b);
 00002c  f44f6000          MOV      r0,#0x800
 000030  f7fffffe          BL       SD_EnableWideBusOperation
 000034  7020              STRB     r0,[r4,#0]
-;;;1173     }
-;;;1174     
-;;;1175     /* Set Device Transfer Mode to INTERRUPT to DMA */
-;;;1176     if (Status == SD_OK)
+;;;1176     }
+;;;1177     
+;;;1178     /* Set Device Transfer Mode to INTERRUPT to DMA */
+;;;1179     if (Status == SD_OK)
 000036  282a              CMP      r0,#0x2a
 000038  d103              BNE      |L23.66|
-;;;1177     {  
-;;;1178       Status = SD_SetDeviceMode(SD_DMA_MODE);//SD_DMA_MODE,SD_INTERRUPT_MODE
+;;;1180     {  
+;;;1181       Status = SD_SetDeviceMode(SD_DMA_MODE);//SD_DMA_MODE,SD_INTERRUPT_MODE
 00003a  2000              MOVS     r0,#0
 00003c  f7fffffe          BL       SD_SetDeviceMode
 000040  7020              STRB     r0,[r4,#0]
                   |L23.66|
-;;;1179     }
-;;;1180     return Status;
+;;;1182     }
+;;;1183     return Status;
 000042  b2c0              UXTB     r0,r0
-;;;1181   }
+;;;1184   }
 000044  bd10              POP      {r4,pc}
-;;;1182   
+;;;1185   
                           ENDP
 
 000046  0000              DCW      0x0000
@@ -2312,73 +2340,73 @@
                           AREA ||i.SENSOR_Check||, CODE, READONLY, ALIGN=2
 
                   SENSOR_Check PROC
-;;;1205   
-;;;1206   void SENSOR_Check(u8 Device_N)
+;;;1208   
+;;;1209   void SENSOR_Check(u8 Device_N)
 000000  b510              PUSH     {r4,lr}
-;;;1207   {
+;;;1210   {
 000002  4604              MOV      r4,r0
-;;;1208   	u16 temp1 =0;
-;;;1209   //	temp1 = I2C_READ_BYTE(Device_N,0x9e);  /////ADC channel 0 data0low
-;;;1210   	temp1 = sensor_check(Device_N);
+;;;1211   	u16 temp1 =0;
+;;;1212   //	temp1 = I2C_READ_BYTE(Device_N,0x9e);  /////ADC channel 0 data0low
+;;;1213   	temp1 = sensor_check(Device_N);
 000004  f7fffffe          BL       sensor_check
-;;;1211   	if(temp1 == 0)	  
+;;;1214   	if(temp1 == 0)	  
 000008  2800              CMP      r0,#0
-;;;1212   	{	
-;;;1213   //		Delay(1);	
-;;;1214   		;
-;;;1215   	}
-;;;1216   //	else if	(temp1 == 0)	 	
-;;;1217   //	{
-;;;1218   //		;	
-;;;1219   ////		Delay(1);	
-;;;1220   //	}
-;;;1221   	else
-;;;1222   	{
-;;;1223   		while(1)
-;;;1224   		{
-;;;1225   			if(Device_N == S3_addr)	  {		LCD_DisplayStringLine(100,80,"S3");		}
-;;;1226   			if(Device_N == S2_addr)	  {		LCD_DisplayStringLine(140,80,"S2");		}
-;;;1227   			if(Device_N == S1_addr)	  {		LCD_DisplayStringLine(180,80,"S1");		}
-;;;1228   
-;;;1229   			LCD_DisplayStringLine(20,50,"sensor  error");		//红色高亮显示sensor error，警示光感失灵，暂停在此处。
-;;;1230   			while(1);
-;;;1231   		}
-;;;1232   	}	
-;;;1233   }
+;;;1215   	{	
+;;;1216   //		Delay(1);	
+;;;1217   		;
+;;;1218   	}
+;;;1219   //	else if	(temp1 == 0)	 	
+;;;1220   //	{
+;;;1221   //		;	
+;;;1222   ////		Delay(1);	
+;;;1223   //	}
+;;;1224   	else
+;;;1225   	{
+;;;1226   		while(1)
+;;;1227   		{
+;;;1228   			if(Device_N == S3_addr)	  {		LCD_DisplayStringLine(100,80,"S3");		}
+;;;1229   			if(Device_N == S2_addr)	  {		LCD_DisplayStringLine(140,80,"S2");		}
+;;;1230   			if(Device_N == S1_addr)	  {		LCD_DisplayStringLine(180,80,"S1");		}
+;;;1231   
+;;;1232   			LCD_DisplayStringLine(20,50,"sensor  error");		//红色高亮显示sensor error，警示光感失灵，暂停在此处。
+;;;1233   			while(1);
+;;;1234   		}
+;;;1235   	}	
+;;;1236   }
 00000a  bf08              IT       EQ
 00000c  bd10              POPEQ    {r4,pc}
-00000e  2c52              CMP      r4,#0x52              ;1225
+00000e  2c52              CMP      r4,#0x52              ;1228
 000010  d004              BEQ      |L24.28|
-000012  2c72              CMP      r4,#0x72              ;1226
+000012  2c72              CMP      r4,#0x72              ;1229
 000014  d006              BEQ      |L24.36|
-000016  2c92              CMP      r4,#0x92              ;1227
+000016  2c92              CMP      r4,#0x92              ;1230
 000018  d00a              BEQ      |L24.48|
 00001a  e00e              B        |L24.58|
                   |L24.28|
-00001c  2150              MOVS     r1,#0x50              ;1225
+00001c  2150              MOVS     r1,#0x50              ;1228
 00001e  a20a              ADR      r2,|L24.72|
-000020  2064              MOVS     r0,#0x64              ;1225
+000020  2064              MOVS     r0,#0x64              ;1228
 000022  e002              B        |L24.42|
                   |L24.36|
 000024  a209              ADR      r2,|L24.76|
-000026  2150              MOVS     r1,#0x50              ;1226
-000028  208c              MOVS     r0,#0x8c              ;1226
+000026  2150              MOVS     r1,#0x50              ;1229
+000028  208c              MOVS     r0,#0x8c              ;1229
                   |L24.42|
 00002a  f7fffffe          BL       LCD_DisplayStringLine
 00002e  e004              B        |L24.58|
                   |L24.48|
 000030  a207              ADR      r2,|L24.80|
-000032  2150              MOVS     r1,#0x50              ;1227
-000034  20b4              MOVS     r0,#0xb4              ;1227
+000032  2150              MOVS     r1,#0x50              ;1230
+000034  20b4              MOVS     r0,#0xb4              ;1230
 000036  f7fffffe          BL       LCD_DisplayStringLine
                   |L24.58|
 00003a  a206              ADR      r2,|L24.84|
-00003c  2132              MOVS     r1,#0x32              ;1229
-00003e  2014              MOVS     r0,#0x14              ;1229
+00003c  2132              MOVS     r1,#0x32              ;1232
+00003e  2014              MOVS     r0,#0x14              ;1232
 000040  f7fffffe          BL       LCD_DisplayStringLine
                   |L24.68|
 000044  e7fe              B        |L24.68|
-;;;1234   
+;;;1237   
                           ENDP
 
 000046  0000              DCW      0x0000
@@ -2679,42 +2707,42 @@
                           AREA ||i.USART1GPIO_Configuration||, CODE, READONLY, ALIGN=2
 
                   USART1GPIO_Configuration PROC
-;;;1134   *******************************************************************************/
-;;;1135   void USART1GPIO_Configuration(void)
+;;;1137   *******************************************************************************/
+;;;1138   void USART1GPIO_Configuration(void)
 000000  b538              PUSH     {r3-r5,lr}
-;;;1136   {
-;;;1137     GPIO_InitTypeDef GPIO_InitStructure;
-;;;1138   
-;;;1139     /* Configure USART1 Tx (PA.09) as alternate function push-pull */
-;;;1140     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+;;;1139   {
+;;;1140     GPIO_InitTypeDef GPIO_InitStructure;
+;;;1141   
+;;;1142     /* Configure USART1 Tx (PA.09) as alternate function push-pull */
+;;;1143     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
 000002  f44f7000          MOV      r0,#0x200
 000006  f8ad0000          STRH     r0,[sp,#0]
-;;;1141     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+;;;1144     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
 00000a  2018              MOVS     r0,#0x18
 00000c  f88d0003          STRB     r0,[sp,#3]
-;;;1142     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+;;;1145     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 000010  2003              MOVS     r0,#3
-;;;1143     GPIO_Init(GPIOA, &GPIO_InitStructure);
+;;;1146     GPIO_Init(GPIOA, &GPIO_InitStructure);
 000012  4c09              LDR      r4,|L29.56|
-000014  f88d0002          STRB     r0,[sp,#2]            ;1142
+000014  f88d0002          STRB     r0,[sp,#2]            ;1145
 000018  4669              MOV      r1,sp
 00001a  4620              MOV      r0,r4
 00001c  f7fffffe          BL       GPIO_Init
-;;;1144       
-;;;1145     /* Configure USART1 Rx (PA.10) as input floating */
-;;;1146     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+;;;1147       
+;;;1148     /* Configure USART1 Rx (PA.10) as input floating */
+;;;1149     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
 000020  1521              ASRS     r1,r4,#20
 000022  f8ad1000          STRH     r1,[sp,#0]
-;;;1147     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+;;;1150     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 000026  2104              MOVS     r1,#4
 000028  f88d1003          STRB     r1,[sp,#3]
-;;;1148     GPIO_Init(GPIOA, &GPIO_InitStructure);
+;;;1151     GPIO_Init(GPIOA, &GPIO_InitStructure);
 00002c  4669              MOV      r1,sp
 00002e  4620              MOV      r0,r4
 000030  f7fffffe          BL       GPIO_Init
-;;;1149   }
+;;;1152   }
 000034  bd38              POP      {r3-r5,pc}
-;;;1150   
+;;;1153   
                           ENDP
 
 000036  0000              DCW      0x0000
@@ -2724,77 +2752,77 @@
                           AREA ||i.USART_Configuration||, CODE, READONLY, ALIGN=2
 
                   USART_Configuration PROC
-;;;1085   
-;;;1086   void USART_Configuration(void)
+;;;1088   
+;;;1089   void USART_Configuration(void)
 000000  b530              PUSH     {r4,r5,lr}
-;;;1087   {
+;;;1090   {
 000002  b087              SUB      sp,sp,#0x1c
-;;;1088     USART_InitTypeDef USART_InitStructure;
-;;;1089     USART_ClockInitTypeDef  USART_ClockInitStructure;
-;;;1090   
-;;;1091   /* USART1 configuration ------------------------------------------------------*/
-;;;1092     /* USART1 configured as follow:
-;;;1093           - BaudRate = 115200 baud  
-;;;1094           - Word Length = 8 Bits
-;;;1095           - One Stop Bit
-;;;1096           - No parity
-;;;1097           - Hardware flow control disabled (RTS and CTS signals)
-;;;1098           - Receive and transmit enabled
-;;;1099           - USART Clock disabled
-;;;1100           - USART CPOL: Clock is active low
-;;;1101           - USART CPHA: Data is captured on the middle 
-;;;1102           - USART LastBit: The clock pulse of the last data bit is not output to 
-;;;1103                            the SCLK pin
-;;;1104     */
-;;;1105   USART_ClockInitStructure.USART_Clock = USART_Clock_Disable;
+;;;1091     USART_InitTypeDef USART_InitStructure;
+;;;1092     USART_ClockInitTypeDef  USART_ClockInitStructure;
+;;;1093   
+;;;1094   /* USART1 configuration ------------------------------------------------------*/
+;;;1095     /* USART1 configured as follow:
+;;;1096           - BaudRate = 115200 baud  
+;;;1097           - Word Length = 8 Bits
+;;;1098           - One Stop Bit
+;;;1099           - No parity
+;;;1100           - Hardware flow control disabled (RTS and CTS signals)
+;;;1101           - Receive and transmit enabled
+;;;1102           - USART Clock disabled
+;;;1103           - USART CPOL: Clock is active low
+;;;1104           - USART CPHA: Data is captured on the middle 
+;;;1105           - USART LastBit: The clock pulse of the last data bit is not output to 
+;;;1106                            the SCLK pin
+;;;1107     */
+;;;1108   USART_ClockInitStructure.USART_Clock = USART_Clock_Disable;
 000004  2400              MOVS     r4,#0
-;;;1106   USART_ClockInitStructure.USART_CPOL = USART_CPOL_Low;
-;;;1107   USART_ClockInitStructure.USART_CPHA = USART_CPHA_2Edge;
+;;;1109   USART_ClockInitStructure.USART_CPOL = USART_CPOL_Low;
+;;;1110   USART_ClockInitStructure.USART_CPHA = USART_CPHA_2Edge;
 000006  f44f7000          MOV      r0,#0x200
 00000a  f8ad0014          STRH     r0,[sp,#0x14]
-;;;1108   USART_ClockInitStructure.USART_LastBit = USART_LastBit_Disable;
-;;;1109   /* Configure the USART1 synchronous paramters */
-;;;1110   USART_ClockInit(USART1, &USART_ClockInitStructure);
+;;;1111   USART_ClockInitStructure.USART_LastBit = USART_LastBit_Disable;
+;;;1112   /* Configure the USART1 synchronous paramters */
+;;;1113   USART_ClockInit(USART1, &USART_ClockInitStructure);
 00000e  4d11              LDR      r5,|L30.84|
-000010  f8ad4010          STRH     r4,[sp,#0x10]         ;1105
-000014  f8ad4012          STRH     r4,[sp,#0x12]         ;1106
-000018  f8ad4016          STRH     r4,[sp,#0x16]         ;1108
+000010  f8ad4010          STRH     r4,[sp,#0x10]         ;1108
+000014  f8ad4012          STRH     r4,[sp,#0x12]         ;1109
+000018  f8ad4016          STRH     r4,[sp,#0x16]         ;1111
 00001c  a904              ADD      r1,sp,#0x10
 00001e  4628              MOV      r0,r5
 000020  f7fffffe          BL       USART_ClockInit
-;;;1111   
-;;;1112   USART_InitStructure.USART_BaudRate = 115200;
+;;;1114   
+;;;1115   USART_InitStructure.USART_BaudRate = 115200;
 000024  f44f31e1          MOV      r1,#0x1c200
-;;;1113   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+;;;1116   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 000028  9100              STR      r1,[sp,#0]
-;;;1114   USART_InitStructure.USART_StopBits = USART_StopBits_1;
-;;;1115   USART_InitStructure.USART_Parity = USART_Parity_No ;
+;;;1117   USART_InitStructure.USART_StopBits = USART_StopBits_1;
+;;;1118   USART_InitStructure.USART_Parity = USART_Parity_No ;
 00002a  f8ad4008          STRH     r4,[sp,#8]
-;;;1116   USART_InitStructure.USART_HardwareFlowControl = 
-;;;1117   USART_HardwareFlowControl_None;
-;;;1118   
-;;;1119   USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+;;;1119   USART_InitStructure.USART_HardwareFlowControl = 
+;;;1120   USART_HardwareFlowControl_None;
+;;;1121   
+;;;1122   USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
 00002e  210c              MOVS     r1,#0xc
-000030  f8ad4004          STRH     r4,[sp,#4]            ;1113
+000030  f8ad4004          STRH     r4,[sp,#4]            ;1116
 000034  f8ad100a          STRH     r1,[sp,#0xa]
-000038  f8ad4006          STRH     r4,[sp,#6]            ;1114
-00003c  f8ad400c          STRH     r4,[sp,#0xc]          ;1116
-;;;1120   /* Configure USART1 basic and asynchronous paramters */
-;;;1121   USART_Init(USART1, &USART_InitStructure);
+000038  f8ad4006          STRH     r4,[sp,#6]            ;1117
+00003c  f8ad400c          STRH     r4,[sp,#0xc]          ;1119
+;;;1123   /* Configure USART1 basic and asynchronous paramters */
+;;;1124   USART_Init(USART1, &USART_InitStructure);
 000040  4669              MOV      r1,sp
 000042  4628              MOV      r0,r5
 000044  f7fffffe          BL       USART_Init
-;;;1122       
-;;;1123     /* Enable USART1 */
-;;;1124     USART_Cmd(USART1, ENABLE);
+;;;1125       
+;;;1126     /* Enable USART1 */
+;;;1127     USART_Cmd(USART1, ENABLE);
 000048  2101              MOVS     r1,#1
 00004a  4628              MOV      r0,r5
 00004c  f7fffffe          BL       USART_Cmd
-;;;1125     
-;;;1126   }
+;;;1128     
+;;;1129   }
 000050  b007              ADD      sp,sp,#0x1c
 000052  bd30              POP      {r4,r5,pc}
-;;;1127   
+;;;1130   
                           ENDP
 
                   |L30.84|
@@ -2803,172 +2831,172 @@
                           AREA ||i.VCOM_GET||, CODE, READONLY, ALIGN=2
 
                   VCOM_GET PROC
-;;;1772   
-;;;1773   u8 VCOM_GET(void)
+;;;1781   
+;;;1782   u8 VCOM_GET(void)
 000000  b570              PUSH     {r4-r6,lr}
-;;;1774   {
-;;;1775   	READ_VCOM_OTP_TIMES_HX8369(0x1B);
+;;;1783   {
+;;;1784   	READ_VCOM_OTP_TIMES_HX8369(0x1B);
 000002  201b              MOVS     r0,#0x1b
 000004  f7fffffe          BL       READ_VCOM_OTP_TIMES_HX8369
-;;;1776   		DelayKEY(1);
+;;;1785   		DelayKEY(1);
 000008  2001              MOVS     r0,#1
 00000a  f7fffffe          BL       DelayKEY
-;;;1777   		switch(MIPI_READ_DATA[4])
+;;;1786   		switch(MIPI_READ_DATA[4])
 00000e  4d38              LDR      r5,|L31.240|
 000010  2100              MOVS     r1,#0
-;;;1778   		{
-;;;1779   			case 0xFF:
-;;;1780   				
-;;;1781   				OTP_TIMES_BEFORE = 0;
+;;;1787   		{
+;;;1788   			case 0xFF:
+;;;1789   				
+;;;1790   				OTP_TIMES_BEFORE = 0;
 000012  4c38              LDR      r4,|L31.244|
-000014  7928              LDRB     r0,[r5,#4]            ;1777  ; MIPI_READ_DATA
-000016  2827              CMP      r0,#0x27              ;1777
+000014  7928              LDRB     r0,[r5,#4]            ;1786  ; MIPI_READ_DATA
+000016  2827              CMP      r0,#0x27              ;1786
 000018  d035              BEQ      |L31.134|
 00001a  dc03              BGT      |L31.36|
 00001c  b130              CBZ      r0,|L31.44|
-00001e  2803              CMP      r0,#3                 ;1777
+00001e  2803              CMP      r0,#3                 ;1786
 000020  d04b              BEQ      |L31.186|
 000022  e003              B        |L31.44|
                   |L31.36|
-000024  286f              CMP      r0,#0x6f              ;1777
+000024  286f              CMP      r0,#0x6f              ;1786
 000026  d015              BEQ      |L31.84|
-000028  28ff              CMP      r0,#0xff              ;1777
+000028  28ff              CMP      r0,#0xff              ;1786
 00002a  d007              BEQ      |L31.60|
                   |L31.44|
-;;;1782   				LCD_DisplayStringLine(1,10,"otp times = ");
-;;;1783   				SHOW_IC_VALUE_A(195,10,OTP_TIMES_BEFORE);
-;;;1784   				break;
-;;;1785   			
-;;;1786   			case 0x6F:
-;;;1787   				
-;;;1788   				OTP_TIMES_BEFORE = 1;
-;;;1789   				LCD_DisplayStringLine(1,10,"otp times = ");
-;;;1790   				SHOW_IC_VALUE_A(195,10,OTP_TIMES_BEFORE);
-;;;1791   				READ_VCOM_OTP_TIMES_HX8369(0x1C);
-;;;1792   				LCD_DisplayStringLine(1,50,"vcom value = ");
-;;;1793   				SHOW_IC_VALUE_A(195,50,MIPI_READ_DATA[4]);
-;;;1794   				break;
-;;;1795   			
-;;;1796   			case 0x27:
-;;;1797   				
-;;;1798   				OTP_TIMES_BEFORE = 2;
-;;;1799   				LCD_DisplayStringLine(1,10,"otp times = ");
-;;;1800   				SHOW_IC_VALUE_A(195,10,OTP_TIMES_BEFORE);
-;;;1801   				READ_VCOM_OTP_TIMES_HX8369(0x1E);
-;;;1802   				LCD_DisplayStringLine(1,50,"vcom value = ");
-;;;1803   				SHOW_IC_VALUE_A(195,50,MIPI_READ_DATA[4]);
-;;;1804   				break;
-;;;1805   			
-;;;1806   			case 0x03:
-;;;1807   				
-;;;1808   				OTP_TIMES_BEFORE = 3;
-;;;1809   				LCD_DisplayStringLine(1,10,"otp times = ");
-;;;1810   				SHOW_IC_VALUE_A(195,10,OTP_TIMES_BEFORE);
-;;;1811   				READ_VCOM_OTP_TIMES_HX8369(0x20);
-;;;1812   				LCD_DisplayStringLine(1,50,"vcom value = ");
-;;;1813   				SHOW_IC_VALUE_A(195,50,MIPI_READ_DATA[4]);
-;;;1814   				break;
-;;;1815   			
-;;;1816   			case 0x00:
-;;;1817   				
-;;;1818   				OTP_TIMES_BEFORE = 0;
+;;;1791   				LCD_DisplayStringLine(1,10,"otp times = ");
+;;;1792   				SHOW_IC_VALUE_A(195,10,OTP_TIMES_BEFORE);
+;;;1793   				break;
+;;;1794   			
+;;;1795   			case 0x6F:
+;;;1796   				
+;;;1797   				OTP_TIMES_BEFORE = 1;
+;;;1798   				LCD_DisplayStringLine(1,10,"otp times = ");
+;;;1799   				SHOW_IC_VALUE_A(195,10,OTP_TIMES_BEFORE);
+;;;1800   				READ_VCOM_OTP_TIMES_HX8369(0x1C);
+;;;1801   				LCD_DisplayStringLine(1,50,"vcom value = ");
+;;;1802   				SHOW_IC_VALUE_A(195,50,MIPI_READ_DATA[4]);
+;;;1803   				break;
+;;;1804   			
+;;;1805   			case 0x27:
+;;;1806   				
+;;;1807   				OTP_TIMES_BEFORE = 2;
+;;;1808   				LCD_DisplayStringLine(1,10,"otp times = ");
+;;;1809   				SHOW_IC_VALUE_A(195,10,OTP_TIMES_BEFORE);
+;;;1810   				READ_VCOM_OTP_TIMES_HX8369(0x1E);
+;;;1811   				LCD_DisplayStringLine(1,50,"vcom value = ");
+;;;1812   				SHOW_IC_VALUE_A(195,50,MIPI_READ_DATA[4]);
+;;;1813   				break;
+;;;1814   			
+;;;1815   			case 0x03:
+;;;1816   				
+;;;1817   				OTP_TIMES_BEFORE = 3;
+;;;1818   				LCD_DisplayStringLine(1,10,"otp times = ");
+;;;1819   				SHOW_IC_VALUE_A(195,10,OTP_TIMES_BEFORE);
+;;;1820   				READ_VCOM_OTP_TIMES_HX8369(0x20);
+;;;1821   				LCD_DisplayStringLine(1,50,"vcom value = ");
+;;;1822   				SHOW_IC_VALUE_A(195,50,MIPI_READ_DATA[4]);
+;;;1823   				break;
+;;;1824   			
+;;;1825   			case 0x00:
+;;;1826   				
+;;;1827   				OTP_TIMES_BEFORE = 0;
 00002c  7261              STRB     r1,[r4,#9]
-;;;1819   				LCD_DisplayStringLine(20,10,"otp read error");
+;;;1828   				LCD_DisplayStringLine(20,10,"otp read error");
 00002e  a232              ADR      r2,|L31.248|
 000030  210a              MOVS     r1,#0xa
 000032  2014              MOVS     r0,#0x14
 000034  f7fffffe          BL       LCD_DisplayStringLine
                   |L31.56|
-;;;1820   				break;
-;;;1821   			
-;;;1822   			default:
-;;;1823   				
-;;;1824   				OTP_TIMES_BEFORE = 0;
-;;;1825   				LCD_DisplayStringLine(20,10,"otp read error");
-;;;1826   				break;
-;;;1827   		}
-;;;1828   		
-;;;1829   		return 0;
+;;;1829   				break;
+;;;1830   			
+;;;1831   			default:
+;;;1832   				
+;;;1833   				OTP_TIMES_BEFORE = 0;
+;;;1834   				LCD_DisplayStringLine(20,10,"otp read error");
+;;;1835   				break;
+;;;1836   		}
+;;;1837   		
+;;;1838   		return 0;
 000038  2000              MOVS     r0,#0
-;;;1830   }
+;;;1839   }
 00003a  bd70              POP      {r4-r6,pc}
                   |L31.60|
-00003c  7261              STRB     r1,[r4,#9]            ;1781
+00003c  7261              STRB     r1,[r4,#9]            ;1790
 00003e  a232              ADR      r2,|L31.264|
-000040  210a              MOVS     r1,#0xa               ;1782
-000042  2001              MOVS     r0,#1                 ;1782
+000040  210a              MOVS     r1,#0xa               ;1791
+000042  2001              MOVS     r0,#1                 ;1791
 000044  f7fffffe          BL       LCD_DisplayStringLine
-000048  7a62              LDRB     r2,[r4,#9]            ;1783  ; OTP_TIMES_BEFORE
-00004a  210a              MOVS     r1,#0xa               ;1783
-00004c  20c3              MOVS     r0,#0xc3              ;1783
+000048  7a62              LDRB     r2,[r4,#9]            ;1792  ; OTP_TIMES_BEFORE
+00004a  210a              MOVS     r1,#0xa               ;1792
+00004c  20c3              MOVS     r0,#0xc3              ;1792
 00004e  f7fffffe          BL       SHOW_IC_VALUE_A
 000052  e7f1              B        |L31.56|
                   |L31.84|
-000054  2001              MOVS     r0,#1                 ;1788
-000056  7260              STRB     r0,[r4,#9]            ;1788
+000054  2001              MOVS     r0,#1                 ;1797
+000056  7260              STRB     r0,[r4,#9]            ;1797
 000058  a22b              ADR      r2,|L31.264|
-00005a  210a              MOVS     r1,#0xa               ;1789
+00005a  210a              MOVS     r1,#0xa               ;1798
 00005c  f7fffffe          BL       LCD_DisplayStringLine
-000060  7a62              LDRB     r2,[r4,#9]            ;1790  ; OTP_TIMES_BEFORE
-000062  210a              MOVS     r1,#0xa               ;1790
-000064  20c3              MOVS     r0,#0xc3              ;1790
+000060  7a62              LDRB     r2,[r4,#9]            ;1799  ; OTP_TIMES_BEFORE
+000062  210a              MOVS     r1,#0xa               ;1799
+000064  20c3              MOVS     r0,#0xc3              ;1799
 000066  f7fffffe          BL       SHOW_IC_VALUE_A
-00006a  201c              MOVS     r0,#0x1c              ;1791
+00006a  201c              MOVS     r0,#0x1c              ;1800
 00006c  f7fffffe          BL       READ_VCOM_OTP_TIMES_HX8369
 000070  a229              ADR      r2,|L31.280|
-000072  2132              MOVS     r1,#0x32              ;1792
-000074  2001              MOVS     r0,#1                 ;1792
+000072  2132              MOVS     r1,#0x32              ;1801
+000074  2001              MOVS     r0,#1                 ;1801
 000076  f7fffffe          BL       LCD_DisplayStringLine
-00007a  792a              LDRB     r2,[r5,#4]            ;1793  ; MIPI_READ_DATA
-00007c  2132              MOVS     r1,#0x32              ;1793
-00007e  20c3              MOVS     r0,#0xc3              ;1793
+00007a  792a              LDRB     r2,[r5,#4]            ;1802  ; MIPI_READ_DATA
+00007c  2132              MOVS     r1,#0x32              ;1802
+00007e  20c3              MOVS     r0,#0xc3              ;1802
 000080  f7fffffe          BL       SHOW_IC_VALUE_A
 000084  e7d8              B        |L31.56|
                   |L31.134|
-000086  2002              MOVS     r0,#2                 ;1798
-000088  7260              STRB     r0,[r4,#9]            ;1798
+000086  2002              MOVS     r0,#2                 ;1807
+000088  7260              STRB     r0,[r4,#9]            ;1807
 00008a  a21f              ADR      r2,|L31.264|
-00008c  210a              MOVS     r1,#0xa               ;1799
-00008e  2001              MOVS     r0,#1                 ;1799
+00008c  210a              MOVS     r1,#0xa               ;1808
+00008e  2001              MOVS     r0,#1                 ;1808
 000090  f7fffffe          BL       LCD_DisplayStringLine
-000094  7a62              LDRB     r2,[r4,#9]            ;1800  ; OTP_TIMES_BEFORE
-000096  210a              MOVS     r1,#0xa               ;1800
-000098  20c3              MOVS     r0,#0xc3              ;1800
+000094  7a62              LDRB     r2,[r4,#9]            ;1809  ; OTP_TIMES_BEFORE
+000096  210a              MOVS     r1,#0xa               ;1809
+000098  20c3              MOVS     r0,#0xc3              ;1809
 00009a  f7fffffe          BL       SHOW_IC_VALUE_A
-00009e  201e              MOVS     r0,#0x1e              ;1801
+00009e  201e              MOVS     r0,#0x1e              ;1810
 0000a0  f7fffffe          BL       READ_VCOM_OTP_TIMES_HX8369
 0000a4  a21c              ADR      r2,|L31.280|
-0000a6  2132              MOVS     r1,#0x32              ;1802
-0000a8  2001              MOVS     r0,#1                 ;1802
+0000a6  2132              MOVS     r1,#0x32              ;1811
+0000a8  2001              MOVS     r0,#1                 ;1811
 0000aa  f7fffffe          BL       LCD_DisplayStringLine
-0000ae  792a              LDRB     r2,[r5,#4]            ;1803  ; MIPI_READ_DATA
-0000b0  2132              MOVS     r1,#0x32              ;1803
-0000b2  20c3              MOVS     r0,#0xc3              ;1803
+0000ae  792a              LDRB     r2,[r5,#4]            ;1812  ; MIPI_READ_DATA
+0000b0  2132              MOVS     r1,#0x32              ;1812
+0000b2  20c3              MOVS     r0,#0xc3              ;1812
 0000b4  f7fffffe          BL       SHOW_IC_VALUE_A
 0000b8  e7be              B        |L31.56|
                   |L31.186|
-0000ba  2003              MOVS     r0,#3                 ;1808
-0000bc  7260              STRB     r0,[r4,#9]            ;1808
+0000ba  2003              MOVS     r0,#3                 ;1817
+0000bc  7260              STRB     r0,[r4,#9]            ;1817
 0000be  a212              ADR      r2,|L31.264|
-0000c0  210a              MOVS     r1,#0xa               ;1809
-0000c2  2001              MOVS     r0,#1                 ;1809
+0000c0  210a              MOVS     r1,#0xa               ;1818
+0000c2  2001              MOVS     r0,#1                 ;1818
 0000c4  f7fffffe          BL       LCD_DisplayStringLine
-0000c8  7a62              LDRB     r2,[r4,#9]            ;1810  ; OTP_TIMES_BEFORE
-0000ca  210a              MOVS     r1,#0xa               ;1810
-0000cc  20c3              MOVS     r0,#0xc3              ;1810
+0000c8  7a62              LDRB     r2,[r4,#9]            ;1819  ; OTP_TIMES_BEFORE
+0000ca  210a              MOVS     r1,#0xa               ;1819
+0000cc  20c3              MOVS     r0,#0xc3              ;1819
 0000ce  f7fffffe          BL       SHOW_IC_VALUE_A
-0000d2  2020              MOVS     r0,#0x20              ;1811
+0000d2  2020              MOVS     r0,#0x20              ;1820
 0000d4  f7fffffe          BL       READ_VCOM_OTP_TIMES_HX8369
 0000d8  a20f              ADR      r2,|L31.280|
-0000da  2132              MOVS     r1,#0x32              ;1812
-0000dc  2001              MOVS     r0,#1                 ;1812
+0000da  2132              MOVS     r1,#0x32              ;1821
+0000dc  2001              MOVS     r0,#1                 ;1821
 0000de  f7fffffe          BL       LCD_DisplayStringLine
-0000e2  792a              LDRB     r2,[r5,#4]            ;1813  ; MIPI_READ_DATA
-0000e4  2132              MOVS     r1,#0x32              ;1813
-0000e6  20c3              MOVS     r0,#0xc3              ;1813
+0000e2  792a              LDRB     r2,[r5,#4]            ;1822  ; MIPI_READ_DATA
+0000e4  2132              MOVS     r1,#0x32              ;1822
+0000e6  20c3              MOVS     r0,#0xc3              ;1822
 0000e8  f7fffffe          BL       SHOW_IC_VALUE_A
 0000ec  e7a4              B        |L31.56|
-;;;1831   /******************* (C) COPYRIGHT 2008 STMicroelectronics *****END OF FILE****/
+;;;1840   /******************* (C) COPYRIGHT 2008 STMicroelectronics *****END OF FILE****/
                           ENDP
 
 0000ee  0000              DCW      0x0000
@@ -3173,24 +3201,24 @@
                           AREA ||i.cycle_OTP||, CODE, READONLY, ALIGN=1
 
                   cycle_OTP PROC
-;;;1534   
-;;;1535   void cycle_OTP(u8 OTPValue)
-000000  b530              PUSH     {r4,r5,lr}
-;;;1536   {
-000002  b083              SUB      sp,sp,#0xc
 ;;;1537   
-;;;1538   
-;;;1539   	MIPI_SPI_Write(0x06,0x39,0xBB,0x00,0x00,OTPValue,0x00);
+;;;1538   void cycle_OTP(u8 OTPValue)
+000000  b530              PUSH     {r4,r5,lr}
+;;;1539   {
+000002  b083              SUB      sp,sp,#0xc
+;;;1540   
+;;;1541   
+;;;1542   	MIPI_SPI_Write(0x06,0x39,0xBB,0x00,0x00,OTPValue,0x00);
 000004  2500              MOVS     r5,#0
 000006  e9cd5000          STRD     r5,r0,[sp,#0]
-00000a  4604              MOV      r4,r0                 ;1536
+00000a  4604              MOV      r4,r0                 ;1539
 00000c  462b              MOV      r3,r5
 00000e  22bb              MOVS     r2,#0xbb
 000010  2139              MOVS     r1,#0x39
 000012  2006              MOVS     r0,#6
 000014  9502              STR      r5,[sp,#8]
 000016  f7fffffe          BL       MIPI_SPI_Write
-;;;1540   	MIPI_SPI_Write(0x06,0x39,0xBB,0x00,0x00,OTPValue,0x01);
+;;;1543   	MIPI_SPI_Write(0x06,0x39,0xBB,0x00,0x00,OTPValue,0x01);
 00001a  2001              MOVS     r0,#1
 00001c  9500              STR      r5,[sp,#0]
 00001e  e9cd4001          STRD     r4,r0,[sp,#4]
@@ -3199,337 +3227,337 @@
 000026  2139              MOVS     r1,#0x39
 000028  2006              MOVS     r0,#6
 00002a  f7fffffe          BL       MIPI_SPI_Write
-;;;1541   	Delay(5);
+;;;1544   	Delay(5);
 00002e  2005              MOVS     r0,#5
 000030  f7fffffe          BL       Delay
 000034  e9cd5400          STRD     r5,r4,[sp,#0]
-;;;1542   	MIPI_SPI_Write(0x06,0x39,0xBB,0x00,0x00,OTPValue,0x00);
+;;;1545   	MIPI_SPI_Write(0x06,0x39,0xBB,0x00,0x00,OTPValue,0x00);
 000038  2300              MOVS     r3,#0
 00003a  22bb              MOVS     r2,#0xbb
 00003c  2139              MOVS     r1,#0x39
 00003e  2006              MOVS     r0,#6
 000040  9502              STR      r5,[sp,#8]
 000042  f7fffffe          BL       MIPI_SPI_Write
-;;;1543   
-;;;1544   }
+;;;1546   
+;;;1547   }
 000046  b003              ADD      sp,sp,#0xc
 000048  bd30              POP      {r4,r5,pc}
-;;;1545   
+;;;1548   
                           ENDP
 
 
                           AREA ||i.initial_OTP||, CODE, READONLY, ALIGN=1
 
                   initial_OTP PROC
-;;;1545   
-;;;1546   void initial_OTP(void)
-000000  b510              PUSH     {r4,lr}
-;;;1547   {
 ;;;1548   
-;;;1549   //	MIPI_SPI_Write(0x06,0x39, 0xB9,0xFF,0x83,0x69);//EXTC Command Set enable register
-;;;1550   //
-;;;1551   //	OPEN_OTP_Voltage;//Open 7.5V
-;;;1552   //	Delay(50);//Wait 500ms for PVSS stable	8369 no delay time
+;;;1549   void initial_OTP(void)
+000000  b510              PUSH     {r4,lr}
+;;;1550   {
+;;;1551   
+;;;1552   //	MIPI_SPI_Write(0x06,0x39, 0xB9,0xFF,0x83,0x69);//EXTC Command Set enable register
 ;;;1553   //
-;;;1554   ////	MIPI_SPI_Write(0x06,0x39,0xB6,0x2E,0x2E);	//Set VCOM
-;;;1555   //	MIPI_SPI_Write(0x06,0x39,0xE9,0xAA,0x55);	//Set OTP
-;;;1556   
-;;;1557   //-----------------------GIP timing------------------------//
-;;;1558   //	MIPI_SPI_Write(0x06,0x39,0xBB,0x00,0x00,0xB3,0x00);
-;;;1559   //	MIPI_SPI_Write(0x30,0x39,0xBB,0x00,0x00,0xB3,0x01);
-;;;1560   //	Delay(5);
-;;;1561   //	MIPI_SPI_Write(0x30,0x39,0xBB,0x00,0x00,0xB3,0x00);
-;;;1562   
-;;;1563   
-;;;1564   
-;;;1565   cycle_OTP(0xB0);
+;;;1554   //	OPEN_OTP_Voltage;//Open 7.5V
+;;;1555   //	Delay(50);//Wait 500ms for PVSS stable	8369 no delay time
+;;;1556   //
+;;;1557   ////	MIPI_SPI_Write(0x06,0x39,0xB6,0x2E,0x2E);	//Set VCOM
+;;;1558   //	MIPI_SPI_Write(0x06,0x39,0xE9,0xAA,0x55);	//Set OTP
+;;;1559   
+;;;1560   //-----------------------GIP timing------------------------//
+;;;1561   //	MIPI_SPI_Write(0x06,0x39,0xBB,0x00,0x00,0xB3,0x00);
+;;;1562   //	MIPI_SPI_Write(0x30,0x39,0xBB,0x00,0x00,0xB3,0x01);
+;;;1563   //	Delay(5);
+;;;1564   //	MIPI_SPI_Write(0x30,0x39,0xBB,0x00,0x00,0xB3,0x00);
+;;;1565   
+;;;1566   
+;;;1567   
+;;;1568   cycle_OTP(0xB0);
 000002  20b0              MOVS     r0,#0xb0
 000004  f7fffffe          BL       cycle_OTP
-;;;1566   cycle_OTP(0xB1);
+;;;1569   cycle_OTP(0xB1);
 000008  20b1              MOVS     r0,#0xb1
 00000a  f7fffffe          BL       cycle_OTP
-;;;1567   cycle_OTP(0xB2);
+;;;1570   cycle_OTP(0xB2);
 00000e  20b2              MOVS     r0,#0xb2
 000010  f7fffffe          BL       cycle_OTP
-;;;1568   cycle_OTP(0xB3);
+;;;1571   cycle_OTP(0xB3);
 000014  20b3              MOVS     r0,#0xb3
 000016  f7fffffe          BL       cycle_OTP
-;;;1569   
-;;;1570   //cycle_OTP(0x1C);
-;;;1571   //cycle_OTP(0x1D);
 ;;;1572   
-;;;1573   cycle_OTP(0x31);
+;;;1573   //cycle_OTP(0x1C);
+;;;1574   //cycle_OTP(0x1D);
+;;;1575   
+;;;1576   cycle_OTP(0x31);
 00001a  2031              MOVS     r0,#0x31
 00001c  f7fffffe          BL       cycle_OTP
-;;;1574   cycle_OTP(0x32);
+;;;1577   cycle_OTP(0x32);
 000020  2032              MOVS     r0,#0x32
 000022  f7fffffe          BL       cycle_OTP
-;;;1575   cycle_OTP(0x33);
+;;;1578   cycle_OTP(0x33);
 000026  2033              MOVS     r0,#0x33
 000028  f7fffffe          BL       cycle_OTP
-;;;1576   cycle_OTP(0x34);
+;;;1579   cycle_OTP(0x34);
 00002c  2034              MOVS     r0,#0x34
 00002e  f7fffffe          BL       cycle_OTP
-;;;1577   cycle_OTP(0x35);
+;;;1580   cycle_OTP(0x35);
 000032  2035              MOVS     r0,#0x35
 000034  f7fffffe          BL       cycle_OTP
-;;;1578   cycle_OTP(0x36);
+;;;1581   cycle_OTP(0x36);
 000038  2036              MOVS     r0,#0x36
 00003a  f7fffffe          BL       cycle_OTP
-;;;1579   cycle_OTP(0x37);
+;;;1582   cycle_OTP(0x37);
 00003e  2037              MOVS     r0,#0x37
 000040  f7fffffe          BL       cycle_OTP
-;;;1580   cycle_OTP(0x38);
+;;;1583   cycle_OTP(0x38);
 000044  2038              MOVS     r0,#0x38
 000046  f7fffffe          BL       cycle_OTP
-;;;1581   cycle_OTP(0x39);
+;;;1584   cycle_OTP(0x39);
 00004a  2039              MOVS     r0,#0x39
 00004c  f7fffffe          BL       cycle_OTP
-;;;1582   cycle_OTP(0x3A);
+;;;1585   cycle_OTP(0x3A);
 000050  203a              MOVS     r0,#0x3a
 000052  f7fffffe          BL       cycle_OTP
-;;;1583   cycle_OTP(0x3B);
+;;;1586   cycle_OTP(0x3B);
 000056  203b              MOVS     r0,#0x3b
 000058  f7fffffe          BL       cycle_OTP
-;;;1584   cycle_OTP(0x3C);
+;;;1587   cycle_OTP(0x3C);
 00005c  203c              MOVS     r0,#0x3c
 00005e  f7fffffe          BL       cycle_OTP
-;;;1585   cycle_OTP(0x3D);
+;;;1588   cycle_OTP(0x3D);
 000062  203d              MOVS     r0,#0x3d
 000064  f7fffffe          BL       cycle_OTP
-;;;1586   cycle_OTP(0x3E);
+;;;1589   cycle_OTP(0x3E);
 000068  203e              MOVS     r0,#0x3e
 00006a  f7fffffe          BL       cycle_OTP
-;;;1587   cycle_OTP(0x3F);
+;;;1590   cycle_OTP(0x3F);
 00006e  203f              MOVS     r0,#0x3f
 000070  f7fffffe          BL       cycle_OTP
-;;;1588   
-;;;1589   cycle_OTP(0x40);
+;;;1591   
+;;;1592   cycle_OTP(0x40);
 000074  2040              MOVS     r0,#0x40
 000076  f7fffffe          BL       cycle_OTP
-;;;1590   cycle_OTP(0x41);
+;;;1593   cycle_OTP(0x41);
 00007a  2041              MOVS     r0,#0x41
 00007c  f7fffffe          BL       cycle_OTP
-;;;1591   cycle_OTP(0x42);
+;;;1594   cycle_OTP(0x42);
 000080  2042              MOVS     r0,#0x42
 000082  f7fffffe          BL       cycle_OTP
-;;;1592   cycle_OTP(0x43);
+;;;1595   cycle_OTP(0x43);
 000086  2043              MOVS     r0,#0x43
 000088  f7fffffe          BL       cycle_OTP
-;;;1593   cycle_OTP(0x44);
+;;;1596   cycle_OTP(0x44);
 00008c  2044              MOVS     r0,#0x44
 00008e  f7fffffe          BL       cycle_OTP
-;;;1594   cycle_OTP(0x45);
+;;;1597   cycle_OTP(0x45);
 000092  2045              MOVS     r0,#0x45
 000094  f7fffffe          BL       cycle_OTP
-;;;1595   cycle_OTP(0x46);
+;;;1598   cycle_OTP(0x46);
 000098  2046              MOVS     r0,#0x46
 00009a  f7fffffe          BL       cycle_OTP
-;;;1596   //cycle_OTP(0x47);
-;;;1597   cycle_OTP(0x48);
+;;;1599   //cycle_OTP(0x47);
+;;;1600   cycle_OTP(0x48);
 00009e  2048              MOVS     r0,#0x48
 0000a0  f7fffffe          BL       cycle_OTP
-;;;1598   cycle_OTP(0x49);
+;;;1601   cycle_OTP(0x49);
 0000a4  2049              MOVS     r0,#0x49
 0000a6  f7fffffe          BL       cycle_OTP
-;;;1599   cycle_OTP(0x4A);
+;;;1602   cycle_OTP(0x4A);
 0000aa  204a              MOVS     r0,#0x4a
 0000ac  f7fffffe          BL       cycle_OTP
-;;;1600   
-;;;1601   cycle_OTP(0x78);
+;;;1603   
+;;;1604   cycle_OTP(0x78);
 0000b0  2078              MOVS     r0,#0x78
 0000b2  f7fffffe          BL       cycle_OTP
-;;;1602   cycle_OTP(0x79);
+;;;1605   cycle_OTP(0x79);
 0000b6  2079              MOVS     r0,#0x79
 0000b8  f7fffffe          BL       cycle_OTP
-;;;1603   cycle_OTP(0x7A);
+;;;1606   cycle_OTP(0x7A);
 0000bc  207a              MOVS     r0,#0x7a
 0000be  f7fffffe          BL       cycle_OTP
-;;;1604   cycle_OTP(0x7B);
+;;;1607   cycle_OTP(0x7B);
 0000c2  207b              MOVS     r0,#0x7b
 0000c4  f7fffffe          BL       cycle_OTP
-;;;1605   cycle_OTP(0x7C);
+;;;1608   cycle_OTP(0x7C);
 0000c8  207c              MOVS     r0,#0x7c
 0000ca  f7fffffe          BL       cycle_OTP
-;;;1606   cycle_OTP(0x7D);
+;;;1609   cycle_OTP(0x7D);
 0000ce  207d              MOVS     r0,#0x7d
 0000d0  f7fffffe          BL       cycle_OTP
-;;;1607   cycle_OTP(0x7E);
+;;;1610   cycle_OTP(0x7E);
 0000d4  207e              MOVS     r0,#0x7e
 0000d6  f7fffffe          BL       cycle_OTP
-;;;1608   cycle_OTP(0x7F);
+;;;1611   cycle_OTP(0x7F);
 0000da  207f              MOVS     r0,#0x7f
 0000dc  f7fffffe          BL       cycle_OTP
-;;;1609   
-;;;1610   cycle_OTP(0x80);
+;;;1612   
+;;;1613   cycle_OTP(0x80);
 0000e0  2080              MOVS     r0,#0x80
 0000e2  f7fffffe          BL       cycle_OTP
-;;;1611   cycle_OTP(0x81);
+;;;1614   cycle_OTP(0x81);
 0000e6  2081              MOVS     r0,#0x81
 0000e8  f7fffffe          BL       cycle_OTP
-;;;1612   cycle_OTP(0x82);
+;;;1615   cycle_OTP(0x82);
 0000ec  2082              MOVS     r0,#0x82
 0000ee  f7fffffe          BL       cycle_OTP
-;;;1613   cycle_OTP(0x83);
+;;;1616   cycle_OTP(0x83);
 0000f2  2083              MOVS     r0,#0x83
 0000f4  f7fffffe          BL       cycle_OTP
-;;;1614   cycle_OTP(0x84);
+;;;1617   cycle_OTP(0x84);
 0000f8  2084              MOVS     r0,#0x84
 0000fa  f7fffffe          BL       cycle_OTP
-;;;1615   cycle_OTP(0x85);
+;;;1618   cycle_OTP(0x85);
 0000fe  2085              MOVS     r0,#0x85
 000100  f7fffffe          BL       cycle_OTP
-;;;1616   cycle_OTP(0x86);
+;;;1619   cycle_OTP(0x86);
 000104  2086              MOVS     r0,#0x86
 000106  f7fffffe          BL       cycle_OTP
-;;;1617   cycle_OTP(0x87);
+;;;1620   cycle_OTP(0x87);
 00010a  2087              MOVS     r0,#0x87
 00010c  f7fffffe          BL       cycle_OTP
-;;;1618   cycle_OTP(0x88);
+;;;1621   cycle_OTP(0x88);
 000110  2088              MOVS     r0,#0x88
 000112  f7fffffe          BL       cycle_OTP
-;;;1619   cycle_OTP(0x89);
+;;;1622   cycle_OTP(0x89);
 000116  2089              MOVS     r0,#0x89
 000118  f7fffffe          BL       cycle_OTP
-;;;1620   cycle_OTP(0x8A);
+;;;1623   cycle_OTP(0x8A);
 00011c  208a              MOVS     r0,#0x8a
 00011e  f7fffffe          BL       cycle_OTP
-;;;1621   cycle_OTP(0x8B);
+;;;1624   cycle_OTP(0x8B);
 000122  208b              MOVS     r0,#0x8b
 000124  f7fffffe          BL       cycle_OTP
-;;;1622   cycle_OTP(0x8C);
+;;;1625   cycle_OTP(0x8C);
 000128  208c              MOVS     r0,#0x8c
 00012a  f7fffffe          BL       cycle_OTP
-;;;1623   cycle_OTP(0x8D);
+;;;1626   cycle_OTP(0x8D);
 00012e  208d              MOVS     r0,#0x8d
 000130  f7fffffe          BL       cycle_OTP
-;;;1624   cycle_OTP(0x8E);
+;;;1627   cycle_OTP(0x8E);
 000134  208e              MOVS     r0,#0x8e
 000136  f7fffffe          BL       cycle_OTP
-;;;1625   cycle_OTP(0x8F);
+;;;1628   cycle_OTP(0x8F);
 00013a  208f              MOVS     r0,#0x8f
 00013c  f7fffffe          BL       cycle_OTP
-;;;1626   
-;;;1627   cycle_OTP(0x90);
+;;;1629   
+;;;1630   cycle_OTP(0x90);
 000140  2090              MOVS     r0,#0x90
 000142  f7fffffe          BL       cycle_OTP
-;;;1628   cycle_OTP(0x91);
+;;;1631   cycle_OTP(0x91);
 000146  2091              MOVS     r0,#0x91
 000148  f7fffffe          BL       cycle_OTP
-;;;1629   cycle_OTP(0x92);
+;;;1632   cycle_OTP(0x92);
 00014c  2092              MOVS     r0,#0x92
 00014e  f7fffffe          BL       cycle_OTP
-;;;1630   cycle_OTP(0x93);
+;;;1633   cycle_OTP(0x93);
 000152  2093              MOVS     r0,#0x93
 000154  f7fffffe          BL       cycle_OTP
-;;;1631   cycle_OTP(0x94);
+;;;1634   cycle_OTP(0x94);
 000158  2094              MOVS     r0,#0x94
 00015a  f7fffffe          BL       cycle_OTP
-;;;1632   cycle_OTP(0x95);
+;;;1635   cycle_OTP(0x95);
 00015e  2095              MOVS     r0,#0x95
 000160  f7fffffe          BL       cycle_OTP
-;;;1633   cycle_OTP(0x96);
+;;;1636   cycle_OTP(0x96);
 000164  2096              MOVS     r0,#0x96
 000166  f7fffffe          BL       cycle_OTP
-;;;1634   cycle_OTP(0x97);
+;;;1637   cycle_OTP(0x97);
 00016a  2097              MOVS     r0,#0x97
 00016c  f7fffffe          BL       cycle_OTP
-;;;1635   cycle_OTP(0x98);
+;;;1638   cycle_OTP(0x98);
 000170  2098              MOVS     r0,#0x98
 000172  f7fffffe          BL       cycle_OTP
-;;;1636   cycle_OTP(0x99);
+;;;1639   cycle_OTP(0x99);
 000176  2099              MOVS     r0,#0x99
 000178  f7fffffe          BL       cycle_OTP
-;;;1637   cycle_OTP(0x9A);
+;;;1640   cycle_OTP(0x9A);
 00017c  209a              MOVS     r0,#0x9a
 00017e  f7fffffe          BL       cycle_OTP
-;;;1638   cycle_OTP(0x9B);
+;;;1641   cycle_OTP(0x9B);
 000182  209b              MOVS     r0,#0x9b
 000184  f7fffffe          BL       cycle_OTP
-;;;1639   cycle_OTP(0x9C);
+;;;1642   cycle_OTP(0x9C);
 000188  209c              MOVS     r0,#0x9c
 00018a  f7fffffe          BL       cycle_OTP
-;;;1640   cycle_OTP(0x9D);
+;;;1643   cycle_OTP(0x9D);
 00018e  209d              MOVS     r0,#0x9d
 000190  f7fffffe          BL       cycle_OTP
-;;;1641   cycle_OTP(0x9E);
+;;;1644   cycle_OTP(0x9E);
 000194  209e              MOVS     r0,#0x9e
 000196  f7fffffe          BL       cycle_OTP
-;;;1642   cycle_OTP(0x9F);
+;;;1645   cycle_OTP(0x9F);
 00019a  209f              MOVS     r0,#0x9f
 00019c  f7fffffe          BL       cycle_OTP
-;;;1643   
-;;;1644   cycle_OTP(0xA0);
+;;;1646   
+;;;1647   cycle_OTP(0xA0);
 0001a0  20a0              MOVS     r0,#0xa0
 0001a2  f7fffffe          BL       cycle_OTP
-;;;1645   cycle_OTP(0xA1);
+;;;1648   cycle_OTP(0xA1);
 0001a6  20a1              MOVS     r0,#0xa1
 0001a8  f7fffffe          BL       cycle_OTP
-;;;1646   cycle_OTP(0xA2);
+;;;1649   cycle_OTP(0xA2);
 0001ac  20a2              MOVS     r0,#0xa2
 0001ae  f7fffffe          BL       cycle_OTP
-;;;1647   cycle_OTP(0xA3);
+;;;1650   cycle_OTP(0xA3);
 0001b2  20a3              MOVS     r0,#0xa3
 0001b4  f7fffffe          BL       cycle_OTP
-;;;1648   cycle_OTP(0xA4);
+;;;1651   cycle_OTP(0xA4);
 0001b8  20a4              MOVS     r0,#0xa4
 0001ba  f7fffffe          BL       cycle_OTP
-;;;1649   cycle_OTP(0xA5);
+;;;1652   cycle_OTP(0xA5);
 0001be  20a5              MOVS     r0,#0xa5
 0001c0  f7fffffe          BL       cycle_OTP
-;;;1650   cycle_OTP(0xA6);
+;;;1653   cycle_OTP(0xA6);
 0001c4  20a6              MOVS     r0,#0xa6
 0001c6  f7fffffe          BL       cycle_OTP
-;;;1651   cycle_OTP(0xA7);
+;;;1654   cycle_OTP(0xA7);
 0001ca  20a7              MOVS     r0,#0xa7
 0001cc  f7fffffe          BL       cycle_OTP
-;;;1652   cycle_OTP(0xA8);
+;;;1655   cycle_OTP(0xA8);
 0001d0  20a8              MOVS     r0,#0xa8
 0001d2  f7fffffe          BL       cycle_OTP
-;;;1653   cycle_OTP(0xA9);
+;;;1656   cycle_OTP(0xA9);
 0001d6  20a9              MOVS     r0,#0xa9
 0001d8  f7fffffe          BL       cycle_OTP
-;;;1654   cycle_OTP(0xAA);
+;;;1657   cycle_OTP(0xAA);
 0001dc  20aa              MOVS     r0,#0xaa
 0001de  f7fffffe          BL       cycle_OTP
-;;;1655   cycle_OTP(0xAB);
+;;;1658   cycle_OTP(0xAB);
 0001e2  20ab              MOVS     r0,#0xab
 0001e4  f7fffffe          BL       cycle_OTP
-;;;1656   cycle_OTP(0xAC);
+;;;1659   cycle_OTP(0xAC);
 0001e8  20ac              MOVS     r0,#0xac
 0001ea  f7fffffe          BL       cycle_OTP
-;;;1657   cycle_OTP(0xAD);
+;;;1660   cycle_OTP(0xAD);
 0001ee  20ad              MOVS     r0,#0xad
 0001f0  f7fffffe          BL       cycle_OTP
-;;;1658   cycle_OTP(0xAE);
+;;;1661   cycle_OTP(0xAE);
 0001f4  20ae              MOVS     r0,#0xae
 0001f6  f7fffffe          BL       cycle_OTP
-;;;1659   cycle_OTP(0xAF);
+;;;1662   cycle_OTP(0xAF);
 0001fa  e8bd4010          POP      {r4,lr}
 0001fe  20af              MOVS     r0,#0xaf
 000200  f7ffbffe          B.W      cycle_OTP
-;;;1660   
-;;;1661   
-;;;1662   
 ;;;1663   
-;;;1664   //	MIPI_SPI_Write(0x06,0x39,0xE9,0x00,0x00);	//Set OTP
-;;;1665   //
-;;;1666   //	CLOSE_OTP_Voltage;//Close 7.5V 
-;;;1667   //	Delay(10);//Wait 10ms	8369 no delay time
-;;;1668   	
-;;;1669   //	SSD1963Command_8(0xBa); 
-;;;1670   //	SSD1963Data_8(0x0E);   //RESET=0
-;;;1671   //	Delay(12);
+;;;1664   
+;;;1665   
+;;;1666   
+;;;1667   //	MIPI_SPI_Write(0x06,0x39,0xE9,0x00,0x00);	//Set OTP
+;;;1668   //
+;;;1669   //	CLOSE_OTP_Voltage;//Close 7.5V 
+;;;1670   //	Delay(10);//Wait 10ms	8369 no delay time
+;;;1671   	
 ;;;1672   //	SSD1963Command_8(0xBa); 
-;;;1673   //	SSD1963Data_8(0x0F);   //RESET=1 
+;;;1673   //	SSD1963Data_8(0x0E);   //RESET=0
 ;;;1674   //	Delay(12);
-;;;1675   	
-;;;1676   //	SSD1963INITSSD2825();
-;;;1677   //	OTP_initial();
-;;;1678   
-;;;1679   
-;;;1680   	}
+;;;1675   //	SSD1963Command_8(0xBa); 
+;;;1676   //	SSD1963Data_8(0x0F);   //RESET=1 
+;;;1677   //	Delay(12);
+;;;1678   	
+;;;1679   //	SSD1963INITSSD2825();
+;;;1680   //	OTP_initial();
 ;;;1681   
+;;;1682   
+;;;1683   	}
+;;;1684   
                           ENDP
 
 

@@ -493,7 +493,7 @@ void KEY_adjust(void)
 			OTP_FLAG = 0;
 			aat = 0;
 		}
-		Delay(25);	
+		Delay(1);	
 		
 		
 	}
@@ -1062,6 +1062,9 @@ void KEYGPIO_Init(void)
     GPIO_InitStructure.GPIO_Pin =   GPIO_Pin_8;
   GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_IPU;    // 
   GPIO_Init(GPIOA, &GPIO_InitStructure); 
+    
+    
+    
 }
 
 void DelayKEY (u32 k)
@@ -1681,9 +1684,12 @@ cycle_OTP(0xAF);
 
 void MTP_VCOM(void)
 {
+    GPIO_SetBits(GPIOA, GPIO_Pin_15);  /////open  7.3V to VGH/VGL
+//    Delay(50);////wait 0.5s  for  power  stable
+    
     SPI_Send(0x70,0x0006);
 	SPI_Send(0x72,0x2820);
-    Delay(500);////wait 0.5s
+    Delay(50);////wait 0.5s
     
     SPI_Send(0x70,0x0060);
 	SPI_Send(0x72,0x8000);
@@ -1703,6 +1709,9 @@ void MTP_VCOM(void)
 	SPI_Send(0x72,0xC200);
     
     ///remove 7.3V from VGH and 0V from VGL
+    GPIO_ResetBits(GPIOA, GPIO_Pin_15);  /////remove  7.3V to VGH/VGL
+//    Delay(500);////wait 0.5s  for  power  stable
+    
     SPI_Send(0x70,0x0060);
 	SPI_Send(0x72,0x8200);
     

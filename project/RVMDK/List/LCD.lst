@@ -17575,16 +17575,16 @@ N  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//GPIO最高速度50MHz
 N  GPIO_Init(GPIOA, &GPIO_InitStructure);  
 X  GPIO_Init(((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800)), &GPIO_InitStructure);  
 N    
-N    /*[把PA4678配置成输出模式] */
-N  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_8;
-X  GPIO_InitStructure.GPIO_Pin =  ((u16)0x0100);
+N    /*[把PA15配置成输出模式] */
+N  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_15;
+X  GPIO_InitStructure.GPIO_Pin =  ((u16)0x8000);
 N  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 N  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//GPIO最高速度50MHz
 N  GPIO_Init(GPIOA, &GPIO_InitStructure);  
 X  GPIO_Init(((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800)), &GPIO_InitStructure);  
 N  
-N  GPIO_ResetBits(GPIOA, GPIO_Pin_8);  /////shut down
-X  GPIO_ResetBits(((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800)), ((u16)0x0100));  
+N  GPIO_ResetBits(GPIOA, GPIO_Pin_15);  /////shut down
+X  GPIO_ResetBits(((GPIO_TypeDef *) ((((u32)0x40000000) + 0x10000) + 0x0800)), ((u16)0x8000));  
 N//  GPIO_SetBits(GPIOA, GPIO_Pin_8);      ////////exit sleep
 N}
 N
